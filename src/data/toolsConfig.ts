@@ -104,7 +104,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'Layout',
     accent: 'primary',
     route: '/optimize-pdf',
-    status: 'simulation',
+    status: 'implemented',
   },
   {
     id: 'compress-pdf',
@@ -424,7 +424,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'GitCompare',
     accent: 'tertiary',
     route: '/compare-pdf',
-    status: 'simulation',
+    status: 'implemented',
   },
 ];
 

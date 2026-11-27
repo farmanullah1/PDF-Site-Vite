@@ -37,12 +37,20 @@ export default function OptimizePDF() {
       setResult(null);
       setProgress(0);
       setPhase('reading');
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      readFileAsArrayBuffer(f).then((buf) => {
-        return getPdfLib().then((PDFLib) => PDFLib.PDFDocument.load(new Uint8Array(buf), { ignoreEncryption: true }));
-      }).then((doc) => {
-        setFile((p) => (p && p.file === f ? { ...p, pages: doc.getPageCount() } : p));
-      }).catch(() => {});
+      setLoading(true);
+      readFileAsArrayBuffer(f)
+        .then((buf) => getPdfLib().then((PDFLib) => PDFLib.PDFDocument.load(new Uint8Array(buf), { ignoreEncryption: true })))
+        .then((doc) => {
+          setFile((p) => (p && p.file === f ? { ...p, pages: doc.getPageCount() } : p));
+          setPhase('idle');
+        })
+        .catch((e) => {
+          setError((e instanceof Error ? e.message : 'Could not read the PDF.') + ' (Your file stays private.)');
+          setPhase('idle');
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     },
     []
   );
