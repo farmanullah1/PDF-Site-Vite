@@ -14,7 +14,7 @@ export default function PDFPreview({ url, maxPages = 6, height = 120 }: PDFPrevi
 
   useEffect(() => {
     let cancelled = false;
-    let pdfjsLib: typeof window as unknown as { pdfjsLib?: typeof import('pdfjs-dist') } | undefined;
+    let pdfjsLib: unknown;
 
     async function load() {
       try {
