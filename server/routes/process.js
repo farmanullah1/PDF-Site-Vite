@@ -71,9 +71,7 @@ router.post('/process', upload.single('file'), async (req, res) => {
         try {
           await runCommand('qpdf', ['--encrypt', password, password, '128', '--', inPath, outPath]);
         } catch (e) {
-          const doc = await PDFDocument.load(await fs.readFile(inPath));
-          const bytes = await doc.save();
-          await fs.writeFile(outPath, bytes);
+          return res.status(500).json({ error: 'Password protection requires qpdf on the server. Install qpdf (or run a sidecar with qpdf) to enable Protect PDF.' });
         }
         res.set('x-output-filename', `${path.parse(req.file.originalname).name}-protected.pdf`);
         res.set('content-type', 'application/pdf');
