@@ -59,13 +59,7 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#c4c4cc]/30 px-5 py-4">
           <Link to="/" onClick={onClose} className="flex items-center gap-2 text-[#161616]">
-            <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-              <rect width="32" height="32" rx="6" fill="#e5322d"/>
-              <rect x="6" y="9" width="20" height="14" rx="2" stroke="#fff" strokeWidth="1.6"/>
-              <path d="M7 11h4v10H7z" fill="#fff" opacity=".95"/>
-              <path d="M14 9h4v12h-4z" fill="#fff" opacity=".95"/>
-              <path d="M21 13h4v8h-4z" fill="#fff" opacity=".95"/>
-            </svg>
+            <img src="/img/ilovepdf.svg" alt="iLovePDF" width="26" height="26" aria-hidden="true" />
             <span className="text-[1.25rem] font-bold">iLovePDF</span>
           </Link>
           <button onClick={onClose} className="rounded-lg p-1.5 text-[#161616] transition-colors hover:bg-[#f0f0f5]" aria-label="Close menu">

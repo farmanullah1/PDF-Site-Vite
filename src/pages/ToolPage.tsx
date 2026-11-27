@@ -27,6 +27,7 @@ import ComparePDF from './tools/ComparePDF';
 import RepairPDF from './tools/RepairPDF';
 import ServerTool from './tools/ServerTool';
 import ComingSoon from './tools/ComingSoon';
+import ScanPDF from './tools/ScanPDF';
 import type { ServerToolOption } from './tools/ServerTool';
 
 const CLIENT_COMPONENTS: Record<string, React.ComponentType> = {
@@ -54,6 +55,7 @@ const CLIENT_COMPONENTS: Record<string, React.ComponentType> = {
   'optimize-pdf': OptimizePDF,
   'compare-pdf': ComparePDF,
   'repair-pdf': RepairPDF,
+  'scan-pdf': ScanPDF,
 };
 
 // Backend-dependent tools rendered via ServerTool. Requires the Express server (see server/).
@@ -73,15 +75,16 @@ const BACKEND_TOOL_IDS = new Set([
 
 export default function ToolPage() {
   const { pathname } = useLocation();
-  const toolId = pathname.replace(/^\//, '');
-  const tool = useMemo(() => (toolId ? toolById(toolId) : undefined), [toolId]);
+  // Convert underscore route to hyphenated tool ID (e.g., /merge_pdf -> merge-pdf)
+  const routeId = pathname.replace(/^\//, '').replace(/_/g, '-');
+  const tool = useMemo(() => (routeId ? toolById(routeId) : undefined), [routeId]);
 
   if (!tool) {
     return (
       <div className="mx-auto max-w-[1280px] px-4 py-16 text-center sm:px-6 lg:px-8">
         <h1 className="text-[1.75rem] font-semibold text-[#161616]">Tool not found</h1>
         <p className="mt-3 text-[#47474f]">This tool page doesn't exist yet.</p>
-        <a href="/" className="mt-4 inline-flex items-center rounded-lg bg-[#e5322d] px-5 py-2.5 text-sm font-medium text-white shadow-[0_2px_6px_rgba(229,50,45,0.25)] transition-all hover:shadow-[0_6px_14px_rgba(229,50,45,0.32)] hover:-translate-y-0.5" style={{ background: 'linear-gradient(128deg, #ff6a58 0%, #e5322d 100%)' }}>
+        <a href="/" className="mt-4 inline-flex items-center rounded-lg bg-[#EE6C4D] px-5 py-2.5 text-sm font-medium text-white shadow-[0_2px_6px_rgba(238,108,77,0.25)] transition-all hover:shadow-[0_6px_14px_rgba(238,108,77,0.32)] hover:-translate-y-0.5" style={{ background: 'linear-gradient(128deg, #FF7651 0%, #EE6C4D 100%)' }}>
           Back to home
         </a>
       </div>
