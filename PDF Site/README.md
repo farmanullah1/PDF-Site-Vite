@@ -17,6 +17,7 @@ The site is **not** affiliated with, endorsed by, or derived from the real site 
 - **Add watermark** — stamp text or a simple tiled pattern onto pages (pdf-lib).
 - **Organize pages** — list pages, reorder by drag/drop, drop pages, rotate individual pages, save (pdf-lib + pdf.js for previews).
 - **PDF to JPG** — render each PDF page to a downloadable JPG via pdf.js canvas.
+- **JPG to PDF** — bundle JPG/PNG images into a single downloadable PDF, in the order you choose (pdf-lib).
 - **Unlock / permissions** — read-only inspection: report whether a PDF is encrypted and what permissions it declares (pdf-lib). This does **not** crack or remove passwords.
 
 ## Clearly-labeled stubs
