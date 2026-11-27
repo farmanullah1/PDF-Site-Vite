@@ -268,13 +268,13 @@ export const TOOLS: ToolConfig[] = [
   {
     id: 'pdf-to-markdown',
     name: 'PDF to Markdown',
-    description: 'Convert PDF content into clean Markdown text.',
+    description: 'Convert PDF pages into clean Markdown text (.md).',
     category: 'Convert from PDF',
     categoryKey: 'convert-from-pdf',
     icon: 'Markdown',
     accent: 'tertiary',
     route: '/pdf-to-markdown',
-    status: 'backend',
+    status: 'implemented',
   },
 
   // ---- Edit PDF ----
