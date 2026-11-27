@@ -34,92 +34,129 @@ type NavLink = { label: string; href: string; external?: boolean };
 type NavGroup = { group: string; links: NavLink[] };
 
 const CONVERT_LINKS: NavGroup[] = [
-  { group: 'Convert to PDF', links: [
-    { label: 'JPG to PDF', href: '/jpg_to_pdf' },
-    { label: 'WORD to PDF', href: '/word_to_pdf' },
-    { label: 'POWERPOINT to PDF', href: '/powerpoint_to_pdf' },
-    { label: 'EXCEL to PDF', href: '/excel_to_pdf' },
-    { label: 'HTML to PDF', href: '/html-to-pdf' },
-  ]},
-  { group: 'Convert from PDF', links: [
-    { label: 'PDF to JPG', href: '/pdf_to_jpg' },
-    { label: 'PDF to WORD', href: '/pdf_to_word' },
-    { label: 'PDF to POWERPOINT', href: '/pdf_to_powerpoint' },
-    { label: 'PDF to EXCEL', href: '/pdf_to_excel' },
-    { label: 'PDF to PDF/A', href: '/convert-pdf-to-pdfa' },
-  ]},
+  {
+    group: 'Convert to PDF',
+    links: [
+      { label: 'JPG to PDF', href: '/jpg_to_pdf' },
+      { label: 'WORD to PDF', href: '/word_to_pdf' },
+      { label: 'POWERPOINT to PDF', href: '/powerpoint_to_pdf' },
+      { label: 'EXCEL to PDF', href: '/excel_to_pdf' },
+      { label: 'HTML to PDF', href: '/html-to-pdf' },
+    ],
+  },
+  {
+    group: 'Convert from PDF',
+    links: [
+      { label: 'PDF to JPG', href: '/pdf_to_jpg' },
+      { label: 'PDF to WORD', href: '/pdf_to_word' },
+      { label: 'PDF to POWERPOINT', href: '/pdf_to_powerpoint' },
+      { label: 'PDF to EXCEL', href: '/pdf_to_excel' },
+      { label: 'PDF to PDF/A', href: '/convert-pdf-to-pdfa' },
+    ],
+  },
 ];
 
 const ALL_TOOLS_LINKS: NavGroup[] = [
-  { group: 'Organize PDF', links: [
-    { label: 'Merge PDF', href: '/merge_pdf' },
-    { label: 'Split PDF', href: '/split_pdf' },
-    { label: 'Remove pages', href: '/remove-pages' },
-    { label: 'Extract pages', href: '/split_pdf#split,extract' },
-    { label: 'Organize PDF', href: '/organize-pdf' },
-    { label: 'Scan to PDF', href: '/scan-pdf' },
-  ]},
-  { group: 'Optimize PDF', links: [
-    { label: 'Compress PDF', href: '/compress_pdf' },
-    { label: 'Repair PDF', href: '/repair-pdf' },
-    { label: 'OCR PDF', href: '/ocr-pdf' },
-  ]},
-  { group: 'Convert to PDF', links: [
-    { label: 'JPG to PDF', href: '/jpg_to_pdf' },
-    { label: 'WORD to PDF', href: '/word_to_pdf' },
-    { label: 'POWERPOINT to PDF', href: '/powerpoint_to_pdf' },
-    { label: 'EXCEL to PDF', href: '/excel_to_pdf' },
-    { label: 'HTML to PDF', href: '/html-to-pdf' },
-  ]},
-  { group: 'Convert from PDF', links: [
-    { label: 'PDF to JPG', href: '/pdf_to_jpg' },
-    { label: 'PDF to WORD', href: '/pdf_to_word' },
-    { label: 'PDF to POWERPOINT', href: '/pdf_to_powerpoint' },
-    { label: 'PDF to EXCEL', href: '/pdf_to_excel' },
-    { label: 'PDF to PDF/A', href: '/convert-pdf-to-pdfa' },
-  ]},
-  { group: 'Edit PDF', links: [
-    { label: 'Rotate PDF', href: '/rotate_pdf' },
-    { label: 'Add page numbers', href: '/add_pdf_page_number' },
-    { label: 'Add watermark', href: '/pdf_add_watermark' },
-    { label: 'Crop PDF', href: '/crop-pdf' },
-    { label: 'Edit PDF', href: '/edit-pdf' },
-    { label: 'PDF Forms', href: '/pdf-forms' },
-  ]},
-  { group: 'PDF security', links: [
-    { label: 'Unlock PDF', href: '/unlock_pdf' },
-    { label: 'Protect PDF', href: '/protect-pdf' },
-    { label: 'Sign PDF', href: '/sign-pdf' },
-    { label: 'Redact PDF', href: '/redact-pdf' },
-    { label: 'Compare PDF', href: '/compare-pdf' },
-  ]},
-  { group: 'PDF Intelligence', links: [
-    { label: 'AI Summarizer', href: '/pdf-summarize' },
-    { label: 'Translate PDF', href: '/translate-pdf' },
-    { label: 'PDF to Markdown', href: '/pdf-to-markdown' },
-  ]},
+  {
+    group: 'Organize PDF',
+    links: [
+      { label: 'Merge PDF', href: '/merge_pdf' },
+      { label: 'Split PDF', href: '/split_pdf' },
+      { label: 'Remove pages', href: '/remove-pages' },
+      { label: 'Extract pages', href: '/split_pdf#split,extract' },
+      { label: 'Organize PDF', href: '/organize-pdf' },
+      { label: 'Scan to PDF', href: '/scan-pdf' },
+    ],
+  },
+  {
+    group: 'Optimize PDF',
+    links: [
+      { label: 'Compress PDF', href: '/compress_pdf' },
+      { label: 'Repair PDF', href: '/repair-pdf' },
+      { label: 'OCR PDF', href: '/ocr-pdf' },
+    ],
+  },
+  {
+    group: 'Convert to PDF',
+    links: [
+      { label: 'JPG to PDF', href: '/jpg_to_pdf' },
+      { label: 'WORD to PDF', href: '/word_to_pdf' },
+      { label: 'POWERPOINT to PDF', href: '/powerpoint_to_pdf' },
+      { label: 'EXCEL to PDF', href: '/excel_to_pdf' },
+      { label: 'HTML to PDF', href: '/html-to-pdf' },
+    ],
+  },
+  {
+    group: 'Convert from PDF',
+    links: [
+      { label: 'PDF to JPG', href: '/pdf_to_jpg' },
+      { label: 'PDF to WORD', href: '/pdf_to_word' },
+      { label: 'PDF to POWERPOINT', href: '/pdf_to_powerpoint' },
+      { label: 'PDF to EXCEL', href: '/pdf_to_excel' },
+      { label: 'PDF to PDF/A', href: '/convert-pdf-to-pdfa' },
+    ],
+  },
+  {
+    group: 'Edit PDF',
+    links: [
+      { label: 'Rotate PDF', href: '/rotate_pdf' },
+      { label: 'Add page numbers', href: '/add_pdf_page_number' },
+      { label: 'Add watermark', href: '/pdf_add_watermark' },
+      { label: 'Crop PDF', href: '/crop-pdf' },
+      { label: 'Edit PDF', href: '/edit-pdf' },
+      { label: 'PDF Forms', href: '/pdf-forms' },
+    ],
+  },
+  {
+    group: 'PDF security',
+    links: [
+      { label: 'Unlock PDF', href: '/unlock_pdf' },
+      { label: 'Protect PDF', href: '/protect-pdf' },
+      { label: 'Sign PDF', href: '/sign-pdf' },
+      { label: 'Redact PDF', href: '/redact-pdf' },
+      { label: 'Compare PDF', href: '/compare-pdf' },
+    ],
+  },
+  {
+    group: 'PDF Intelligence',
+    links: [
+      { label: 'AI Summarizer', href: '/pdf-summarize' },
+      { label: 'Translate PDF', href: '/translate-pdf' },
+      { label: 'PDF to Markdown', href: '/pdf-to-markdown' },
+    ],
+  },
 ];
 
 const COMPANY_LINKS: NavGroup[] = [
-  { group: 'Other products', links: [
-    { label: 'iLoveIMG', href: 'https://www.iloveimg.com', external: true },
-    { label: 'iLoveSign', href: 'https://www.ilovesign.com', external: true },
-    { label: 'iLoveAPI', href: 'https://www.iloveapi.com', external: true },
-    { label: 'Integrations', href: 'https://www.iloveapi.com/integrations', external: true },
-  ]},
-  { group: 'Solutions', links: [
-    { label: 'Business', href: '/business' },
-  ]},
-  { group: 'Applications', links: [
-    { label: 'Desktop App', href: '/desktop' },
-    { label: 'Mobile App', href: '/mobile' },
-  ]},
-  { group: 'General', links: [
-    { label: 'Pricing', href: '/pricing' },
-    { label: 'Security', href: '/help/security' },
-    { label: 'Features', href: '/features' },
-    { label: 'About us', href: '/help/about' },
-  ]},
+  {
+    group: 'Other products',
+    links: [
+      { label: 'iLoveIMG', href: 'https://www.iloveimg.com', external: true },
+      { label: 'iLoveSign', href: 'https://www.ilovesign.com', external: true },
+      { label: 'iLoveAPI', href: 'https://www.iloveapi.com', external: true },
+      { label: 'Integrations', href: 'https://www.iloveapi.com/integrations', external: true },
+    ],
+  },
+  {
+    group: 'Solutions',
+    links: [{ label: 'Business', href: '/business' }],
+  },
+  {
+    group: 'Applications',
+    links: [
+      { label: 'Desktop App', href: '/desktop' },
+      { label: 'Mobile App', href: '/mobile' },
+    ],
+  },
+  {
+    group: 'General',
+    links: [
+      { label: 'Pricing', href: '/pricing' },
+      { label: 'Security', href: '/help/security' },
+      { label: 'Features', href: '/features' },
+      { label: 'About us', href: '/help/about' },
+    ],
+  },
 ];
 
 const HELP_LINKS = [
@@ -174,30 +211,33 @@ export default function Header() {
   return (
     <header className="site-header">
       <nav className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-        {/* Brand */}
         <Link to="/" className="brand flex items-center" aria-label="iLovePDF home">
           <img src="/img/ilovepdf.svg" alt="iLovePDF" />
         </Link>
 
-        {/* Menu */}
         <div className="menu hidden sm:flex items-center gap-4 ml-8">
-          {/* Main nav links */}
           <div className="flex items-center gap-2">
             <NavLink href="/merge_pdf">Merge PDF</NavLink>
             <NavLink href="/split_pdf">Split PDF</NavLink>
             <NavLink href="/compress_pdf">Compress PDF</NavLink>
           </div>
 
-          {/* Convert PDF dropdown */}
-          <div className="relative">
-            <button className="flex items-center gap-1 text-sm font-medium text-[#161616] transition-colors hover:text-[#161616]" onClick={() => setConvertOpen((v) => !v)} aria-haspopup="true" aria-expanded={convertOpen}>
+          <div className="relative" ref={convertRef}>
+            <button
+              className="flex items-center gap-1 text-sm font-medium text-[#161616] transition-colors hover:text-[#161616]"
+              onClick={() => setConvertOpen((v) => !v)}
+              aria-haspopup="true"
+              aria-expanded={convertOpen}
+            >
               Convert PDF <span className="ico ico--down" style={{ fontSize: '10px', marginLeft: '4px' }} />
             </button>
             {convertOpen && (
               <div className="nav-dropdown absolute left-0 top-full mt-2 min-w-[260px] rounded-lg border border-[#c4c4cc] bg-white p-2 shadow-[0_10px_24px_rgba(16,24,32,0.14)] z-50">
                 {CONVERT_LINKS.map((group) => (
                   <div key={group.group} className="mb-2 last:mb-0">
-                    <div className="nav__title mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">{group.group}</div>
+                    <div className="nav__title mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                      {group.group}
+                    </div>
                     <ul className="flex flex-col gap-1">
                       {group.links.map((l) => (
                         <li key={l.href}>
@@ -218,9 +258,13 @@ export default function Header() {
             )}
           </div>
 
-          {/* All PDF tools dropdown */}
-          <div className="relative">
-            <button className="flex items-center gap-1 text-sm font-medium text-[#161616] transition-colors hover:text-[#161616]" onClick={() => setAllOpen((v) => !v)} aria-haspopup="true" aria-expanded={allOpen}>
+          <div className="relative" ref={allRef}>
+            <button
+              className="flex items-center gap-1 text-sm font-medium text-[#161616] transition-colors hover:text-[#161616]"
+              onClick={() => setAllOpen((v) => !v)}
+              aria-haspopup="true"
+              aria-expanded={allOpen}
+            >
               All PDF tools <span className="ico ico--down" style={{ fontSize: '10px', marginLeft: '4px' }} />
             </button>
             {allOpen && (
@@ -228,7 +272,9 @@ export default function Header() {
                 <div className="grid grid-cols-2 gap-6">
                   {ALL_TOOLS_LINKS.map((group) => (
                     <div key={group.group} className="flex flex-col gap-2">
-                      <div className="nav__title mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">{group.group}</div>
+                      <div className="nav__title mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                        {group.group}
+                      </div>
                       <ul className="flex flex-col gap-1">
                         {group.links.map((l) => (
                           <li key={l.href}>
@@ -251,16 +297,24 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Nav actions */}
         <div className="nav-actions flex items-center gap-3">
-          <Link to="/login" className="link--secondary hidden sm:inline-block text-sm font-medium text-[#161616] hover:text-[#EE6C4D]">Login</Link>
-          <Link to="/register" className="btn btn--sm hidden sm:inline-block inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white shadow-[0_2px_6px_rgba(238,108,77,0.25)] transition-all hover:shadow-[0_6px_14px_rgba(238,108,77,0.32)] hover:-translate-y-0.5" style={{ background: 'linear-gradient(128deg, #FF7651 0%, #EE6C4D 100%)' }}>
+          <Link to="/login" className="link--secondary hidden sm:inline-block text-sm font-medium text-[#161616] hover:text-[#EE6C4D]">
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="btn btn--sm hidden sm:inline-block inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white shadow-[0_2px_6px_rgba(238,108,77,0.25)] transition-all hover:shadow-[0_6px_14px_rgba(238,108,77,0.32)] hover:-translate-y-0.5"
+            style={{ background: 'linear-gradient(128deg, #FF7651 0%, #EE6C4D 100%)' }}
+          >
             Sign up
           </Link>
 
-          {/* More dropdown (company + language) */}
           <div className="relative">
-            <button className="flex items-center justify-center rounded-md p-2 text-[#161616] transition-colors hover:bg-[#f0f0f5] sm:hidden" aria-label="More options" onClick={() => setCompanyOpen((v) => !v)}>
+            <button
+              className="flex items-center justify-center rounded-md p-2 text-[#161616] transition-colors hover:bg-[#f0f0f5] sm:hidden"
+              aria-label="More options"
+              onClick={() => setCompanyOpen((v) => !v)}
+            >
               <span className="ico ico--more" style={{ fontSize: '20px' }} />
             </button>
             {companyOpen && (
@@ -269,7 +323,9 @@ export default function Header() {
                   {COMPANY_LINKS.map((group) => (
                     <div key={group.group} className="mb-4 last:mb-0">
                       <div className="menu-comp__products mb-2 px-2">
-                        <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">{group.group}</div>
+                        <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                          {group.group}
+                        </div>
                         <ul className="flex flex-col gap-1">
                           {group.links.map((l) => (
                             <li key={l.href}>
@@ -295,7 +351,9 @@ export default function Header() {
                     </div>
                   ))}
                   <div className="menu-comp__business mt-4 px-2">
-                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">Solutions</div>
+                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                      Solutions
+                    </div>
                     <ul className="flex flex-col gap-1">
                       <li>
                         <a href="/business" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
@@ -312,7 +370,9 @@ export default function Header() {
                     </ul>
                   </div>
                   <div className="mt-4 border-t border-[#c4c4cc]/30 pt-4 px-2">
-                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">Applications</div>
+                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                      Applications
+                    </div>
                     <ul className="flex flex-col gap-1">
                       <li>
                         <a href="/desktop" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
@@ -341,21 +401,28 @@ export default function Header() {
                     </ul>
                   </div>
                   <div className="mt-4 border-t border-[#c4c4cc]/30 pt-4 px-2">
-                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">Help</div>
+                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                      Help
+                    </div>
                     <ul className="flex flex-col gap-1">
                       {HELP_LINKS.map((l) => (
                         <li key={l.href}>
-                          <a href={l.href} className="rounded-lg px-3 py-1.5 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">{l.label}</a>
+                          <a href={l.href} className="rounded-lg px-3 py-1.5 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
+                            {l.label}
+                          </a>
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div className="mt-4 border-t border-[#c4c4cc]/30 pt-4 px-2">
                     <div className="relative">
-                      <button className="flex items-center justify-between w-full rounded-lg px-3 py-1.5 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]" onClick={() => setLangOpen((v) => !v)}>
+                      <button
+                        className="flex items-center justify-between w-full rounded-lg px-3 py-1.5 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]"
+                        onClick={() => setLangOpen((v) => !v)}
+                      >
                         <span className="flex items-center gap-2">
                           <span className="ico ico--world" style={{ fontSize: '14px' }} />
-                          <span className="font-medium">{currentLang === 'en' ? 'English' : LANGUAGES.find(l => l.code === currentLang)?.label}</span>
+                          <span className="font-medium">{currentLang === 'en' ? 'English' : LANGUAGES.find((l) => l.code === currentLang)?.label}</span>
                           <span className="ico ico--down-w" style={{ fontSize: '10px' }} />
                         </span>
                       </button>
@@ -366,10 +433,22 @@ export default function Header() {
                             English <span className="ico ico--down-w" style={{ fontSize: '10px' }} />
                           </span>
                           <ul className="lang__menu flex flex-col gap-1">
-                            <li><a href="/" className={`rounded-lg px-3 py-1.5 text-sm ${currentLang === 'en' ? 'bg-[#f5f5fa] font-semibold' : 'text-[#161616]'}`}>English</a></li>
+                            <li>
+                              <a
+                                href="/"
+                                className={`rounded-lg px-3 py-1.5 text-sm ${currentLang === 'en' ? 'bg-[#f5f5fa] font-semibold' : 'text-[#161616]'}`}
+                              >
+                                English
+                              </a>
+                            </li>
                             {LANGUAGES.map((l) => (
                               <li key={l.code}>
-                                <a href={`/${l.code}`} className={`rounded-lg px-3 py-1.5 text-sm ${currentLang === l.code ? 'bg-[#f5f5fa] font-semibold' : 'text-[#161616]'}`}>{l.label}</a>
+                                <a
+                                  href={`/${l.code}`}
+                                  className={`rounded-lg px-3 py-1.5 text-sm ${currentLang === l.code ? 'bg-[#f5f5fa] font-semibold' : 'text-[#161616]'}`}
+                                >
+                                  {l.label}
+                                </a>
                               </li>
                             ))}
                           </ul>
@@ -378,8 +457,17 @@ export default function Header() {
                     </div>
                   </div>
                   <div className="mt-4 border-t border-[#c4c4cc]/30 pt-4 px-2">
-                    <a href="/login" className="btn btn--secondary show--sm inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-[#161616] border border-[#c4c4cc] hover:bg-[#f0f0f5]">Login</a>
-                    <a href="/register" className="btn show--sm inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white shadow-[0_2px_6px_rgba(238,108,77,0.25)] transition-all mt-2" style={{ background: 'linear-gradient(128deg, #FF7651 0%, #EE6C4D 100%)' }}>
+                    <a
+                      href="/login"
+                      className="btn btn--secondary show--sm inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-[#161616] border border-[#c4c4cc] hover:bg-[#f0f0f5]"
+                    >
+                      Login
+                    </a>
+                    <a
+                      href="/register"
+                      className="btn show--sm inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white shadow-[0_2px_6px_rgba(238,108,77,0.25)] transition-all mt-2"
+                      style={{ background: 'linear-gradient(128deg, #FF7651 0%, #EE6C4D 100%)' }}
+                    >
                       Sign up
                     </a>
                   </div>
@@ -388,17 +476,29 @@ export default function Header() {
             )}
           </div>
 
-          {/* Mobile hamburger */}
-          <button className="flex items-center justify-center rounded-md p-2 text-[#161616] transition-colors hover:bg-[#f0f0f5] sm:hidden" onClick={() => setMobileOpen(true)} aria-label="Open menu">
+          <button
+            className="flex items-center justify-center rounded-md p-2 text-[#161616] transition-colors hover:bg-[#f0f0f5] sm:hidden"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+          >
             <span className="ico ico--hamburger" style={{ fontSize: '22px' }} />
           </button>
         </div>
       </nav>
 
-      {/* Mobile drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 sm:hidden" onClick={setMobileOpen.bind(null, false)} aria-hidden="true">
-          <div className="absolute left-0 top-0 h-full w-72 bg-white shadow-[0_0_0_100vw_inset_black]" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Navigation menu" style={{ transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)', transition: 'transform 0.25s ease' }}>
+          <div
+            className="absolute left-0 top-0 h-full w-72 bg-white shadow-[0_0_0_100vw_inset_black]"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+            style={{
+              transform: mobileOpen ? 'translateX(0)' : 'translateX(-100%)',
+              transition: 'transform 0.25s ease',
+            }}
+          >
             <div className="flex items-center justify-between border-b border-[#c4c4cc]/30 px-5 py-4">
               <Link to="/" onClick={() => setMobileOpen(false)} className="brand flex items-center">
                 <img src="/img/ilovepdf.svg" alt="iLovePDF" />
@@ -425,15 +525,26 @@ export default function Header() {
                   { label: 'OCR PDF', href: '/ocr-pdf' },
                 ].map((l) => (
                   <li key={l.href}>
-                    <Link to={l.href} onClick={() => setMobileOpen(false)} className={`flex items-center px-4 py-3 text-base rounded-lg transition-colors ${window.location.pathname === l.href ? 'bg-[#fbeae7] text-[#D0452D] font-semibold' : 'text-[#161616] hover:bg-[#f0f0f5]'}`}>
+                    <Link
+                      to={l.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={`flex items-center px-4 py-3 text-base rounded-lg transition-colors ${window.location.pathname === l.href ? 'bg-[#fbeae7] text-[#c92a24] font-semibold' : 'text-[#161616] hover:bg-[#f0f0f5]'}`}
+                    >
                       {l.label}
                     </Link>
                   </li>
                 ))}
               </ul>
               <div className="mt-6 border-t border-[#c4c4cc]/30 pt-4">
-                <Link to="/login" onClick={() => setMobileOpen(false)} className="flex items-center justify-between px-4 py-3 text-base rounded-lg text-[#161616]">Login</Link>
-                <Link to="/register" onClick={() => setMobileOpen(false)} className="inline-flex items-center justify-center gap-2 rounded-md px-4 py-3 text-base font-semibold text-white shadow-[0_2px_6px_rgba(238,108,77,0.25)] transition-all mb-3 w-full" style={{ background: 'linear-gradient(128deg, #FF7651 0%, #EE6C4D 100%)' }}>
+                <Link to="/login" onClick={() => setMobileOpen(false)} className="flex items-center justify-between px-4 py-3 text-base rounded-lg text-[#161616]">
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setMobileOpen(false)}
+                  className="inline-flex items-center justify-center gap-2 rounded-md px-4 py-3 text-base font-semibold text-white shadow-[0_2px_6px_rgba(238,108,77,0.25)] transition-all mb-3 w-full"
+                  style={{ background: 'linear-gradient(128deg, #FF7651 0%, #EE6C4D 100%)' }}
+                >
                   Create account
                 </Link>
               </div>
