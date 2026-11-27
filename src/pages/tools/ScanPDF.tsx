@@ -2,7 +2,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import StandardLayout from '../../components/layout/StandardLayout';
 import Dropzone from '../../components/ui/Dropzone';
 import { bytesToBlob, downloadBlob } from '../../lib/pdf-helpers';
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, PDFImage } from 'pdf-lib';
 import { toolById } from '../../data/toolsConfig';
 import { Camera, FileText, Image, RotateCw, X, Check, Loader2 } from 'lucide-react';
 
@@ -129,13 +129,13 @@ export default function ScanPDF() {
         const buf = await scan.file.arrayBuffer();
         const imgBytes = new Uint8Array(buf);
         const isJpeg = scan.file.type === 'image/jpeg' || scan.file.name.toLowerCase().endsWith('.jpg') || scan.file.name.toLowerCase().endsWith('.jpeg');
-        let embeddedImage;
+        let embeddedImage: PDFImage;
         if (isJpeg) {
-          embeddedImage = out.embedJpg(imgBytes);
+          embeddedImage = await out.embedJpg(imgBytes);
         } else if (scan.file.type === 'image/png') {
-          embeddedImage = out.embedPng(imgBytes);
+          embeddedImage = await out.embedPng(imgBytes);
         } else {
-          embeddedImage = out.embedJpg(imgBytes);
+          embeddedImage = await out.embedJpg(imgBytes);
         }
         const page = out.addPage([embeddedImage.width, embeddedImage.height]);
         page.drawImage(embeddedImage, {

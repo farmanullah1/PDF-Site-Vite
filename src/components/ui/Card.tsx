@@ -10,48 +10,25 @@ import { Link } from 'react-router-dom';
 //
 // Icon -> file mapping (tool id -> live SVG):
 const ICON_FILES: Record<string, string> = {
-  // Organize
-  'merge-pdf':     '/assets/icons/organize-merge-pdf.svg',
-  'split-pdf':     '/assets/icons/organize-split-pdf.svg',
-  'remove-pages':  '/assets/icons/organize-remove-pages.svg',
-  'extract-pages': '/assets/icons/organize-extract-pages.svg',
-  'organize-pdf':  '/assets/icons/organize-organize-pdf.svg',
-  'rotate-pdf':    '/assets/icons/organize-rotate-pdf.svg',
-  'optimize-pdf':  '/assets/icons/organize-optimize-pdf.svg',
-  'compress-pdf':  '/assets/icons/organize-compress-pdf.svg',
-  'repair-pdf':    '/assets/icons/optimize-repair-pdf.svg',
-  'ocr-pdf':       '/assets/icons/optimize-ocr-pdf.svg',
-  'scan-pdf':      '/assets/icons/organize-scan-pdf.svg',
-  // Convert to PDF
-  'jpg-to-pdf':       '/assets/icons/convert-jpg-to-pdf.svg',
-  'word-to-pdf':      '/assets/icons/convert-word-to-pdf.svg',
-  'powerpoint-to-pdf': '/assets/icons/convert-powerpoint-to-pdf.svg',
-  'excel-to-pdf':     '/assets/icons/convert-excel-to-pdf.svg',
-  'html-to-pdf':      '/assets/icons/convert-html-to-pdf.svg',
-  // Convert from PDF
-  'pdf-to-jpg':        '/assets/icons/convert-pdf-to-jpg.svg',
-  'pdf-to-word':       '/assets/icons/convert-pdf-to-word.svg',
-  'pdf-to-powerpoint': '/assets/icons/convert-pdf-to-powerpoint.svg',
-  'pdf-to-excel':      '/assets/icons/convert-pdf-to-excel.svg',
-  'pdf-to-pdfa':       '/assets/icons/convert-convert-pdf-to-pdfa.svg',
-  'pdf-to-text':       '/assets/icons/convert-pdf-to-text.svg',
-  'pdf-to-html':       '/assets/icons/convert-pdf-to-html.svg',
-  'pdf-to-markdown':   '/assets/icons/convert-pdf-to-markdown.svg',
-  // Edit
-  'edit-pdf':         '/assets/icons/edit-edit-pdf.svg',
-  'add-page-numbers': '/assets/icons/edit-add-page-numbers.svg',
-  'add-watermark':    '/assets/icons/edit-add-watermark.svg',
-  'crop-pdf':         '/assets/icons/edit-crop-pdf.svg',
-  'pdf-forms':        '/assets/icons/edit-pdf-forms.svg',
-  // Security
-  'unlock-pdf':  '/assets/icons/security-unlock-pdf.svg',
-  'protect-pdf': '/assets/icons/security-protect-pdf.svg',
-  'sign-pdf':    '/assets/icons/security-sign-pdf.svg',
-  'redact-pdf':  '/assets/icons/security-redact-pdf.svg',
-  // AI & Advanced
-  'ai-summarizer': '/assets/icons/intelligence-ai-summarizer.svg',
-  'translate-pdf': '/assets/icons/intelligence-translate-pdf.svg',
-  'compare-pdf':   '/assets/icons/intelligence-compare-pdf.svg',
+  'compare-pdf': '/assets/icons/compare-pdf.svg',
+  'compress-pdf': '/assets/icons/compress_pdf.svg',
+  'crop-pdf': '/assets/icons/crop-pdf.svg',
+  'edit-pdf': '/assets/icons/edit-pdf.svg',
+  'html-to-pdf': '/assets/icons/html-to-pdf.svg',
+  'merge-pdf': '/assets/icons/merge_pdf.svg',
+  'ocr-pdf': '/assets/icons/ocr-pdf.svg',
+  'organize-pdf': '/assets/icons/organize-pdf.svg',
+  'pdf-forms': '/assets/icons/pdf-forms.svg',
+  'pdf-to-markdown': '/assets/icons/pdf-to-markdown.svg',
+  'pdf-to-pdfa': '/assets/icons/convert-pdf-to-pdfa.svg',
+  'protect-pdf': '/assets/icons/protect-pdf.svg',
+  'redact-pdf': '/assets/icons/redact-pdf.svg',
+  'remove-pages': '/assets/icons/remove-pages.svg',
+  'repair-pdf': '/assets/icons/repair-pdf.svg',
+  'scan-pdf': '/assets/icons/scan-pdf.svg',
+  'sign-pdf': '/assets/icons/sign-pdf.svg',
+  'split-pdf': '/assets/icons/split_pdf.svg',
+  'translate-pdf': '/assets/icons/translate-pdf.svg',
 };
 
 // Live site status chip palette by tool.accent token.

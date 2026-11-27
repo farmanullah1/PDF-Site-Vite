@@ -30,7 +30,10 @@ const LANGUAGES = [
   { code: 'sw', label: 'Kiswahili' },
 ];
 
-const CONVERT_LINKS = [
+type NavLink = { label: string; href: string; external?: boolean };
+type NavGroup = { group: string; links: NavLink[] };
+
+const CONVERT_LINKS: NavGroup[] = [
   { group: 'Convert to PDF', links: [
     { label: 'JPG to PDF', href: '/jpg_to_pdf' },
     { label: 'WORD to PDF', href: '/word_to_pdf' },
@@ -47,7 +50,7 @@ const CONVERT_LINKS = [
   ]},
 ];
 
-const ALL_TOOLS_LINKS = [
+const ALL_TOOLS_LINKS: NavGroup[] = [
   { group: 'Organize PDF', links: [
     { label: 'Merge PDF', href: '/merge_pdf' },
     { label: 'Split PDF', href: '/split_pdf' },
@@ -97,7 +100,7 @@ const ALL_TOOLS_LINKS = [
   ]},
 ];
 
-const COMPANY_LINKS = [
+const COMPANY_LINKS: NavGroup[] = [
   { group: 'Other products', links: [
     { label: 'iLoveIMG', href: 'https://www.iloveimg.com', external: true },
     { label: 'iLoveSign', href: 'https://www.ilovesign.com', external: true },
@@ -325,7 +328,7 @@ export default function Header() {
                       </li>
                       <li>
                         <a href="/mobile" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
-                          <div class="flex items-center gap-2">
+                          <div className="flex items-center gap-2">
                             <span className="ico" style={{ fontSize: '14px' }} />
                             <div className="navbar__item__content">
                               <div className="navbar__item__title font-medium">Mobile App</div>

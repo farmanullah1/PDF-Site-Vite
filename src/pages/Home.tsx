@@ -345,41 +345,33 @@ function ToolCard({ tool }: { tool: ToolConfig }) {
 }
 
 function toolIcon(name: string): string {
-  const icons: Record<string, string> = {
-    Merge: '📎',
-    Split: '✂️',
-    Remove: '➖',
-    Extract: '📄',
-    Organize: '🔀',
-    Scan: '📱',
-    Compress: '🗜️',
-    Repair: '🔧',
-    OCR: '🔍',
-    JpgToPdf: '🖼️',
-    WordToPdf: '📝',
-    PowerPointToPdf: '📊',
-    ExcelToPdf: '📈',
-    HtmlToPdf: '🌐',
-    PdfToJpg: '🖼️',
-    PdfToWord: '📝',
-    PdfToPowerPoint: '📊',
-    PdfToExcel: '📈',
-    PdfToPdfA: '📄',
-    PdfToText: '📄',
-    PdfToHtml: '🌐',
-    PdfToMarkdown: '📝',
-    Edit: '✏️',
-    PageNumbers: '🔢',
-    Watermark: '💧',
-    Crop: '🔲',
-    Forms: '📋',
-    Unlock: '🔓',
-    Protect: '🔒',
-    Sign: '✍️',
-    Redact: '🙈',
-    Compare: '🔄',
-    AI: '🤖',
-    Translate: '🌍',
+  const svgMap: Record<string, string> = {
+    'Compare': '/assets/icons/compare-pdf.svg',
+    'Compress': '/assets/icons/compress_pdf.svg',
+    'Forms': '/assets/icons/pdf-forms.svg',
+    'HtmlToPdf': '/assets/icons/html-to-pdf.svg',
+    'Merge': '/assets/icons/merge_pdf.svg',
+    'OCR': '/assets/icons/ocr-pdf.svg',
+    'Organize': '/assets/icons/organize-pdf.svg',
+    'PdfToMarkdown': '/assets/icons/pdf-to-markdown.svg',
+    'PdfToPdfA': '/assets/icons/convert-pdf-to-pdfa.svg',
+    'Protect': '/assets/icons/protect-pdf.svg',
+    'Redact': '/assets/icons/redact-pdf.svg',
+    'Remove': '/assets/icons/remove-pages.svg',
+    'Repair': '/assets/icons/repair-pdf.svg',
+    'Scan': '/assets/icons/scan-pdf.svg',
+    'Sign': '/assets/icons/sign-pdf.svg',
+    'Split': '/assets/icons/split_pdf.svg',
+    'Translate': '/assets/icons/translate-pdf.svg',
   };
-  return icons[name] || '📄';
+  const path = svgMap[name];
+  if (path) {
+    return (<img
+      src={path}
+      className="h-full w-full max-w-full max-h-full object-contain"
+      alt=""
+      aria-hidden="true"
+    />);
+  }
+  return '';
 }
