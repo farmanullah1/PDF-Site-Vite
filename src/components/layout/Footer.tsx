@@ -102,7 +102,7 @@ export default function Footer() {
               aria-expanded={langOpen}
             >
               <span className="font-medium">{currentLang === 'en' ? 'English' : currentLang}</span>
-              <span className="ico ico--down" style={{ fontSize: '10px' }} />
+              <DownArrow style={{ fontSize: '10px', color: '#c4c4cc' }} />
             </button>
           </div>
         </div>
@@ -145,16 +145,16 @@ export default function Footer() {
           </div>
           <div className="flex items-center gap-4 sm:gap-6">
             <div className="flex items-center gap-4">
-              {SOCIAL_LINKS.map((s) => (
-                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="text-[#c4c4cc] transition-colors hover:text-white" aria-label={s.label}>
-                  <span className={`ico ico--${s.icon}`} style={{ fontSize: '16px' }} />
-                </a>
-              ))}
+                  {SOCIAL_LINKS.map((s) => (
+                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="text-[#c4c4cc] transition-colors hover:text-white" aria-label={s.label}>
+                      <SocialIcon name={s.icon} style={{ fontSize: '16px', color: '#c4c4cc' }} />
+                    </a>
+                  ))}
             </div>
             <div className="flex items-center gap-4">
               {APP_STORE_LINKS.map((s) => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="text-[#c4c4cc] transition-colors hover:text-white" aria-label={s.label}>
-                  <span className={`ico ico--${s.icon}`} style={{ fontSize: '16px' }} />
+                  <SocialIcon name={s.icon} style={{ fontSize: '16px', color: '#c4c4cc' }} />
                 </a>
               ))}
             </div>
@@ -163,4 +163,79 @@ export default function Footer() {
       </div>
     </footer>
   );
+}
+
+type IconProps = { className?: string; style?: React.CSSProperties };
+
+function DownArrow({ className, style }: IconProps) {
+  return (
+    <svg viewBox="0 0 10 10" fill="none" className={className} style={style} width="10" height="10">
+      <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M3 3l4 4m0-4L7 3" />
+    </svg>
+  );
+}
+
+function SocialIcon({ name, className, style }: { name: string; className?: string; style?: React.CSSProperties }): React.ReactNode {
+  const icons: Record<string, React.ReactNode> = {
+    twitter: (
+      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c4 12 20 12 20 0a6.2 6.2 0 0 0 2-4 20 20 0 0 0-1-3" />
+      </svg>
+    ),
+    facebook: (
+      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+      </svg>
+    ),
+    linkedin: (
+      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+        <rect width="4" height="12" x="2" y="9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="2" />
+      </svg>
+    ),
+    instagram: (
+      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+        <rect width="20" height="20" x="2" y="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" rx="5" ry="5" />
+        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+      </svg>
+    ),
+    tiktok: (
+      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 2L2 7l10 5 10-5L12 2z" />
+        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
+      </svg>
+    ),
+    reddit: (
+      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
+        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M2 12l2 4 2-4M22 12l-2 4-2-4M12 2v8m0 8V22M4 12h16" />
+      </svg>
+    ),
+    'google-play': (
+      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 2v20M2 12h20" />
+        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
+      </svg>
+    ),
+    'app-store': (
+      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+        <rect width="18" height="18" x="3" y="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" rx="4" ry="4" />
+        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 7v10M7 12h10" />
+      </svg>
+    ),
+    'mac-store': (
+      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+        <rect width="18" height="18" x="3" y="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" rx="4" ry="4" />
+        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 7v10M7 12h10" />
+      </svg>
+    ),
+    'microsoft-store': (
+      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+        <rect width="16" height="16" x="4" y="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path stroke="currentColor" strokeWidth="2" d="M4 12h16M12 4v16" />
+      </svg>
+    ),
+  };
+  return icons[name] || <span>{name}</span>;
 }

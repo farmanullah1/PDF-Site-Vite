@@ -3,22 +3,33 @@ import { useNavigate } from 'react-router-dom';
 import {
   IconCompare_pdf,
   IconCompress_pdf,
+  IconConvert_convert_pdf_to_pdfa,
+  IconConvert_pdf_to_pdfa,
   IconCrop_pdf,
   IconEdit_pdf,
   IconHtml_to_pdf,
+  IconIntelligence_pdf_summarize,
+  IconIntelligence_pdf_to_markdown,
+  IconIntelligence_translate_pdf,
   IconMerge_pdf,
   IconOcr_pdf,
+  IconOrganize_organize_pdf,
   IconOrganize_pdf,
+  IconOrganize_scan_pdf,
+  IconPdf_summarize,
   IconPdf_to_markdown,
   IconProtect_pdf,
   IconRedact_pdf,
   IconRemove_pages,
   IconRepair_pdf,
   IconScan_pdf,
+  IconSecurity_compare_pdf,
+  IconSecurity_protect_pdf,
+  IconSecurity_redact_pdf,
+  IconSecurity_sign_pdf,
   IconSign_pdf,
   IconSplit_pdf,
   IconTranslate_pdf,
-  IconPdf_forms,
 } from '../components/pdf/icons';
 import { TOOL_CATEGORIES, toolsByCategory, ToolConfig, allImplementedTools } from '../data/toolsConfig';
 
@@ -114,7 +125,7 @@ const ICON_COMPONENTS: Record<string, React.ComponentType<React.SVGProps<SVGSVGE
   Compress: IconCompress_pdf,
   Crop: IconCrop_pdf,
   Edit: IconEdit_pdf,
-  Forms: IconPdf_forms,
+  Forms: IconEdit_pdf,
   HtmlToPdf: IconHtml_to_pdf,
   Merge: IconMerge_pdf,
   OCR: IconOcr_pdf,
@@ -128,10 +139,21 @@ const ICON_COMPONENTS: Record<string, React.ComponentType<React.SVGProps<SVGSVGE
   Sign: IconSign_pdf,
   Split: IconSplit_pdf,
   Translate: IconTranslate_pdf,
+  PdfToPdfA: IconConvert_pdf_to_pdfa,
+  AI: IconIntelligence_pdf_summarize,
 };
+
+function FallbackIcon(): React.ReactNode {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="#EE6C4D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
 
 function toolIcon(name: string): React.ReactNode {
   const Component = ICON_COMPONENTS[name];
-  if (!Component) return null;
+  if (!Component) return <FallbackIcon />;
   return <Component className="h-6 w-6" />;
 }
