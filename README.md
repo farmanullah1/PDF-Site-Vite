@@ -38,7 +38,7 @@ All client tools run entirely in the browser using **pdf-lib** (merge/split/rota
 
 | Tool | Backend needs |
 |------|---------------|
-| Protect PDF | qpdf (falls back to pdf-lib passthrough) |
+| Protect PDF | qpdf (returns clear error if qpdf is not installed on the server) |
 | Word/Excel/PowerPoint → PDF | LibreOffice headless |
 | PDF → Word/Excel/PowerPoint | LibreOffice headless |
 | HTML → PDF | Puppeteer (not available in this deployment) |
@@ -94,6 +94,22 @@ npm run preview    # preview the production build
 
 `dist/` is static HTML/JS — host it anywhere. The Express backend is separate (`server/`) and only needed for server-side tools.
 
+### Deploy to Vercel
+
+1. Push this repo to GitHub.
+2. Import it in Vercel (Vercel detects Vite automatically).
+3. Build command: `npm run build` · Output directory: `dist`.
+4. `vercel.json` is included for SPA rewrite rules (`/index.html` fallback).
+
+**Important:** Vercel hosts only the static frontend. Server-side tools (Protect PDF, Office conversions, HTML→PDF, etc.) require the Express backend running on a separate sidecar (e.g., Render/Railway) with the needed binaries installed:
+- **qpdf** — Protect PDF
+- **Ghostscript (gs)** — Compress PDF (true image recompression)
+- **LibreOffice headless (soffice)** — Office↔PDF conversions
+- **Puppeteer** — HTML→PDF
+
+Set the backend's URL as the API target (see `vite.config.ts` `/api` proxy for local dev). Client-side tools work on Vercel with no backend.
+
+
 ## Project structure
 
 ```
@@ -122,6 +138,7 @@ PDF Site/
 ├── vite.config.ts         # /api proxy → http://127.0.0.1:3001
 ├── tailwind.config.ts
 ├── tsconfig.json
+├── vercel.json
 └── README.md
 ```
 
