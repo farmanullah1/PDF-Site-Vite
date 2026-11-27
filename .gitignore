@@ -35,3 +35,6 @@ yarn.lock
 
 # Misc
 *.log
+
+# User screenshots (not project assets)
+screenshot-*.png

@@ -254,6 +254,18 @@ export const TOOLS: ToolConfig[] = [
     status: 'backend',
   },
   {
+    id: 'pdf-to-text',
+    name: 'PDF to Text',
+    description: 'Extract the embedded text layer from any PDF into a .txt file.',
+    category: 'Convert from PDF',
+    categoryKey: 'convert-from-pdf',
+    icon: 'FileText',
+    accent: 'tertiary',
+    route: '/pdf-to-text',
+    status: 'implemented',
+  },
+
+  {
     id: 'pdf-to-markdown',
     name: 'PDF to Markdown',
     description: 'Convert PDF content into clean Markdown text.',
