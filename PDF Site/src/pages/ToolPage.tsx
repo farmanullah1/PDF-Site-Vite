@@ -9,6 +9,7 @@ import PDFToJPG from './tools/PDFToJPG';
 import AddWatermark from './tools/AddWatermark';
 import UnlockPDF from './tools/UnlockPDF';
 import CompressPDF from './tools/CompressPDF';
+import OptimizePDF from './tools/OptimizePDF';
 import SignPDF from './tools/SignPDF';
 import RemovePages from './tools/RemovePages';
 import ExtractPages from './tools/ExtractPages';
@@ -50,7 +51,7 @@ const CLIENT_COMPONENTS: Record<string, React.ComponentType> = {
   'pdf-to-markdown': PdfToMarkdown,
   'pdf-to-html': PdfToHtml,
   'pdf-forms': PdfForms,
-  'optimize-pdf': CompressPDF,
+  'optimize-pdf': OptimizePDF,
   'compare-pdf': ComparePDF,
   'repair-pdf': RepairPDF,
 };
