@@ -188,7 +188,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'HtmlToPdf',
     accent: 'tertiary',
     route: '/html-to-pdf',
-    status: 'backend',
+    status: 'implemented',
   },
 
   // ---- Convert from PDF ----

@@ -22,6 +22,7 @@ import OCRPDF from './tools/OCRPDF';
 import PdfToText from './tools/PdfToText';
 import PdfToMarkdown from './tools/PdfToMarkdown';
 import PdfToHtml from './tools/PdfToHtml';
+import HtmlToPdf from './tools/HtmlToPdf';
 import PdfForms from './tools/PdfForms';
 import ComparePDF from './tools/ComparePDF';
 import RepairPDF from './tools/RepairPDF';
@@ -55,6 +56,7 @@ const CLIENT_COMPONENTS: Record<string, React.ComponentType> = {
   'optimize-pdf': OptimizePDF,
   'compare-pdf': ComparePDF,
   'repair-pdf': RepairPDF,
+  'html-to-pdf': HtmlToPdf,
   'scan-pdf': ScanPDF,
 };
 
@@ -67,7 +69,6 @@ const BACKEND_TOOL_IDS = new Set([
   'pdf-to-word',
   'pdf-to-excel',
   'pdf-to-powerpoint',
-  'html-to-pdf',
   'pdf-to-pdfa',
   'ai-summarizer',
   'translate-pdf',
