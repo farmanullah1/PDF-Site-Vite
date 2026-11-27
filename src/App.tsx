@@ -50,6 +50,7 @@ export default function App() {
           <Route path="/compare-pdf" element={<ToolPage />} />
           <Route path="/pdf-to-text" element={<ToolPage />} />
           <Route path="/pdf-to-markdown" element={<ToolPage />} />
+          <Route path="/pdf-to-html" element={<ToolPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />

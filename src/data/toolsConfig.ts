@@ -266,6 +266,18 @@ export const TOOLS: ToolConfig[] = [
   },
 
   {
+    id: 'pdf-to-html',
+    name: 'PDF to HTML',
+    description: 'Convert PDF pages into a styled HTML document.',
+    category: 'Convert from PDF',
+    categoryKey: 'convert-from-pdf',
+    icon: 'Code',
+    accent: 'tertiary',
+    route: '/pdf-to-html',
+    status: 'implemented',
+  },
+
+  {
     id: 'pdf-to-markdown',
     name: 'PDF to Markdown',
     description: 'Convert PDF pages into clean Markdown text (.md).',

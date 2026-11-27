@@ -20,6 +20,7 @@ import RedactPDF from './tools/RedactPDF';
 import OCRPDF from './tools/OCRPDF';
 import PdfToText from './tools/PdfToText';
 import PdfToMarkdown from './tools/PdfToMarkdown';
+import PdfToHtml from './tools/PdfToHtml';
 import ComparePDF from './tools/ComparePDF';
 import RepairPDF from './tools/RepairPDF';
 import ServerTool from './tools/ServerTool';
@@ -46,6 +47,7 @@ const CLIENT_COMPONENTS: Record<string, React.ComponentType> = {
   'ocr-pdf': OCRPDF,
   'pdf-to-text': PdfToText,
   'pdf-to-markdown': PdfToMarkdown,
+  'pdf-to-html': PdfToHtml,
   'optimize-pdf': CompressPDF,
   'compare-pdf': ComparePDF,
   'repair-pdf': RepairPDF,
