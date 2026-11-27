@@ -52,10 +52,14 @@ export default function Home() {
                 100% free - works in your browser
               </div>
               <h1 className="font-display leading-[4.25rem] text-[3.75rem] font-bold tracking-tight text-[#161616] sm:text-[4.5rem]">
-                Every tool you need to work with PDFs in one place
+
+                PDF tools to work with PDF files
+
               </h1>
               <p className="max-w-[45rem] text-[1.125rem] leading-relaxed text-[#47474f]">
-                Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.
+
+                Edit, convert, compress, organize, and sign your PDF files easily and for free. All tools to work with PDF files in one place.
+
               </p>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
                 <Dropzone
