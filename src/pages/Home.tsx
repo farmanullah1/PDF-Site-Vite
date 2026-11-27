@@ -11,13 +11,18 @@ import {
   IconIntelligence_pdf_summarize,
   IconIntelligence_pdf_to_markdown,
   IconIntelligence_translate_pdf,
+  IconJpgToPdf,
   IconMerge_pdf,
   IconOcr_pdf,
   IconOrganize_organize_pdf,
   IconOrganize_pdf,
   IconOrganize_scan_pdf,
+  IconPageNumbers,
   IconPdf_summarize,
   IconPdf_to_markdown,
+  IconPdfToHtml,
+  IconPdfToJpg,
+  IconPdfToText,
   IconProtect_pdf,
   IconRedact_pdf,
   IconRemove_pages,
@@ -30,6 +35,8 @@ import {
   IconSign_pdf,
   IconSplit_pdf,
   IconTranslate_pdf,
+  IconUnlock,
+  IconWatermark,
 } from '../components/pdf/icons';
 import { TOOL_CATEGORIES, toolsByCategory, ToolConfig, allImplementedTools } from '../data/toolsConfig';
 
@@ -127,10 +134,15 @@ const ICON_COMPONENTS: Record<string, React.ComponentType<React.SVGProps<SVGSVGE
   Edit: IconEdit_pdf,
   Forms: IconEdit_pdf,
   HtmlToPdf: IconHtml_to_pdf,
+  JpgToPdf: IconJpgToPdf,
   Merge: IconMerge_pdf,
   OCR: IconOcr_pdf,
   Organize: IconOrganize_pdf,
+  PageNumbers: IconPageNumbers,
+  PdfToHtml: IconPdfToHtml,
+  PdfToJpg: IconPdfToJpg,
   PdfToMarkdown: IconPdf_to_markdown,
+  PdfToText: IconPdfToText,
   Protect: IconProtect_pdf,
   Redact: IconRedact_pdf,
   Remove: IconRemove_pages,
@@ -141,6 +153,8 @@ const ICON_COMPONENTS: Record<string, React.ComponentType<React.SVGProps<SVGSVGE
   Translate: IconTranslate_pdf,
   PdfToPdfA: IconConvert_pdf_to_pdfa,
   AI: IconIntelligence_pdf_summarize,
+  Unlock: IconUnlock,
+  Watermark: IconWatermark,
 };
 
 function FallbackIcon(): React.ReactNode {
