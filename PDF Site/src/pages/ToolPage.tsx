@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { toolById } from '../data/toolsConfig';
 import MergePDF from './tools/MergePDF';
 import SplitPDF from './tools/SplitPDF';
@@ -20,6 +20,7 @@ import RedactPDF from './tools/RedactPDF';
 import OCRPDF from './tools/OCRPDF';
 import PdfToText from './tools/PdfToText';
 import ComparePDF from './tools/ComparePDF';
+import RepairPDF from './tools/RepairPDF';
 import ServerTool from './tools/ServerTool';
 import ComingSoon from './tools/ComingSoon';
 import type { ServerToolOption } from './tools/ServerTool';
@@ -45,6 +46,7 @@ const CLIENT_COMPONENTS: Record<string, React.ComponentType> = {
   'pdf-to-text': PdfToText,
   'optimize-pdf': CompressPDF,
   'compare-pdf': ComparePDF,
+  'repair-pdf': RepairPDF,
 };
 
 // Backend-dependent tools rendered via ServerTool. Requires the Express server (see server/).
@@ -59,14 +61,14 @@ const BACKEND_TOOL_IDS = new Set([
   'html-to-pdf',
   'pdf-to-pdfa',
   'pdf-to-markdown',
-  'repair-pdf',
   'pdf-forms',
   'ai-summarizer',
   'translate-pdf',
 ]);
 
 export default function ToolPage() {
-  const { toolId } = useParams<{ toolId: string }>();
+  const { pathname } = useLocation();
+  const toolId = pathname.replace(/^\//, '');
   const tool = useMemo(() => (toolId ? toolById(toolId) : undefined), [toolId]);
 
   if (!tool) {

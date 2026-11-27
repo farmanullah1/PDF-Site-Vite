@@ -120,13 +120,13 @@ export const TOOLS: ToolConfig[] = [
   {
     id: 'repair-pdf',
     name: 'Repair PDF',
-    description: 'Fix broken or corrupted PDF files automatically.',
+    description: 'Fix broken or corrupted PDF files by re-serializing them.',
     category: 'Organize PDF',
     categoryKey: 'organize',
     icon: 'Wrench',
     accent: 'primary',
     route: '/repair-pdf',
-    status: 'backend',
+    status: 'implemented',
   },
   {
     id: 'ocr-pdf',
