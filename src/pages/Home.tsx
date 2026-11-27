@@ -344,10 +344,12 @@ function ToolCard({ tool }: { tool: ToolConfig }) {
   );
 }
 
-function toolIcon(name: string): string {
+function toolIcon(name: string): React.ReactNode {
   const svgMap: Record<string, string> = {
     'Compare': '/assets/icons/compare-pdf.svg',
     'Compress': '/assets/icons/compress_pdf.svg',
+    'Crop': '/assets/icons/crop-pdf.svg',
+    'Edit': '/assets/icons/edit-pdf.svg',
     'Forms': '/assets/icons/pdf-forms.svg',
     'HtmlToPdf': '/assets/icons/html-to-pdf.svg',
     'Merge': '/assets/icons/merge_pdf.svg',
@@ -367,11 +369,12 @@ function toolIcon(name: string): string {
   const path = svgMap[name];
   if (path) {
     return (<img
+      key={path}
       src={path}
       className="h-full w-full max-w-full max-h-full object-contain"
       alt=""
       aria-hidden="true"
     />);
   }
-  return '';
+  return null;
 }
