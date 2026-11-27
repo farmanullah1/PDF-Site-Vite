@@ -25,7 +25,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
   return (
     <Link
       to={tool.route}
-      className="flex flex-col items-start gap-3 p-3 tool-card group"
+      className="flex flex-col items-start gap-3 p-3 tool-card group transition-all duration-200 border border-[#c4c4cc] rounded-xl bg-white hover:-translate-y-1 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] hover:border-[#e5322d] cursor-pointer"
       aria-label={`${tool.name} — ${tool.description}`}
     >
       <div
