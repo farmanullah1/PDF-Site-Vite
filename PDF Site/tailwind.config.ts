@@ -8,14 +8,19 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'sans-serif'],
-        heading: ['Poppins', 'Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['Graphik', 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        heading: ['Graphik', 'Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       colors: {
+        // iLovePDF brand colors extracted from SVG fills and CSS
         primary: {
-          DEFAULT: '#e5322d',
-          container: '#ff6a58',
+          DEFAULT: '#EE6C4D',
+          container: '#FF7651',
         },
+        secondary: '#295795',
+        tertiary: '#ab6993',
+        quaternary: '#B7A001',
+        // Surface colors
         surface: {
           DEFAULT: '#f5f5fa',
           container: '#e8e8ed',
@@ -24,10 +29,27 @@ export default {
           DEFAULT: '#161616',
           variant: '#47474f',
         },
-        secondary: '#4a7aab',
-        tertiary: '#7253e2',
+        // Accent colors from SVG icons
+        accent: {
+          orange: '#EE6C4D',
+          'orange-dark': '#D04526',
+          green: '#8FBC5D',
+          'green-dark': '#2E7237',
+          blue: '#295795',
+          'blue-light': '#5F83C6',
+          purple: '#ab6993',
+          yellow: '#FBEFA8',
+          'yellow-dark': '#B7A001',
+          gold: '#D6BF2D',
+          'red-accent': '#FF7651',
+        },
         outline: '#c4c4cc',
         border: '#e8e8ef',
+        // Brand red variants (from existing codebase, kept for compatibility)
+        'brand-red': '#e5322d',
+        'brand-red-container': '#ff6a58',
+        'brand-red-50': '#fbeae7',
+        'brand-red-100': '#f6d4d0',
       },
       fontSize: {
         display: ['3.75rem', { lineHeight: '4.25rem', fontWeight: '700', letterSpacing: '-0.02em' }],
@@ -42,6 +64,17 @@ export default {
         card: '0 1px 2px rgba(16,24,32,0.06), 0 1px 1px rgba(16,24,32,0.04)',
         'card-hover': '0 8px 24px rgba(16,24,32,0.12), 0 2px 6px rgba(16,24,32,0.06)',
         header: '0 1px 2px rgba(16,24,32,0.05)',
+      },
+      borderRadius: {
+        DEFAULT: '4px',
+        sm: '2px',
+        md: '6px',
+        lg: '8px',
+        xl: '12px',
+        full: '9999px',
+      },
+      spacing: {
+        '18': '4.5rem',
       },
     },
   },

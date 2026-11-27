@@ -14,19 +14,19 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           {/* Client-side (real) processing tools */}
-          <Route path="/merge-pdf" element={<ToolPage />} />
-          <Route path="/split-pdf" element={<ToolPage />} />
-          <Route path="/rotate-pdf" element={<ToolPage />} />
-          <Route path="/jpg-to-pdf" element={<ToolPage />} />
-          <Route path="/pdf-to-jpg" element={<ToolPage />} />
-          <Route path="/add-watermark" element={<ToolPage />} />
-          <Route path="/unlock-pdf" element={<ToolPage />} />
-          <Route path="/compress-pdf" element={<ToolPage />} />
+          <Route path="/merge_pdf" element={<ToolPage />} />
+          <Route path="/split_pdf" element={<ToolPage />} />
+          <Route path="/rotate_pdf" element={<ToolPage />} />
+          <Route path="/jpg_to_pdf" element={<ToolPage />} />
+          <Route path="/pdf_to_jpg" element={<ToolPage />} />
+          <Route path="/pdf_add_watermark" element={<ToolPage />} />
+          <Route path="/unlock_pdf" element={<ToolPage />} />
+          <Route path="/compress_pdf" element={<ToolPage />} />
           <Route path="/sign-pdf" element={<ToolPage />} />
           <Route path="/remove-pages" element={<ToolPage />} />
           <Route path="/extract-pages" element={<ToolPage />} />
           <Route path="/organize-pdf" element={<ToolPage />} />
-          <Route path="/add-page-numbers" element={<ToolPage />} />
+          <Route path="/add_pdf_page_number" element={<ToolPage />} />
           <Route path="/edit-pdf" element={<ToolPage />} />
           <Route path="/crop-pdf" element={<ToolPage />} />
           <Route path="/redact-pdf" element={<ToolPage />} />
@@ -34,25 +34,25 @@ export default function App() {
           <Route path="/optimize-pdf" element={<ToolPage />} />
           {/* Server-side tools (require backend binaries) */}
           <Route path="/protect-pdf" element={<ToolPage />} />
-          <Route path="/word-to-pdf" element={<ToolPage />} />
-          <Route path="/excel-to-pdf" element={<ToolPage />} />
-          <Route path="/powerpoint-to-pdf" element={<ToolPage />} />
-          <Route path="/pdf-to-word" element={<ToolPage />} />
-          <Route path="/pdf-to-excel" element={<ToolPage />} />
-          <Route path="/pdf-to-powerpoint" element={<ToolPage />} />
+          <Route path="/word_to_pdf" element={<ToolPage />} />
+          <Route path="/excel_to_pdf" element={<ToolPage />} />
+          <Route path="/powerpoint_to_pdf" element={<ToolPage />} />
+          <Route path="/pdf_to_word" element={<ToolPage />} />
+          <Route path="/pdf_to_excel" element={<ToolPage />} />
+          <Route path="/pdf_to_powerpoint" element={<ToolPage />} />
           <Route path="/html-to-pdf" element={<ToolPage />} />
-          <Route path="/pdf-to-pdfa" element={<ToolPage />} />
+          <Route path="/convert-pdf-to-pdfa" element={<ToolPage />} />
           <Route path="/pdf-to-markdown" element={<ToolPage />} />
+          <Route path="/pdf-to-text" element={<ToolPage />} />
+          <Route path="/pdf_to_html" element={<ToolPage />} />
+          <Route path="/scan-pdf" element={<ToolPage />} />
           <Route path="/repair-pdf" element={<ToolPage />} />
           <Route path="/pdf-forms" element={<ToolPage />} />
-          <Route path="/ai-summarizer" element={<ToolPage />} />
+          <Route path="/pdf-summarize" element={<ToolPage />} />
           <Route path="/translate-pdf" element={<ToolPage />} />
           <Route path="/compare-pdf" element={<ToolPage />} />
-          <Route path="/pdf-to-text" element={<ToolPage />} />
-          <Route path="/pdf-to-markdown" element={<ToolPage />} />
-          <Route path="/pdf-to-html" element={<ToolPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/register" element={<SignupPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<PrivacyPage />} />
           <Route path="*" element={<NotFound />} />
