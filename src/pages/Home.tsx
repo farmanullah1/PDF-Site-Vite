@@ -34,7 +34,7 @@ export default function Home() {
               <h1 className="font-display leading-[4.25rem] text-[3.75rem] font-bold tracking-tight text-[#161616] sm:text-[4.5rem]">
                 Every tool you need to work with PDFs in one place
               </h1>
-              <p className="text-[1.125rem] leading-relaxed text-[#47474f]">
+              <p className="max-w-[45rem] text-[1.125rem] leading-relaxed text-[#47474f]">
                 Every tool you need to use PDFs, at your fingertips. All are 100% free and easy to use!
               </p>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
@@ -206,6 +206,54 @@ export default function Home() {
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== iLoveIMG cross-promo ===== */}
+      <section className="border-t border-[#c4c4cc]/50 bg-[#f5f5fa] px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <div className="mx-auto max-w-[1280px]">
+          <div className="rounded-2xl border border-[#e5322d]/30 bg-[#fbeae7] p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col gap-1 sm:text-left text-center">
+              <h3 className="text-[1.125rem] font-semibold text-[#161616]">Want to edit images?</h3>
+              <p className="text-sm text-[#47474f]">Try iLoveIMG — compress, convert, crop, and edit JPG/PNG images online.</p>
+            </div>
+            <Button
+              onClick={() => { window.open('https://www.iloveimg.com/', '_blank', 'noopener'); }}
+              className="hidden sm:inline-flex"
+            >
+              Go to iLoveIMG
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Trust section ===== */}
+      <section className="border-t border-[#c4c4cc]/50 bg-[#f5f5fa] px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <div className="mx-auto max-w-[1280px]">
+          <div className="mb-8 text-center">
+            <h2 className="text-[1.25rem] font-semibold tracking-tight text-[#161616]">Trusted by millions of users</h2>
+            <p className="mt-2 text-sm text-[#47474f]">PDF tools you can rely on, across every device and platform.</p>
+          </div>
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 lg:grid-cols-6">
+            {[
+              { label: 'Desktop', sub: 'Windows · macOS' },
+              { label: 'iOS', sub: 'iPhone · iPad' },
+              { label: 'Android', sub: 'Mobile app' },
+              { label: 'Integrations', sub: 'Google Drive · Dropbox' },
+              { label: 'API', sub: 'For developers' },
+              { label: 'Security', sub: '256-bit SSL' },
+            ].map((item) => (
+              <div key={item.label} className="flex flex-col items-center gap-2 p-3 rounded-lg border border-[#c4c4cc]/50 bg-white hover:border-[#e5322d] transition-colors">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#f5f5fa]">
+                  <span className="text-xs font-semibold text-[#47474f]">
+                    {item.label.charAt(0)}
+                  </span>
+                </div>
+                <span className="text-xs font-medium text-[#161616]">{item.label}</span>
+                <span className="text-[0.75rem] text-[#47474f]">{item.sub}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
