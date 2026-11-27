@@ -49,7 +49,7 @@ export default function Home() {
             <div className="flex flex-1 flex-col gap-5 max-w-xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-[#c4c4cc]/60 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#47474f]">
                 <span className="inline-block h-2 w-2 rounded-full bg-[#EE6C4D]" />
-                100% free · works in your browser
+                100% free - works in your browser
               </div>
               <h1 className="font-display leading-[4.25rem] text-[3.75rem] font-bold tracking-tight text-[#161616] sm:text-[4.5rem]">
                 Every tool you need to work with PDFs in one place
@@ -318,63 +318,120 @@ export default function Home() {
 }
 
 function ToolCard({ tool }: { tool: ToolConfig }) {
+
   const navigate = useNavigate();
+
   const isNew = tool.new;
 
   return (
+
     <a
+
       href={tool.route}
+
       onClick={(e) => { e.preventDefault(); navigate(tool.route); }}
+
       className="tools-item block"
+
       title={tool.name}
+
     >
+
       <div className="tool-card p-5 flex flex-col h-full">
+
         <div className="tools__item__icon mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#f5f5fa]">
-          <span className="text-xl">{toolIcon(tool.icon)}</span>
+
+          {toolIcon(tool.icon)}
+
         </div>
+
         <h3 className="text-sm font-semibold text-[#161616] mb-1 leading-snug">{tool.name}</h3>
+
         <div className="tools__item__content flex-1">
+
           <p className="text-[12px] leading-relaxed text-[#47474f]">{tool.description}</p>
+
         </div>
+
         {isNew && (
+
           <span className="mt-2 new-badge">New!</span>
+
         )}
+
       </div>
+
     </a>
+
   );
+
 }
 
 function toolIcon(name: string): React.ReactNode {
+
   const svgMap: Record<string, string> = {
+
     'Compare': '/assets/icons/compare-pdf.svg',
+
     'Compress': '/assets/icons/compress_pdf.svg',
+
     'Crop': '/assets/icons/crop-pdf.svg',
+
     'Edit': '/assets/icons/edit-pdf.svg',
+
     'Forms': '/assets/icons/pdf-forms.svg',
+
     'HtmlToPdf': '/assets/icons/html-to-pdf.svg',
+
     'Merge': '/assets/icons/merge_pdf.svg',
+
     'OCR': '/assets/icons/ocr-pdf.svg',
+
     'Organize': '/assets/icons/organize-pdf.svg',
+
     'PdfToMarkdown': '/assets/icons/pdf-to-markdown.svg',
+
     'PdfToPdfA': '/assets/icons/convert-pdf-to-pdfa.svg',
+
     'Protect': '/assets/icons/protect-pdf.svg',
+
     'Redact': '/assets/icons/redact-pdf.svg',
+
     'Remove': '/assets/icons/remove-pages.svg',
+
     'Repair': '/assets/icons/repair-pdf.svg',
+
     'Scan': '/assets/icons/scan-pdf.svg',
+
     'Sign': '/assets/icons/sign-pdf.svg',
+
     'Split': '/assets/icons/split_pdf.svg',
+
     'Translate': '/assets/icons/translate-pdf.svg',
+
   };
+
   const path = svgMap[name];
+
   if (path) {
+
     return (<img
+
       key={path}
+
       src={path}
+
       className="h-full w-full max-w-full max-h-full object-contain"
+
       alt=""
+
       aria-hidden="true"
+
     />);
+
   }
+
   return null;
+
 }
+
