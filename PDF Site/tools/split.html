@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Split PDF — PDF Toolkit</title>
+  <link rel="stylesheet" href="../styles/global.css" />
+  <link rel="stylesheet" href="../styles/tool.css" />
+</head>
+<body>
+  <script type="module">
+    import { toolShell, showResult, escapeHtml } from '../js/tool-shell.js';
+    import { ensurePdfLib, readFileAsBuffer } from '../js/pdf.js';
+
+    toolShell({
+      mark: 'S',
+      title: 'Split PDF',
+      summary: 'Extract selected pages or a page range into a new PDF file.',
+      category: 'organize',
+      preUpload: `
+        <section class="split-mode">
+          <label><input type="radio" name="split-mode" value="single" checked /> Extract individual pages</label>
+          <label><input type="radio" name="split-mode" value="range" /> Extract a page range</label>
+        </section>
+      `,
+      postUpload: `
+        <section class="split-inputs" hidden>
+          <div class="split-single">
+            <p>Select the pages to extract (comma-separated, e.g. 1,3,5):</p>
+            <input class="split-pages" type="text" placeholder="1, 3, 5" />
+          </div>
+          <div class="split-range" hidden>
+            <p>Extract pages from <input class="split-from" type="number" min="1" value="1" /> to <input class="split-to" type="number" min="1" value="2" /></p>
+          </div>
+        </section>
+      `,
+    });
+
+    const main = document.querySelector('main.tool-main');
+    main.__runToolAction = async () => {
+      const item = main.querySelector('.file-item');
+      if (!item || !item.__file) throw new Error('Add one PDF first.');
+      const file = item.__file;
+      const buffer = await readFileAsBuffer(file);
+      const PDFLib = await ensurePdfLib();
+      const src = await PDFLib.PDFDocument.load(buffer);
+      const total = src.getPageCount();
+      const mode = main.querySelector('input[name=split-mode]:checked').value;
+      let pages = [];
+
+      if (mode === 'single') {
+        const raw = main.querySelector('.split-pages').value.trim();
+        if (!raw) throw new Error('Enter page numbers to extract.');
+        const nums = raw.split(/[,\s]+/).map((s) => parseInt(s, 10)).filter((n) => !isNaN(n) && n >= 1 && n <= total);
+        if (!nums.length) throw new Error('No valid page numbers.');
+        pages = nums;
+      } else {
+        const from = parseInt(main.querySelector('.split-from').value, 10);
+        const to = parseInt(main.querySelector('.split-to').value, 10);
+        if (isNaN(from) || isNaN(to) || from > to || from < 1 || to > total) {
+          throw new Error(`Enter a valid range between 1 and ${total}.`);
+        }
+        pages = [];
+        for (let i = from; i <= to; i++) pages.push(i);
+      }
+
+      const out = await PDFLib.PDFDocument.create();
+      const copied = await out.copyPages(src, pages);
+      const indices = copied.map((p) => p.index);
+      for (const p of copied) await out.addPage(p);
+      const bytes = await out.save();
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      showResult(main, 'ok', `Extracted ${pages.length} page${pages.length === 1 ? '' : 's'} into a new PDF.`, blob, 'extracted.pdf');
+    };
+
+    function addFiles(files) {
+      const list = main.querySelector('.file-items');
+      files.forEach((file) => {
+        const li = document.createElement('li');
+        li.className = 'file-item';
+        li.__file = file;
+        const meta = file.size >= 1024 * 1024 ? (file.size / (1024 * 1024)).toFixed(2) + ' MB' : (file.size / 1024).toFixed(1) + ' KB';
+        li.innerHTML = `
+          <span class="file-icon">PDF</span>
+          <span class="file-name">${escapeHtml(file.name)}</span>
+          <span class="file-size">${meta}</span>
+          <button class="remove-file" type="button" aria-label="Remove ${escapeHtml(file.name)}">Remove</button>
+        `;
+        li.querySelector('.remove-file').addEventListener('click', () => {
+          li.remove();
+          if (!list.querySelectorAll('.file-item').length) {
+            main.querySelector('.file-list').hidden = true;
+            main.querySelector('.split-inputs').hidden = true;
+          }
+        });
+        list.appendChild(li);
+      });
+      main.querySelector('.file-list').hidden = false;
+      main.querySelector('.split-inputs').hidden = false;
+    }
+
+    main.querySelector('.dropzone').addEventListener('drop', (e) => {
+      e.preventDefault();
+      main.querySelector('.dropzone').classList.remove('dragover');
+      const files = Array.from(e.dataTransfer.files || []).filter((f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
+      if (files.length) addFiles(files);
+    });
+    main.querySelector('.dropzone').addEventListener('dragover', (e) => e.preventDefault());
+    main.querySelector('.file-input').addEventListener('change', () => {
+      addFiles(Array.from(main.querySelector('.file-input').files || []));
+      main.querySelector('.file-input').value = '';
+    });
+    main.querySelector('.choose-btn').addEventListener('click', () => main.querySelector('.file-input').click());
+
+    main.querySelectorAll('input[name=split-mode]').forEach((r) => {
+      r.addEventListener('change', () => {
+        const single = main.querySelector('.split-single');
+        const range = main.querySelector('.split-range');
+        if (r.value === 'single') {
+          single.hidden = false;
+          range.hidden = true;
+        } else {
+          single.hidden = true;
+          range.hidden = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

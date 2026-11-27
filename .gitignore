@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+PDF Site/node_modules/
+PDF Site/.vite/
+
+# Large binaries / reverse-engineering artifacts (not for git)
+apktool_out/
+rebuild/
+musicplayer.apk
+musicplayer.musicapps.music.mp3player_*.apk
+apktool_3.0.3.jar
+*.apk
+*.jar
+
+# Freebuff workspace metadata
+.freebuff/
+
+# Build / IDE / OS debris
+/dist
+/.vite
+.DS_Store
+Thumbs.db
+*.pyc
+__pycache__/
+*.log
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project

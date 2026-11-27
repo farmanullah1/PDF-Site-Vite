@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rotate PDF — PDF Toolkit</title>
+  <link rel="stylesheet" href="../styles/global.css" />
+  <link rel="stylesheet" href="../styles/tool.css" />
+</head>
+<body>
+  <script type="module">
+    import { toolShell, showResult, escapeHtml } from '../js/tool-shell.js';
+    import { ensurePdfLib, readFileAsBuffer } from '../js/pdf.js';
+
+    toolShell({
+      mark: 'R',
+      title: 'Rotate PDF',
+      summary: 'Rotate selected pages by 90, 180, or 270 degrees.',
+      category: 'edit',
+      postUpload: `
+        <section class="rotate-settings">
+          <label><input type="radio" name="rotate-all" value="90" checked /> Rotate all pages 90°</label>
+          <label><input type="radio" name="rotate-all" value="180" /> Rotate all pages 180°</label>
+          <label><input type="radio" name="rotate-all" value="270" /> Rotate all pages 270°</label>
+          <p><a href="#custom" style="display:inline-block;margin-top:8px" id="custom-toggle">Rotate specific pages instead</a></p>
+          <div class="rotate-custom" hidden id="custom">
+            <p>Enter page numbers and the rotation for each (e.g. 1=90, 3=180):</p>
+            <input class="rotate-map" type="text" placeholder="1=90, 3=180" />
+          </div>
+        </section>
+      `,
+    });
+
+    const main = document.querySelector('main.tool-main');
+    main.__runToolAction = async () => {
+      const item = main.querySelector('.file-item');
+      if (!item || !item.__file) throw new Error('Add one PDF first.');
+      const file = item.__file;
+      const buffer = await readFileAsBuffer(file);
+      const PDFLib = await ensurePdfLib();
+      const src = await PDFLib.PDFDocument.load(buffer);
+      const total = src.getPageCount();
+      const mode = main.querySelector('#custom').hidden;
+      const out = await PDFLib.PDFDocument.create();
+
+      if (mode) {
+        const deg = parseInt(main.querySelector('input[name=rotate-all]:checked').value, 10);
+        const pages = await out.copyPages(src, src.getPageIndices());
+        for (const p of pages) {
+          p.rotate = deg;
+        }
+        const indices = pages.map((p) => p.index);
+        for (const p of pages) await out.addPage(p);
+      } else {
+        const raw = main.querySelector('.rotate-map').value.trim();
+        if (!raw) throw new Error('Enter page rotations, e.g. 1=90, 3=180.');
+        const map = {};
+        raw.split(/[,;]+/).forEach((part) => {
+          const m = part.trim().match(/^(\d+)\s*=\s*(\d+)$/);
+          if (!m) return;
+          map[parseInt(m[1], 10)] = parseInt(m[2], 10);
+        });
+        const indices = src.getPageIndices();
+        const copied = await out.copyPages(src, indices);
+        copied.forEach((p) => {
+          const pg = p.index + 1;
+          if (map[pg]) p.rotate = map[pg];
+        });
+        for (const p of copied) await out.addPage(p);
+      }
+
+      const bytes = await out.save();
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      showResult(main, 'ok', 'Rotated the file and created a new PDF.', blob, 'rotated.pdf');
+    };
+
+    function addFiles(files) {
+      const list = main.querySelector('.file-items');
+      files.forEach((file) => {
+        const li = document.createElement('li');
+        li.className = 'file-item';
+        li.__file = file;
+        const meta = file.size >= 1024 * 1024 ? (file.size / (1024 * 1024)).toFixed(2) + ' MB' : (file.size / 1024).toFixed(1) + ' KB';
+        li.innerHTML = `
+          <span class="file-icon">PDF</span>
+          <span class="file-name">${escapeHtml(file.name)}</span>
+          <span class="file-size">${meta}</span>
+          <button class="remove-file" type="button" aria-label="Remove ${escapeHtml(file.name)}">Remove</button>
+        `;
+        li.querySelector('.remove-file').addEventListener('click', () => {
+          li.remove();
+          if (!list.querySelectorAll('.file-item').length) {
+            main.querySelector('.file-list').hidden = true;
+          }
+        });
+        list.appendChild(li);
+      });
+      main.querySelector('.file-list').hidden = false;
+      main.querySelector('#custom').hidden = true;
+    }
+
+    main.querySelector('.dropzone').addEventListener('drop', (e) => {
+      e.preventDefault();
+      main.querySelector('.dropzone').classList.remove('dragover');
+      const files = Array.from(e.dataTransfer.files || []).filter((f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
+      if (files.length) addFiles(files);
+    });
+    main.querySelector('.dropzone').addEventListener('dragover', (e) => e.preventDefault());
+    main.querySelector('.file-input').addEventListener('change', () => {
+      addFiles(Array.from(main.querySelector('.file-input').files || []));
+      main.querySelector('.file-input').value = '';
+    });
+    main.querySelector('.choose-btn').addEventListener('click', () => main.querySelector('.file-input').click());
+    main.querySelector('#custom-toggle').addEventListener('click', () => {
+      main.querySelector('#custom').hidden = false;
+    });
+  </script>
+</body>
+</html>

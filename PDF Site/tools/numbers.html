@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add page numbers — PDF Toolkit</title>
+  <link rel="stylesheet" href="../styles/global.css" />
+  <link rel="stylesheet" href="../styles/tool.css" />
+</head>
+<body>
+  <script type="module">
+    import { toolShell, showResult, escapeHtml } from '../js/tool-shell.js';
+    import { ensurePdfLib, readFileAsBuffer } from '../js/pdf.js';
+
+    toolShell({
+      mark: '#',
+      title: 'Add page numbers',
+      summary: 'Stamp page numbers onto your PDF pages, with a few simple position choices.',
+      category: 'edit',
+      postUpload: `
+        <section class="numbers-settings">
+          <label>Number format
+            <select class="number-format">
+              <option value="n">1, 2, 3…</option>
+              <option value="n of m">1 of 10, 2 of 10…</option>
+            </select>
+          </label>
+          <label>Position
+            <select class="number-position">
+              <option value="bottom-center">Bottom center</option>
+              <option value="bottom-right">Bottom right</option>
+              <option value="bottom-left">Bottom left</option>
+              <option value="top-center">Top center</option>
+              <option value="top-right">Top right</option>
+              <option value="top-left">Top left</option>
+            </select>
+          </label>
+          <label>Font size
+            <input class="number-fontsize" type="number" min="6" max="48" value="12" />
+          </label>
+          <label>Offset from edge (points)
+            <input class="number-offset" type="number" min="0" max="200" value="12" />
+          </label>
+        </section>
+      `,
+    });
+
+    const main = document.querySelector('main.tool-main');
+    main.__runToolAction = async () => {
+      const item = main.querySelector('.file-item');
+      if (!item || !item.__file) throw new Error('Add one PDF first.');
+      const file = item.__file;
+      const buffer = await readFileAsBuffer(file);
+      const PDFLib = await ensurePdfLib();
+      const src = await PDFLib.PDFDocument.load(buffer);
+      const total = src.getPageCount();
+      const out = await PDFLib.PDFDocument.create();
+      const pages = await out.copyPages(src, src.getPageIndices());
+      const format = main.querySelector('.number-format').value;
+      const position = main.querySelector('.number-position').value;
+      const fontsize = Number(main.querySelector('.number-fontsize').value) || 12;
+      const offset = Number(main.querySelector('.number-offset').value) || 12;
+
+      const font = await out.embedFont(PDFLib.StandardFonts.Helvetica);
+      const indices = pages.map((p) => p.index);
+      for (const p of pages) await out.addPage(p);
+
+      for (let i = 0; i < pages.length; i++) {
+        const pg = pages[i];
+        const num = i + 1;
+        const label = format === 'n of m' ? `${num} of ${total}` : String(num);
+        const width = font.widthOfTextAtSize(label, fontsize);
+        const height = fontsize * 1.2;
+        const mb = pg.getMediaBox();
+        const pageWidth = mb.width;
+        const pageHeight = mb.height;
+        let x, y;
+        const bottom = pageHeight - offset;
+        const top = offset;
+        if (position.includes('bottom')) y = bottom - height;
+        else y = top;
+        if (position.endsWith('center')) x = (pageWidth - width) / 2;
+        else if (position.endsWith('right')) x = pageWidth - width - offset;
+        else x = offset;
+        pg.drawText(label, { font, size: fontsize, x, y });
+      }
+
+      const bytes = await out.save();
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      showResult(main, 'ok', `Added page numbers to ${pages.length} page${pages.length === 1 ? '' : 's'}.`, blob, 'with-page-numbers.pdf');
+    };
+
+    function addFiles(files) {
+      const list = main.querySelector('.file-items');
+      files.forEach((file) => {
+        const li = document.createElement('li');
+        li.className = 'file-item';
+        li.__file = file;
+        const meta = file.size >= 1024 * 1024 ? (file.size / (1024 * 1024)).toFixed(2) + ' MB' : (file.size / 1024).toFixed(1) + ' KB';
+        li.innerHTML = `
+          <span class="file-icon">PDF</span>
+          <span class="file-name">${escapeHtml(file.name)}</span>
+          <span class="file-size">${meta}</span>
+          <button class="remove-file" type="button" aria-label="Remove ${escapeHtml(file.name)}">Remove</button>
+        `;
+        li.querySelector('.remove-file').addEventListener('click', () => {
+          li.remove();
+          if (!list.querySelectorAll('.file-item').length) {
+            main.querySelector('.file-list').hidden = true;
+          }
+        });
+        list.appendChild(li);
+      });
+      main.querySelector('.file-list').hidden = false;
+    }
+
+    main.querySelector('.dropzone').addEventListener('drop', (e) => {
+      e.preventDefault();
+      main.querySelector('.dropzone').classList.remove('dragover');
+      const files = Array.from(e.dataTransfer.files || []).filter((f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
+      if (files.length) addFiles(files);
+    });
+    main.querySelector('.dropzone').addEventListener('dragover', (e) => e.preventDefault());
+    main.querySelector('.file-input').addEventListener('change', () => {
+      addFiles(Array.from(main.querySelector('.file-input').files || []));
+      main.querySelector('.file-input').value = '';
+    });
+    main.querySelector('.choose-btn').addEventListener('click', () => main.querySelector('.file-input').click());
+  </script>
+</body>
+</html>
