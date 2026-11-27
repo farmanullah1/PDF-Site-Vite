@@ -3,6 +3,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown, Globe, User, Plus } from 'lucide-react';
 import MobileNav from './MobileNav';
 
+const LANGUAGES = [
+  { code: 'en', label: 'English', short: 'EN' },
+  { code: 'es', label: 'Español', short: 'ES' },
+  { code: 'fr', label: 'Français', short: 'FR' },
+  { code: 'de', label: 'Deutsch', short: 'DE' },
+  { code: 'it', label: 'Italiano', short: 'IT' },
+  { code: 'pt', label: 'Português', short: 'PT' },
+  { code: 'nl', label: 'Nederlands', short: 'NL' },
+  { code: 'pl', label: 'Polski', short: 'PL' },
+  { code: 'ar', label: 'العربية', short: 'AR' },
+  { code: 'tr', label: 'Türkçe', short: 'TR' },
+  { code: 'ru', label: 'Русский', short: 'RU' },
+];
+
 const NAV_LINKS = [
   { label: 'Merge PDF', href: '/merge-pdf' },
   { label: 'Split PDF', href: '/split-pdf' },
@@ -34,6 +48,13 @@ export default function Header() {
   const [convertOpen, setConvertOpen] = useState(false);
   const [allOpen, setAllOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [currentLang, setCurrentLang] = useState('en');
+
+  // Keep <html lang> in sync (client-only; no server call).
+  useEffect(() => {
+    document.documentElement.lang = currentLang;
+  }, [currentLang]);
+
   const convertRef = useRef<HTMLDivElement>(null);
   const allRef = useRef<HTMLDivElement>(null);
   const langRef = useRef<HTMLDivElement>(null);
@@ -79,7 +100,7 @@ export default function Header() {
         {/* Right actions */}
         <div className="flex items-center gap-3">
           {/* Language selector */}
-          <LangSelector ref={langRef} open={langOpen} onToggle={() => setLangOpen((v) => !v)} />
+          <LangSelector currentLang={currentLang} ref={langRef} open={langOpen} onToggle={() => setLangOpen((v) => !v)} onSelect={(code) => { setLangOpen(false); setCurrentLang(code); }} />
 
           {/* Auth */}
           <Link to="/login" className="hidden items-center justify-center rounded-lg px-4 py-2 text-sm font-medium text-[#161616] transition-colors hover:bg-[#f0f0f5] sm:flex">
@@ -183,20 +204,8 @@ function Dropdown({
   );
 }
 
-function LangSelector({ ref, open, onToggle }: { ref?: React.Ref<HTMLDivElement>; open: boolean; onToggle: () => void }) {
-  const languages = [
-    { code: 'en', label: 'English' },
-    { code: 'es', label: 'Español' },
-    { code: 'fr', label: 'Français' },
-    { code: 'de', label: 'Deutsch' },
-    { code: 'it', label: 'Italiano' },
-    { code: 'pt', label: 'Português' },
-    { code: 'nl', label: 'Nederlands' },
-    { code: 'pl', label: 'Polski' },
-    { code: 'ar', label: 'العربية' },
-    { code: 'tr', label: 'Türkçe' },
-    { code: 'ru', label: 'Русский' },
-  ];
+function LangSelector({ currentLang, ref, open, onToggle, onSelect }: { currentLang: string; ref?: React.RefObject<HTMLDivElement>; open: boolean; onToggle: () => void; onSelect: (code: string) => void }) {
+  const current = LANGUAGES.find((l) => l.code === currentLang) ?? LANGUAGES[0];
   return (
     <div ref={ref} className="relative">
       <button
@@ -206,13 +215,18 @@ function LangSelector({ ref, open, onToggle }: { ref?: React.Ref<HTMLDivElement>
         aria-expanded={open}
       >
         <Globe size={15} />
-        <span className="font-medium">EN</span>
+        <span className="font-medium">{current.short}</span>
       </button>
       {open && (
         <div className="absolute right-0 top-full z-50 mt-2 min-w-[170px] rounded-xl border border-[#c4c4cc] bg-white p-1.5 shadow-[0_10px_24px_rgba(16,24,32,0.14)]">
-          {languages.map((l) => (
-            <button key={l.code} onClick={onToggle} className="w-full rounded-lg px-3 py-2 text-left text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
-              {l.label}
+          {LANGUAGES.map((l) => (
+            <button
+              key={l.code}
+              onClick={() => onSelect(l.code)}
+              className={`w-full rounded-lg px-3 py-2 text-left text-sm transition-colors hover:bg-[#f5f5fa]${l.code === currentLang ? ' bg-[#f5f5fa] font-semibold' : ''}`}
+            >
+              <span>{l.label}</span>
+              <span className={`float-right ${l.code === currentLang ? 'text-[#e5322d]' : 'text-[#47474f]'}`}>{l.short}</span>
             </button>
           ))}
         </div>
