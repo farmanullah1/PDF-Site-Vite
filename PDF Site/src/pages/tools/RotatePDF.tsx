@@ -2,9 +2,9 @@ import { useState, useCallback } from 'react';
 import StandardLayout from '../../components/layout/StandardLayout';
 import Dropzone from '../../components/ui/Dropzone';
 import { Select } from '../../components/pdf/ToolOptionsPanel';
-import { getPdfLib, readFileAsArrayBuffer, bytesToBlob, downloadBlob, pdfPageCount } from '../../lib/pdf-helpers';
+import { getPdfLib, readFileAsArrayBuffer, bytesToBlob, downloadBlob, pdfPageCount, ensurePdfJs } from '../../lib/pdf-helpers';
 import { toolById } from '../../data/toolsConfig';
-import { PDFDocument, Rotation } from 'pdf-lib';
+import { PDFDocument, degrees } from 'pdf-lib';
 import { FileText, Download, X, RefreshCw } from 'lucide-react';
 import { useRef, useEffect } from 'react';
 
@@ -144,15 +144,7 @@ export default function RotatePDF() {
           const page = await src.getPage(i);
           const deg = rotations[i] ?? 0;
           if (deg !== 0) {
-            page.setRotation(
-              deg === 90
-                ? PDFLib.Rotation.DEG_90
-                : deg === 180
-                ? PDFLib.Rotation.DEG_180
-                : deg === 270
-                ? PDFLib.Rotation.DEG_270
-                : PDFLib.Rotation.T0
-            );
+            page.setRotation(degrees(deg));
           }
           out.addPage(page);
         }
@@ -178,7 +170,7 @@ export default function RotatePDF() {
           c.height = vp.height;
           const ctx = c.getContext('2d');
           if (ctx) {
-            await (page as { render: (o: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => Promise<unknown> }).render({ canvasContext: ctx, viewport: vp });
+            await (page as unknown as { render: (o: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => Promise<unknown> }).render({ canvasContext: ctx, viewport: vp });
             setPreviewUrl(c.toDataURL('image/png'));
           }
         } catch {}
@@ -206,7 +198,7 @@ export default function RotatePDF() {
       c.height = vp.height;
       const ctx = c.getContext('2d');
       if (!ctx) return;
-      await (page as { render: (o: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => Promise<unknown> }).render({ canvasContext: ctx, viewport: vp });
+      await (page as unknown as { render: (o: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => Promise<unknown> }).render({ canvasContext: ctx, viewport: vp });
       setPreviewUrl(c.toDataURL('image/png'));
     } catch {}
   }, [files, previewIdx]);
@@ -335,6 +327,7 @@ export default function RotatePDF() {
               <label className="text-sm font-medium text-[#161616]">Apply this rotation to all pages</label>
               <div className="flex items-center gap-2">
                 <Select
+                  label="Apply to all pages"
                   value={allDegrees}
                   onChange={setAllDegrees}
                   options={DEG_OPTIONS}

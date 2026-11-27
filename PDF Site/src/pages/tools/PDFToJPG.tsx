@@ -60,7 +60,7 @@ export default function PDFToJPG() {
       const lib = pdfJsLib.current as { getDocument: (opts: { data: ArrayBuffer }) => { promise: Promise<unknown> } };
       const r = await fetch(file.url);
       const buf = await r.arrayBuffer();
-      const pdf = await lib.getDocument({ data: buf }).promise as { getPage: (n: number) => Promise<{ getViewport: (o: { scale: number; rotation: number }) => { width: number; height: number } }> };
+      const pdf = await lib.getDocument({ data: buf }).promise as { numPages: number; getPage: (n: number) => Promise<any> };
       const total = pdf.numPages;
       const scale = parseInt(dpi, 10) / 72;
       const out: Array<{ index: number; src: string; size: number }> = [];
@@ -73,7 +73,7 @@ export default function PDFToJPG() {
         c.height = Math.ceil(vp.height);
         const ctx = c.getContext('2d');
         if (!ctx) continue;
-        await (page as { render: (o: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => Promise<unknown> }).render({ canvasContext: ctx, viewport: vp });
+        await (page as unknown as { render: (o: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => Promise<unknown> }).render({ canvasContext: ctx, viewport: vp });
         const jpg = c.toDataURL('image/jpeg', 0.92);
         out.push({ index: i, src: jpg, size: c.toDataURL().length });
         pre.push(jpg);
@@ -125,7 +125,7 @@ export default function PDFToJPG() {
                 </div>
                 <img src={previewUrls[p.index - 1]} alt={`Page ${p.index}`} className="h-16 w-12 rounded-lg border border-[#c4c4cc] object-cover shrink-0" />
                 <button
-                  onClick={() => downloadBlob(bytesToBlob(new Uint8Array([0]), 'image/jpeg'), `page-${p.index}.jpg`)}
+                  onClick={() => downloadDataUrl(previewUrls[p.index - 1], `page-${p.index}.jpg`)}
                   className="flex items-center justify-center rounded-lg border border-[#c4c4cc] bg-[#f5f5fa] px-3 py-1.5 text-sm text-[#161616] transition-colors hover:border-[#161616] hover:bg-white"
                   aria-label={`Download page ${p.index}`}
                 >
@@ -207,10 +207,19 @@ export default function PDFToJPG() {
           )}
         </button>
         {error && <p className="text-sm text-[#c92a24]">{error}</p>}
-        <p className="text-xs text-[#47474f]">
-          Each PDF page becomes a downloadable JPG. Processing starts automatically when a file is added.
-        </p>
-      </div>
-    </StandardLayout>
-  );
+          <p className="text-xs text-[#47474f]">
+            Each PDF page becomes a downloadable JPG. Processing starts automatically when a file is added.
+          </p>
+        </div>
+      </StandardLayout>
+    );
+  }
+
+function downloadDataUrl(dataUrl: string, filename: string): void {
+  const fetchBlob = async () => {
+    const res = await fetch(dataUrl);
+    const blob = await res.blob();
+    downloadBlob(blob, filename);
+  };
+  void fetchBlob();
 }

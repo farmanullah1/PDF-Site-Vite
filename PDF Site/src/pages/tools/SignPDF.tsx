@@ -292,7 +292,7 @@ export default function SignPDF() {
             </div>
           </div>
         </div>
-      )}
+      </div>
 
       {file && (
         <div className="mb-5">
@@ -303,6 +303,7 @@ export default function SignPDF() {
                 <label className="text-sm font-medium text-[#161616]">Page to sign</label>
                 <div className="flex items-center gap-2">
                   <Select
+                    label="Page to sign"
                     value={String(pageIdx + 1)}
                     onChange={(v) => setPageIdx(parseInt(v, 10) - 1)}
                     options={Array.from({ length: file.pages }, (_, i) => ({ value: String(i + 1), label: `Page ${i + 1}` }))}

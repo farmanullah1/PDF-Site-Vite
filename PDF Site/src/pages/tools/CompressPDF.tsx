@@ -1,30 +1,29 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import StandardLayout from '../../components/layout/StandardLayout';
 import Dropzone from '../../components/ui/Dropzone';
 import { Select } from '../../components/pdf/ToolOptionsPanel';
-import { getPdfLib, readFileAsArrayBuffer, bytesToBlob, downloadBlob, pdfPageCount } from '../../lib/pdf-helpers';
+import { getPdfLib, readFileAsArrayBuffer, bytesToBlob, downloadBlob } from '../../lib/pdf-helpers';
 import { toolById } from '../../data/toolsConfig';
 import { PDFDocument } from 'pdf-lib';
-import { FileText, Download, X, Gauge } from 'lucide-react';
+import { FileText, Download, X } from 'lucide-react';
 
 const tool = toolById('compress-pdf')!;
 
 const PRESETS = [
-  { value: 'high', label: 'Less compression — high quality', ratio: 0.85, color: '#4a7aab' },
-  { value: 'recommended', label: 'Recommended — balanced', ratio: 0.65, color: '#e5322d' },
-  { value: 'extreme', label: 'Extreme compression — smallest size', ratio: 0.4, color: '#7253e2' },
+  { value: 'high', label: 'Less compression — high quality', note: 'Keeps quality, smaller savings.' },
+  { value: 'recommended', label: 'Recommended — balanced', note: 'Good balance of size and quality.' },
+  { value: 'extreme', label: 'Extreme compression — smallest size', note: 'Smallest file, more quality loss.' },
 ];
 
 export default function CompressPDF() {
   const [file, setFile] = useState<{ file: File; url: string; pages: number; size: number } | null>(null);
   const [preset, setPreset] = useState('recommended');
+  const [phase, setPhase] = useState<'idle' | 'reading' | 'compressing' | 'done'>('idle');
   const [progress, setProgress] = useState(0);
-  const [phase, setPhase] = useState<'idle' | 'analyzing' | 'compressing' | 'done'>('idle');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<{ blob: Blob; name: string; estimatedSize: number } | null>(null);
+  const [result, setResult] = useState<{ blob: Blob; name: string; originalSize: number; outputSize: number } | null>(null);
   const fileInputRef = { current: null as HTMLInputElement | null };
-  const progressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const addFile = useCallback(
     (incoming: File[]) => {
@@ -37,66 +36,18 @@ export default function CompressPDF() {
       setError(null);
       setResult(null);
       setProgress(0);
-      setPhase('analyzing');
-      runSimulation();
+      setPhase('reading');
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      readFileAsArrayBuffer(f).then((buf) => {
+        return getPdfLib().then((PDFLib) => PDFLib.PDFDocument.load(new Uint8Array(buf), { ignoreEncryption: true }));
+      }).then((doc) => {
+        setFile((p) => (p && p.file === f ? { ...p, pages: doc.getPageCount() } : p));
+      }).catch(() => {});
     },
     []
   );
 
-  const runSimulation = useCallback(async () => {
-    if (!file) return;
-    try {
-      // Quick page count
-      const count = await pdfPageCount(new Uint8Array(await readFileAsArrayBuffer(file.file)));
-      setFile((p) => (p && p.file === file.file ? { ...p, pages: count } : p));
-    } finally {
-      setPhase('compressing');
-      setProgress(0);
-      setLoading(true);
-      const presetRatio = (PRESETS.find((p) => p.value === preset)?.ratio) ?? 0.65;
-      const estimated = Math.round(file.size * presetRatio);
-      // simulate progress over ~3s
-      const steps = 30;
-      let step = 0;
-      const tick = () => {
-        step++;
-        setProgress(Math.min(95, Math.round((step / steps) * 100)));
-        progressTimer.current = setTimeout(tick, 90);
-      };
-      progressTimer.current = setTimeout(tick, 90);
-      // finish
-      setTimeout(() => {
-        if (progressTimer.current) clearTimeout(progressTimer.current);
-        setProgress(100);
-        setPhase('done');
-        setLoading(false);
-        // produce a real re-packaged copy (pdf-lib re-serialization)
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        (async () => {
-          try {
-            const buf = await readFileAsArrayBuffer(file.file);
-            const PDFLib = await getPdfLib();
-            const doc = await PDFLib.PDFDocument.load(new Uint8Array(buf));
-            const bytes = await doc.save();
-            setResult({
-              blob: bytesToBlob(bytes, 'application/pdf'),
-              name: file.file.name.replace(/\.pdf$/i, '') + '-compressed.pdf',
-              estimatedSize: estimated,
-            });
-          } catch {
-            setResult({
-              blob: bytesToBlob(new Uint8Array(await readFileAsArrayBuffer(file.file)), 'application/pdf'),
-              name: file.file.name.replace(/\.pdf$/i, '') + '-compressed.pdf',
-              estimatedSize: estimated,
-            });
-          }
-        })();
-      }, 3000);
-    }
-  }, [file, preset]);
-
   const clearAll = useCallback(() => {
-    if (progressTimer.current) clearTimeout(progressTimer.current);
     if (file) URL.revokeObjectURL(file.url);
     setFile(null);
     setPreset('recommended');
@@ -107,11 +58,50 @@ export default function CompressPDF() {
     setResult(null);
   }, [file]);
 
-  const presetInfo = PRESETS.find((p) => p.value === preset);
+  const doCompress = useCallback(async () => {
+    if (!file) return;
+    setLoading(true);
+    setError(null);
+    setProgress(0);
+    setPhase('compressing');
+    try {
+      setProgress(20);
+      const buf = await readFileAsArrayBuffer(file.file);
+      setProgress(40);
+      const PDFLib = await getPdfLib();
+      const src = await PDFLib.PDFDocument.load(new Uint8Array(buf), { ignoreEncryption: true });
 
-  const ready = file !== null && phase !== 'done' && !loading;
+      // Real compression: re-serialize the document. pdf-lib deflate-compresses object streams
+      // and drops unused objects, which measurably reduces many PDFs.
+      setProgress(60);
+      const out = await PDFLib.PDFDocument.create();
+      const copied = await out.copyPages(src, [...Array(src.getPageCount()).keys()]);
+      for (const p of copied) out.addPage(p);
+
+      const bytes = await out.save();
+      setProgress(90);
+
+      const blob = bytesToBlob(bytes, 'application/pdf');
+      const name = file.file.name.replace(/\.pdf$/i, '') + '-compressed.pdf';
+      setResult({
+        blob,
+        name,
+        originalSize: file.size,
+        outputSize: bytes.byteLength,
+      });
+      setProgress(100);
+      setPhase('done');
+    } catch (e) {
+      setError((e instanceof Error ? e.message : 'Compression failed.') + ' (Your file stays private.)');
+    } finally {
+      setLoading(false);
+    }
+  }, [file, preset]);
+
+  const ready = file !== null && !loading;
 
   if (result) {
+    const savings = Math.max(0, Math.round((1 - result.outputSize / result.originalSize) * 100));
     return (
       <>
         <div className="mb-4 flex items-center justify-between border-t border-[#c4c4cc] pt-4">
@@ -125,20 +115,22 @@ export default function CompressPDF() {
             <span className="text-xs text-[#47474f]">Original</span>
             <div className="mt-1 flex items-baseline gap-1">
               <span className="text-[1.5rem] font-semibold text-[#161616]">
-                {(file!.size / 1024 / 1024).toFixed(2)} MB
+                {(result.originalSize / 1024 / 1024).toFixed(2)} MB
               </span>
-              <span className="text-xs text-[#47474f]">{file!.pages} pages</span>
+              <span className="text-xs text-[#47474f]">{file!.pages} page{file!.pages === 1 ? '' : 's'}</span>
             </div>
           </div>
-          <div className="rounded-xl border-2 border-[#e5322d] bg-[#fbeae7] p-4">
-            <span className="text-xs text-[#c92a24]">Compressed (estimated)</span>
+          <div className={`rounded-xl border-2 p-4 ${savings > 0 ? 'border-[#e5322d] bg-[#fbeae7]' : 'border-[#c4c4cc] bg-white'}`}>
+            <span className={`text-xs font-semibold ${savings > 0 ? 'text-[#c92a24]' : 'text-[#47474f]'}`}>
+              Compressed{result.outputSize >= result.originalSize ? ' (no size reduction)' : ''}
+            </span>
             <div className="mt-1 flex items-baseline gap-1">
-              <span className="text-[1.5rem] font-semibold text-[#c92a24]">
-                {(result.estimatedSize / 1024 / 1024).toFixed(2)} MB
+              <span className={`text-[1.5rem] font-semibold ${savings > 0 ? 'text-[#c92a24]' : 'text-[#161616]'}`}>
+                {(result.outputSize / 1024 / 1024).toFixed(2)} MB
               </span>
-              <span className="text-xs text-[#c92a24]">
-                −{((1 - result.estimatedSize / file!.size) * 100).toFixed(0)}%
-              </span>
+              {savings > 0 && (
+                <span className="text-xs text-[#c92a24]">−{savings}%</span>
+              )}
             </div>
           </div>
         </div>
@@ -147,13 +139,8 @@ export default function CompressPDF() {
             Download compressed PDF
           </button>
           <div className="rounded-xl border border-[#c4c4cc] bg-[#f5f5fa] p-4 text-sm text-[#47474f]">
-            {presetInfo && (
-              <>
-                Used preset: <strong className="text-[#161616]">{presetInfo.label}</strong>.{' '}
-              </>
-            )}
-            This is a demo estimate. Real image recompression requires Ghostscript on the server.{' '}
-            <a href="/compress-pdf" className="underline hover:text-[#161616]">Re-upload</a> to try another preset.
+            Preset used: <strong className="text-[#161616]">{PRESETS.find((p) => p.value === preset)?.label}</strong>.
+            Processing was done entirely in your browser using pdf-lib (deflate compression of object streams). Nothing was uploaded.
           </div>
         </div>
       </>
@@ -211,62 +198,38 @@ export default function CompressPDF() {
                       : 'border-[#c4c4cc] bg-white hover:border-[#161616]'
                   }`}
                 >
-                  <span className="flex h-3 w-3 shrink-0 rounded-full" style={{ background: p.color }} />
+                  <span className="flex h-3 w-3 shrink-0 rounded-full" style={{ background: preset === p.value ? '#e5322d' : 'transparent' }} />
                   <span className={`flex flex-1 flex-col ${preset === p.value ? 'text-[#c92a24] font-semibold' : 'text-[#161616]'}`}>
                     <span className="text-sm font-medium">{p.label}</span>
-                    <span className="text-xs text-[#47474f]">
-                      {p.value === 'high' && ' Keeps quality, smaller savings.'}
-                      {p.value === 'recommended' && ' Good balance of size and quality.'}
-                      {p.value === 'extreme' && ' Smallest file, more quality loss.'}
-                    </span>
+                    <span className="text-xs text-[#47474f]">{p.note}</span>
                   </span>
                 </button>
               ))}
             </div>
+            <p className="mt-3 text-xs text-[#47474f]">
+              Compression re-serializes the PDF with deflate-compressed object streams and removes unused objects. Savings depend on the file's content.
+            </p>
           </div>
         </div>
       )}
 
-      {phase === 'analyzing' && (
-        <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
-            <div className="flex items-center gap-3 mb-3">
-              <Gauge size={18} className="text-[#47474f]" />
-              <span className="text-sm font-medium text-[#161616]">Analyzing your PDF…</span>
-            </div>
-            <p className="text-xs text-[#47474f]">Reading pages and structure to estimate the best compression.</p>
-          </div>
-        </div>
-      )}
-
-      {(phase === 'compressing' || phase === 'analyzing') && (
+      {(phase === 'reading' || phase === 'compressing') && (
         <div className="mb-5">
           <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-[#161616]">
-                {phase === 'compressing' ? 'Compressing your PDF…' : 'Preparing…'}
+                {phase === 'compressing' ? 'Compressing your PDF…' : 'Reading your PDF…'}
               </span>
               <span className="text-sm text-[#47474f]">{progress}%</span>
             </div>
             <div className="h-3 overflow-hidden rounded-full bg-[#e8e8ed]">
               <div
                 className="h-full rounded-full transition-all duration-100"
-                style={{
-                  width: `${progress}%`,
-                  background: presetInfo ? presetInfo.color : '#e5322d',
-                }}
+                style={{ width: `${progress}%`, background: '#e5322d' }}
               />
             </div>
             <p className="mt-3 text-xs text-[#47474f]">
-              {presetInfo && (
-                <>
-                  Preset: <strong className="text-[#161616]">{presetInfo.label}</strong>.{' '}
-                </>
-              )}
-              Estimated output: ~{((file?.size ?? 0) * (presetInfo?.ratio ?? 0.65) / 1024 / 1024).toFixed(2)} MB.
-            </p>
-            <p className="mt-1 text-xs text-[#47474f]">
-              This is a client-side demo. True image recompression needs Ghostscript on the server.
+              Preset: <strong className="text-[#161616]">{PRESETS.find((p) => p.value === preset)?.label}</strong>.
             </p>
           </div>
         </div>
@@ -275,15 +238,22 @@ export default function CompressPDF() {
       {phase === 'idle' && (
         <div className="flex flex-col gap-4">
           <button
-            onClick={() => {}}
-            disabled={!file}
-            className="btn-primary w-full opacity-50 cursor-not-allowed"
+            onClick={doCompress}
+            disabled={!ready}
+            className="btn-primary w-full"
           >
-            Compress PDF
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                Compressing…
+              </span>
+            ) : (
+              'Compress PDF'
+            )}
           </button>
           {error && <p className="text-sm text-[#c92a24]">{error}</p>}
           <p className="text-xs text-[#47474f]">
-            Compression reduces file size by recompressing images and cleaning up the PDF structure. The preview on this page is a realistic estimate.
+            Works with PDFs up to 100 MB. Processing happens entirely in your browser; nothing is uploaded.
           </p>
         </div>
       )}

@@ -1,30 +1,48 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown, Globe, User, Plus } from 'lucide-react';
+import MobileNav from './MobileNav';
 
 const NAV_LINKS = [
-  { label: 'All tools', href: '/' },
   { label: 'Merge PDF', href: '/merge-pdf' },
-  { label: 'Compress PDF', href: '/compress-pdf' },
   { label: 'Split PDF', href: '/split-pdf' },
-  { label: 'Sign PDF', href: '/sign-pdf' },
+  { label: 'Compress PDF', href: '/compress-pdf' },
 ];
 
-const FEATURE_LINKS = [
-  { label: 'Compare PDF', href: '/compare-pdf' },
-  { label: 'AI Summarizer', href: '/ai-summarizer' },
-  { label: 'Translate PDF', href: '/translate-pdf' },
+const CONVERT_LINKS = [
+  { label: 'Word to PDF', href: '/word-to-pdf' },
+  { label: 'Excel to PDF', href: '/excel-to-pdf' },
+  { label: 'PowerPoint to PDF', href: '/powerpoint-to-pdf' },
+  { label: 'JPG to PDF', href: '/jpg-to-pdf' },
+  { label: 'PDF to Word', href: '/pdf-to-word' },
+  { label: 'PDF to JPG', href: '/pdf-to-jpg' },
+];
+
+const ALL_TOOLS_LINKS = [
+  { label: 'Merge PDF', href: '/merge-pdf' },
+  { label: 'Split PDF', href: '/split-pdf' },
+  { label: 'Compress PDF', href: '/compress-pdf' },
+  { label: 'Rotate PDF', href: '/rotate-pdf' },
+  { label: 'Watermark PDF', href: '/add-watermark' },
+  { label: 'Unlock PDF', href: '/unlock-pdf' },
+  { label: 'Sign PDF', href: '/sign-pdf' },
   { label: 'OCR PDF', href: '/ocr-pdf' },
 ];
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [convertOpen, setConvertOpen] = useState(false);
+  const [allOpen, setAllOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
-  const langRef = useRef<HTMLDivElement | null>(null);
+  const convertRef = useRef<HTMLDivElement>(null);
+  const allRef = useRef<HTMLDivElement>(null);
+  const langRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
+      if (convertRef.current && !convertRef.current.contains(e.target as Node)) setConvertOpen(false);
+      if (allRef.current && !allRef.current.contains(e.target as Node)) setAllOpen(false);
       if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
     }
     window.addEventListener('mousedown', handleClick);
@@ -33,6 +51,8 @@ export default function Header() {
 
   const handleNavLink = (href: string) => {
     setMobileOpen(false);
+    setConvertOpen(false);
+    setAllOpen(false);
     navigate(href);
   };
 
@@ -47,8 +67,13 @@ export default function Header() {
 
         {/* Center primary nav (desktop) */}
         <nav className="hidden items-center gap-5 sm:flex" aria-label="Primary">
-          <NavLink href="/" onClick={() => handleNavLink('/')}>All tools</NavLink>
-          <Dropdown label="Features" links={FEATURE_LINKS} />
+          {NAV_LINKS.map((l) => (
+            <NavLink key={l.href} href={l.href} onClick={() => handleNavLink(l.href)}>
+              {l.label}
+            </NavLink>
+          ))}
+          <Dropdown ref={convertRef} label="Convert PDF" open={convertOpen} onToggle={() => setConvertOpen((v) => !v)} links={CONVERT_LINKS} />
+          <Dropdown ref={allRef} label="All PDF Tools" open={allOpen} onToggle={() => setAllOpen((v) => !v)} links={ALL_TOOLS_LINKS} />
         </nav>
 
         {/* Right actions */}
@@ -108,14 +133,27 @@ function NavLink({ href, children, onClick }: { href: string; children: React.Re
   );
 }
 
-function Dropdown({ label, links }: { label: string; links: { label: string; href: string }[] }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement | null>(null);
+function Dropdown({
+  label,
+  links,
+  ref,
+  open,
+  onToggle,
+}: {
+  label: string;
+  links: { label: string; href: string }[];
+  ref: React.RefObject<HTMLDivElement>;
+  open: boolean;
+  onToggle: () => void;
+}) {
+  const navigate = useNavigate();
   useEffect(() => {
-    function close(e: MouseEvent) { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); }
+    function close(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) onToggle();
+    }
     window.addEventListener('mousedown', close);
     return () => window.removeEventListener('mousedown', close);
-  }, []);
+  }, [onToggle, ref]);
 
   return (
     <div ref={ref} className="relative">
@@ -123,7 +161,7 @@ function Dropdown({ label, links }: { label: string; links: { label: string; hre
         className="flex items-center gap-1 text-sm font-medium text-[#161616] transition-colors hover:text-[#161616] rounded py-1 pr-5"
         aria-haspopup="true"
         aria-expanded={open}
-        onClick={() => setOpen((v) => !v)}
+        onClick={onToggle}
       >
         {label}
         <ChevronDown size={14} className={`transition-transform ${open ? 'rotate-180' : ''}`} />
@@ -131,7 +169,11 @@ function Dropdown({ label, links }: { label: string; links: { label: string; hre
       {open && (
         <div className="absolute left-0 top-full z-50 mt-2 min-w-[220px] rounded-xl border border-[#c4c4cc] bg-white p-1.5 shadow-[0_10px_24px_rgba(16,24,32,0.14)]">
           {links.map((l) => (
-            <button key={l.href} onClick={() => { setOpen(false); navigate(l.href); }} className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
+            <button
+              key={l.href}
+              onClick={() => { onToggle(); navigate(l.href); }}
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]"
+            >
               {l.label}
             </button>
           ))}
@@ -141,7 +183,7 @@ function Dropdown({ label, links }: { label: string; links: { label: string; hre
   );
 }
 
-function LangSelector({ open, onToggle }: { ref: React.RefObject<HTMLDivElement | null>; open: boolean; onToggle: () => void }) {
+function LangSelector({ ref, open, onToggle }: { ref?: React.Ref<HTMLDivElement>; open: boolean; onToggle: () => void }) {
   const languages = [
     { code: 'en', label: 'English' },
     { code: 'es', label: 'Español' },

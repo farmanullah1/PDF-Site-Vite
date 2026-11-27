@@ -1,9 +1,9 @@
 import { useState, useCallback } from 'react';
 import { ToolConfig } from '../../data/toolsConfig';
-import Button from '../components/ui/Button';
-import Dropzone from '../components/ui/Dropzone';
-import { TextField, Select, Range } from '../components/pdf/ToolOptionsPanel';
-import PDFPreview from '../components/pdf/PDFPreview';
+import Button from '../ui/Button';
+import Dropzone from '../ui/Dropzone';
+import { TextField, Select, Range } from '../pdf/ToolOptionsPanel';
+import PDFPreview from '../pdf/PDFPreview';
 import { useNavigate } from 'react-router-dom';
 
 interface FileItem {

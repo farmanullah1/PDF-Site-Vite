@@ -23,7 +23,6 @@ export default function PDFPreview({ url, maxPages = 6, height = 120 }: PDFPrevi
           const pdfJsScript = document.createElement('script');
           pdfJsScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
           pdfJsScript.onload = () => {
-            (window as unknown as { pdfjsLib?: unknown }).pdfjsLib = window.pdfjsLib;
             setPdfjsWorker();
           };
           pdfJsScript.onerror = () => {
@@ -40,7 +39,7 @@ export default function PDFPreview({ url, maxPages = 6, height = 120 }: PDFPrevi
       }
 
       async function setPdfjsWorker() {
-        const pdfjsLib = (window as unknown as { pdfjsLib?: import('pdfjs-dist').pdfjsLib }).pdfjsLib;
+        const pdfjsLib = (window as unknown as { pdfjsLib?: any }).pdfjsLib;
         if (!pdfjsLib) return;
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 

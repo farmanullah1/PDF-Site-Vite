@@ -97,7 +97,7 @@ function LogoMark() {
   );
 }
 
-function SocialIcon({ icon: Icon, label }: { icon: React.FC<{ size?: number; className?: string }>; label: string }) {
+function SocialIcon({ icon: Icon, label }: { icon: React.ComponentType<any>; label: string }) {
   return (
     <a href={`#${label.toLowerCase()}`} aria-label={label} className="text-[#c4c4cc] transition-colors hover:text-white">
       <Icon size={18} />

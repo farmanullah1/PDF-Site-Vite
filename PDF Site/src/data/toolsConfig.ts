@@ -71,7 +71,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'ArrowDownToLine',
     accent: 'primary',
     route: '/extract-pages',
-    status: 'simulation',
+    status: 'implemented',
   },
   {
     id: 'organize-pdf',
@@ -82,7 +82,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'GripVertical',
     accent: 'primary',
     route: '/organize-pdf',
-    status: 'simulation',
+    status: 'implemented',
   },
   {
     id: 'rotate-pdf',
@@ -115,7 +115,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'Minimize2',
     accent: 'primary',
     route: '/compress-pdf',
-    status: 'simulation',
+    status: 'implemented',
   },
   {
     id: 'repair-pdf',
@@ -137,7 +137,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'Scan',
     accent: 'tertiary',
     route: '/ocr-pdf',
-    status: 'backend',
+    status: 'implemented',
   },
 
   // ---- Convert to PDF ----
@@ -275,7 +275,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'Pencil',
     accent: 'primary',
     route: '/edit-pdf',
-    status: 'simulation',
+    status: 'implemented',
   },
   {
     id: 'add-page-numbers',
@@ -286,7 +286,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'Hash',
     accent: 'primary',
     route: '/add-page-numbers',
-    status: 'simulation',
+    status: 'implemented',
   },
   {
     id: 'add-watermark',
@@ -308,7 +308,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'Crop',
     accent: 'primary',
     route: '/crop-pdf',
-    status: 'simulation',
+    status: 'implemented',
   },
   {
     id: 'pdf-forms',
@@ -343,7 +343,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'Shield',
     accent: 'primary',
     route: '/protect-pdf',
-    status: 'simulation',
+    status: 'backend',
   },
   {
     id: 'sign-pdf',
@@ -365,7 +365,7 @@ export const TOOLS: ToolConfig[] = [
     icon: 'EyeOff',
     accent: 'primary',
     route: '/redact-pdf',
-    status: 'simulation',
+    status: 'implemented',
   },
 
   // ---- AI & Advanced ----

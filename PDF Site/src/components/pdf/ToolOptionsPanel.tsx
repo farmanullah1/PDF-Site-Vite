@@ -86,10 +86,11 @@ interface RangeProps {
   onChange: (value: number) => void;
   showValue?: boolean;
   unit?: string;
+  help?: string;
   id?: string;
 }
 
-export function Range({ label, value, min, max, step = 1, onChange, showValue = true, unit, id }: RangeProps) {
+export function Range({ label, value, min, max, step = 1, onChange, showValue = true, unit, help, id }: RangeProps) {
   const generatedId = useId();
   return (
     <div className="flex flex-col gap-1">
@@ -111,6 +112,7 @@ export function Range({ label, value, min, max, step = 1, onChange, showValue = 
         onChange={(e) => onChange(Number(e.target.value))}
         className="w-full h-2 rounded-full appearance-none bg-[#e8e8ed] outline-none accent-[#e5322d]"
       />
+      {help && <span className="text-xs text-[#47474f]">{help}</span>}
     </div>
   );
 }

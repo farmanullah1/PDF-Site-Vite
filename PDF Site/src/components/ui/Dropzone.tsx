@@ -9,6 +9,7 @@ interface DropzoneProps {
   onFiles: (files: File[]) => void;
   fileCount?: number;
   children?: React.ReactNode;
+  fileInputRef?: { current: HTMLInputElement | null };
 }
 
 export default function Dropzone({
@@ -78,11 +79,12 @@ export default function Dropzone({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const files = Array.from(e.target.files || []);
       onFiles(validate(files));
-      // reset so re-selecting the same file(s) triggers change again
       e.target.value = '';
     },
     [onFiles, validate]
   );
+
+  const inputRef = { current: null as HTMLInputElement | null };
 
   return (
     <div
@@ -90,19 +92,19 @@ export default function Dropzone({
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      onClick={() => fileInputRef.current?.click()}
+      onClick={() => inputRef.current?.click()}
       role="button"
       tabIndex={0}
       aria-label={label}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          fileInputRef.current?.click();
-        }
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            inputRef.current?.click();
+          }
       }}
     >
       <input
-        ref={fileInputRef}
+        ref={inputRef}
         type="file"
         accept={accept}
         multiple={multiple}
@@ -126,8 +128,6 @@ export default function Dropzone({
     </div>
   );
 }
-
-const fileInputRef = { current: null as HTMLInputElement | null };
 
 function DropzoneIcon({ dragging }: { dragging: boolean }) {
   return (
