@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TOOL_CATEGORIES, toolsByCategory, ToolConfig } from '../../data/toolsConfig';
+import { TOOL_CATEGORIES, toolsByCategory, ToolConfig } from '../data/toolsConfig';
 import ToolCard from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import Dropzone from '../components/ui/Dropzone';

@@ -56,7 +56,7 @@ export default function JPGToPDF() {
       setImages((prev) => [...prev, ...newRows]);
 
       for (const row of newRows) {
-        const img = new Image();
+        const img = new (window as any).Image();
         img.onload = () => {
           setImages((prev) =>
             prev.map((r) =>

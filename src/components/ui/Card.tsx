@@ -1,4 +1,4 @@
-import Link from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface ToolCardProps {
   tool: {
@@ -42,11 +42,10 @@ export default function ToolCard({ tool }: ToolCardProps) {
 }
 
 function CardIcon({ name, color }: { name: string; color: string }) {
-  // Lucide icons are imported once at the bottom of this file via a registry.
+  // Lightweight icon registry so we don't import every Lucide icon at module scope.
   return <IconByName name={name} color={color} size={22} />;
 }
 
-// Lightweight icon registry so we don't import every Lucide icon at module scope.
 import * as LucideIcons from 'lucide-react';
 
 const iconCache = new Map<string, React.FC<{ color?: string; size?: number }>>();
@@ -55,10 +54,10 @@ let warned = false;
 function IconByName({ name, color, size = 22 }: { name: string; color?: string; size?: number }) {
   const Component = iconCache.get(name);
   if (Component) return <Component color={color} size={size} />;
-  const maybeIcon = (LucideIcons as unknown as Record<string, React.FC<{ color?: string; size?: number }>>)[name];
-  if (typeof maybeIcon === 'function') {
-    iconCache.set(name, maybeIcon);
-    return <maybeIcon color={color} size={size} />;
+  const MaybeIcon = (LucideIcons as unknown as Record<string, React.FC<{ color?: string; size?: number }>>)[name];
+  if (typeof MaybeIcon === 'function') {
+    iconCache.set(name, MaybeIcon);
+    return <MaybeIcon color={color} size={size} />;
   }
   if (!warned) {
     console.warn(`[PDF Site] Unknown icon: ${name}`);

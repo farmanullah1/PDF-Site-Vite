@@ -56,7 +56,7 @@ export default function AddWatermark() {
       setImageUrl(url);
       setError(null);
       if (canvasRef.current) {
-        const img = new Image();
+        const img = new (window as any).Image();
         img.onload = () => {
           if (canvasRef.current) {
             canvasRef.current.width = Math.min(img.naturalWidth, 240);
@@ -94,7 +94,7 @@ export default function AddWatermark() {
       const ctx = c.getContext('2d');
       if (!ctx) return;
       ctx.clearRect(0, 0, c.width, c.height);
-      await (page as { render: (o: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => Promise<unknown> }).render({ canvasContext: ctx, viewport: vp });
+      await (page as any).render({ canvasContext: ctx, viewport: vp });
     } catch {}
   }, [file]);
 
@@ -115,7 +115,7 @@ export default function AddWatermark() {
       const font = await out.embedFont(StandardFonts.Helvetica);
 
       const useImage = mode === 'image' && imageUrl;
-      let tileImage: NonNullable<PDFLib.PDFImage> | null = null;
+      let tileImage: any = null;
       if (useImage) {
         const imgBuf = await readFileAsArrayBuffer(imageFile!);
         tileImage = await out.embedPng(new Uint8Array(imgBuf));
@@ -151,7 +151,7 @@ export default function AddWatermark() {
                   size: fontSize,
                   font,
                   opacity,
-                  rotate: (angle * Math.PI) / 180,
+                  rotate: ((angle * Math.PI) / 180) as any,
                 });
               }
             }
@@ -178,7 +178,7 @@ export default function AddWatermark() {
             x = targetW / 2 - font.widthOfTextAtSize(drawn, fontSize) / 2;
             y = targetH / 2;
           }
-          page.drawText(drawn, { x, y, size: fontSize, font, opacity, rotate: (angle * Math.PI) / 180 });
+          page.drawText(drawn, { x, y, size: fontSize, font, opacity, rotate: ((angle * Math.PI) / 180) as any });
         }
 
         out.addPage(page);
@@ -318,7 +318,7 @@ export default function AddWatermark() {
             <div className="flex flex-col gap-4">
               <TextField label="Watermark text" value={text} onChange={setText} placeholder="CONFIDENTIAL" help="The text that will be stamped on every page." />
               <Range label="Opacity" value={Math.round(opacity * 100)} min={5} max={100} step={1} onChange={(v) => setOpacity(v / 100)} unit="%" help="Lower opacity makes the watermark more subtle." />
-              <Range label="Font size" value={size} min={8} max={120} step={1} unit="pt" help="Size of the watermark text." />
+              <Range label="Font size" value={size} min={8} max={120} step={1} unit="pt" onChange={setSize} help="Size of the watermark text." />
               <Select
                 label="Position"
                 value={position}
@@ -332,7 +332,7 @@ export default function AddWatermark() {
                   { value: 'tiled', label: 'Tiled across the whole page' },
                 ]}
               />
-              <Range label="Angle" value={angle} min={-90} max={90} step={5} unit="°" help="Tilt of the text. 45° is the classic diagonal look." />
+              <Range label="Angle" value={angle} min={-90} max={90} step={5} unit="°" onChange={setAngle} help="Tilt of the text. 45° is the classic diagonal look." />
             </div>
           </div>
         </div>

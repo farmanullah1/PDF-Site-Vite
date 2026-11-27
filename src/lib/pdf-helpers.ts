@@ -56,7 +56,7 @@ export function arrayBufferToBytes(buffer: ArrayBuffer | Uint8Array): Uint8Array
 }
 
 export function bytesToBlob(bytes: Uint8Array | ArrayBuffer, type = 'application/pdf'): Blob {
-  const buf = bytes instanceof ArrayBuffer ? new Uint8Array(bytes) : bytes;
+  const buf = bytes instanceof ArrayBuffer ? bytes : bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
   return new Blob([buf], { type });
 }
 
@@ -104,9 +104,9 @@ export async function renderPdfPageToCanvas(
   pageNumber: number,
   scale = 1.4
 ): Promise<HTMLCanvasElement> {
-  const lib = pdfjsLib as { getDocument: (opts: { data: ArrayBuffer }) => { promise: Promise<unknown> } };
+  const lib = pdfjsLib as { getDocument: (opts: { data: ArrayBuffer | Uint8Array }) => { promise: Promise<unknown> } };
   const data = new Uint8Array(arrayBuffer);
-  const pdf = await lib.getDocument({ data }).promise as { getPage: (n: number) => Promise<{ getViewport: (opts: { scale: number }) => { width: number; height: number } }> };
+  const pdf = await lib.getDocument({ data: data as unknown as ArrayBuffer }).promise as { getPage: (n: number) => Promise<{ getViewport: (opts: { scale: number }) => { width: number; height: number } }> };
   const page = await pdf.getPage(pageNumber);
   const viewport = page.getViewport({ scale });
   const canvas = document.createElement('canvas');
@@ -114,6 +114,6 @@ export async function renderPdfPageToCanvas(
   canvas.height = viewport.height;
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('Canvas context unavailable');
-  await (page as { render: (opts: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => Promise<unknown> }).render({ canvasContext: ctx, viewport });
+  await (page as any).render({ canvasContext: ctx, viewport });
   return canvas;
 }

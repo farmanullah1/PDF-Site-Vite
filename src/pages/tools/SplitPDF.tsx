@@ -20,7 +20,7 @@ export default function SplitPDF() {
   const fileInputRef = { current: null as HTMLInputElement | null };
 
   const addFile = useCallback(
-    (incoming: File[]) => {
+    async (incoming: File[]) => {
       const f = incoming[0];
       if (!f) return;
       const isPdf = f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
@@ -32,9 +32,13 @@ export default function SplitPDF() {
         pages: 0,
       });
       setError(null);
-      pdfPageCount(new Uint8Array(requireUnsafe(f))).then((n) =>
-        setFile((p) => (p && p.file === f ? { ...p, pages: n } : p))
-      ).catch(() => setError('Could not read the PDF.'));
+      try {
+        const buf = await requireUnsafe(f);
+        const n = await pdfPageCount(new Uint8Array(buf));
+        setFile((p) => (p && p.file === f ? { ...p, pages: n } : p));
+      } catch {
+        setError('Could not read the PDF.');
+      }
     },
     []
   );
@@ -249,7 +253,7 @@ export default function SplitPDF() {
   );
 }
 
-function requireUnsafe(file: File): ArrayBuffer {
+async function requireUnsafe(file: File): Promise<ArrayBuffer> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (file as any).arrayBuffer ? file.arrayBuffer() : (file as any).arrayBuffer();
+  return (file as any).arrayBuffer ? await (file as any).arrayBuffer() : await (file as any).arrayBuffer();
 }

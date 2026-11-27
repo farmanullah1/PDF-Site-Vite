@@ -27,8 +27,8 @@ export default {
         tertiary: '#7253e2',
         outline: '#c4c4cc',
       },
-      fontSize: {
-        display: ['4.5rem', { lineHeight: '4.25rem', fontWeight: '700' }],
+        fontSize: {
+        display: ['3.75rem', { lineHeight: '4.25rem', fontWeight: '700', letterSpacing: '-0.02em' }],
         'headline-lg': ['2.625rem', { lineHeight: '3.125rem', fontWeight: '600' }],
         'headline-md': ['1.75rem', { lineHeight: '2.25rem', fontWeight: '600' }],
         'title-lg': ['1.25rem', { lineHeight: '1.75rem', fontWeight: '600' }],

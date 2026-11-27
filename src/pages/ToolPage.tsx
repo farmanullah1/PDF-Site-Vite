@@ -10,9 +10,19 @@ import AddWatermark from './tools/AddWatermark';
 import UnlockPDF from './tools/UnlockPDF';
 import CompressPDF from './tools/CompressPDF';
 import SignPDF from './tools/SignPDF';
+import RemovePages from './tools/RemovePages';
+import ExtractPages from './tools/ExtractPages';
+import OrganizePDF from './tools/OrganizePDF';
+import AddPageNumbers from './tools/AddPageNumbers';
+import EditPDF from './tools/EditPDF';
+import CropPDF from './tools/CropPDF';
+import RedactPDF from './tools/RedactPDF';
+import OCRPDF from './tools/OCRPDF';
+import ServerTool from './tools/ServerTool';
 import ComingSoon from './tools/ComingSoon';
+import type { ServerToolOption } from './tools/ServerTool';
 
-const IMPLEMENTED_COMPONENTS: Record<string, React.ComponentType> = {
+const CLIENT_COMPONENTS: Record<string, React.ComponentType> = {
   'merge-pdf': MergePDF,
   'split-pdf': SplitPDF,
   'rotate-pdf': RotatePDF,
@@ -22,7 +32,30 @@ const IMPLEMENTED_COMPONENTS: Record<string, React.ComponentType> = {
   'unlock-pdf': UnlockPDF,
   'compress-pdf': CompressPDF,
   'sign-pdf': SignPDF,
+  'remove-pages': RemovePages,
+  'extract-pages': ExtractPages,
+  'organize-pdf': OrganizePDF,
+  'add-page-numbers': AddPageNumbers,
+  'edit-pdf': EditPDF,
+  'crop-pdf': CropPDF,
+  'redact-pdf': RedactPDF,
+  'ocr-pdf': OCRPDF,
 };
+
+// Backend-dependent tools rendered via ServerTool. Requires the Express server (see server/).
+const BACKEND_TOOL_IDS = new Set([
+  'protect-pdf',
+  'word-to-pdf',
+  'excel-to-pdf',
+  'powerpoint-to-pdf',
+  'pdf-to-word',
+  'pdf-to-excel',
+  'pdf-to-powerpoint',
+  'html-to-pdf',
+  'pdf-to-pdfa',
+  'pdf-to-markdown',
+  'repair-pdf',
+]);
 
 export default function ToolPage() {
   const { toolId } = useParams<{ toolId: string }>();
@@ -40,9 +73,16 @@ export default function ToolPage() {
     );
   }
 
-  const Component = IMPLEMENTED_COMPONENTS[tool.id];
-  if (Component) {
-    return <Component />;
+  const Component = CLIENT_COMPONENTS[tool.id];
+  if (Component) return <Component />;
+
+  if (BACKEND_TOOL_IDS.has(tool.id)) {
+    const accept = '.pdf,.docx,.doc,.xlsx,.xls,.pptx,.ppt,.html,.htm';
+    let opts: ServerToolOption[] | undefined;
+    if (tool.id === 'protect-pdf') {
+      opts = [{ key: 'password', label: 'Password', type: 'text', placeholder: 'Enter the PDF password' }];
+    }
+    return <ServerTool tool={tool} accept={accept} options={opts} />;
   }
 
   return <ComingSoon tool={tool} />;
