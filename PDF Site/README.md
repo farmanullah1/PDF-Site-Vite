@@ -1,90 +1,161 @@
-# PDF Site
+# PDF Site — iLovePDF-style PDF tools (web demo)
 
-A learning clone / demo of a modern online PDF tool site, built as a client-side-only static web app.
+A client-side, browser-based PDF tool site built as a **design/UX clone** of the [iLovePDF](https://www.ilovepdf.com/) homepage and tool flow. It uses the same layout pattern, color palette, typography scale, card hover behavior, dropzone UX and grouped tool catalog, but with original assets and a clearly-labeled "demo / learning" identity.
 
-## What this is
+**This is a demo/learning project, not affiliated with the real iLovePDF service.** The brand wordmark is used as a text logo to match the reference design; do not deploy this as if it were the genuine iLovePDF website.
 
-This is a client-side demo that mirrors the general layout pattern of a popular online PDF tool homepage: a header with brand area and category nav, a hero section, a row of category filter pills, and a grid of tool cards. Each tool has its own page with an upload zone, file list, action buttons, and download output.
+## What's in here
 
-The site is **not** affiliated with, endorsed by, or derived from the real site it resembles. All branding, copy, and layout are original placeholder content. The resemblance is to the *pattern* of the page (tool directory and tool page shell), not to any copyrighted text, logo, or asset.
+```
+PDF Site/
+├── public/
+│   ├── favicon.svg
+│   └── old-index.html        # backup of the previous vanilla-JS homepage
+├── src/
+│   ├── components/
+│   │   ├── layout/           # Header, Footer, MobileNav, StandardLayout (tool page shell)
+│   │   ├── ui/               # Button, Card (tool cards), Dropzone
+│   │   └── pdf/              # PDFPreview (pdf.js thumbnails), ToolOptionsPanel (controls)
+│   ├── pages/
+│   │   ├── Home.tsx          # homepage: hero + 26-tool grouped catalog
+│   │   ├── ToolPage.tsx      # resolves a tool id to its component or a "coming soon" stub
+│   │   ├── NotFound.tsx
+│   │   ├── AccountPages.tsx  # /login, /signup, /privacy stubs
+│   │   └── tools/
+│   │       ├── MergePDF.tsx
+│   │       ├── SplitPDF.tsx
+│   │       ├── RotatePDF.tsx
+│   │       ├── JPGToPDF.tsx
+│   │       ├── PDFToJPG.tsx
+│   │       ├── AddWatermark.tsx
+│   │       ├── UnlockPDF.tsx
+│   │       ├── CompressPDF.tsx
+│   │       ├── SignPDF.tsx
+│   │       └── ComingSoon.tsx
+│   ├── lib/
+│   │   └── pdf-helpers.ts    # pdf-lib / pdf.js loaders, file/buffer helpers, page count, security
+│   ├── data/
+│   │   └── toolsConfig.ts    # full tool catalog (26 tools grouped into 6 categories)
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css             # Tailwind + design-system CSS variables (iLovePDF tokens)
+├── index.html
+├── package.json
+├── vite.config.ts
+├── tailwind.config.ts
+├── postcss.config.mjs
+├── tsconfig.json
+├── tsconfig.node.json
+└── README.md
+```
 
-## Implemented tools
+## Tech stack
 
-- **Merge PDF** — upload multiple PDFs, reorder, merge into one downloadable PDF (pdf-lib).
-- **Split PDF** — extract selected pages or page ranges into a new PDF (pdf-lib).
-- **Rotate PDF** — rotate selected pages (pdf-lib).
-- **Add page numbers** — stamp page numbers onto selected pages (pdf-lib).
-- **Add watermark** — stamp text or a simple tiled pattern onto pages (pdf-lib).
-- **Organize pages** — list pages, reorder by drag/drop, drop pages, rotate individual pages, save (pdf-lib + pdf.js for previews).
-- **PDF to JPG** — render each PDF page to a downloadable JPG via pdf.js canvas.
-- **JPG to PDF** — bundle JPG/PNG images into a single downloadable PDF, in the order you choose (pdf-lib).
-- **Unlock / permissions** — read-only inspection: report whether a PDF is encrypted and what permissions it declares (pdf-lib). This does **not** crack or remove passwords.
+- **Frontend:** React 18 + Vite + TypeScript
+- **Styling:** Tailwind CSS 3 + custom CSS variables for the iLovePDF design tokens (colors, typography scale, shadows)
+- **Icons:** Lucide React
+- **Font:** Inter (Google Fonts)
+- **PDF engine (client-side):** [pdf-lib](https://github.com/Hopding/pdf-lib) for merge/split/rotate/embed-watermark/sign; [PDF.js](https://github.com/mozilla/pdf.js) for page previews/thumbnails
+- **Icons, UI:** Lucide React
+- **Routing:** react-router-dom
 
-## Clearly-labeled stubs
+## What works (client-side, end-to-end)
 
-These are shown as "not available in this demo" because they need a server, commercial backend, or capabilities this client-side demo does not implement:
+- **Merge PDF** — add 2+ PDFs, reorder by drag, merge into one downloadable PDF.
+- **Split PDF** — split all pages (one PDF per page) or extract a page range into one PDF.
+- **Rotate PDF** — rotate per-page or all pages by 90°/180°/270°, with a live preview.
+- **JPG to PDF** — bundle JPG/PNG/WebP/BMP images into one PDF, one image per page, fit-to-image/A4/Letter.
+- **PDF to JPG** — render every PDF page to a downloadable JPG via PDF.js.
+- **Add Watermark** — text watermark (opacity, size, position, angle, tiled) or an image watermark per page.
+- **Unlock PDF** — inspect encryption; if user-password-protected, open with the password and save an unrestricted copy.
+- **Compress PDF** — UI simulation with quality presets (high/recommended/extreme), a progress bar and an estimated output size, plus a real pdf-lib re-serialized download. **Note:** true image recompression needs Ghostscript on the server.
+- **Sign PDF** — draw a signature on a canvas or type a name, place it on a chosen page, download.
 
-- **Compress PDF** — labeled stub. Explanation that real compression is server-side/limited client-side. The demo shows the upload zone and explains the limitation; it does not fake a working compress.
-- **PDF to Word** — labeled stub. Document conversion to DOCX is server-side; the page explains that and does not pretend to convert.
+Tools shown but **not implemented client-side** (ComingSoon / simulation / backend):
 
-## Out of scope (intentionally left out)
+- Remove Pages, Extract Pages, Organize PDF, Optimize PDF, Repair PDF, OCR PDF, Word→PDF, PowerPoint→PDF, Excel→PDF, HTML→PDF, PDF→Word, PDF→PowerPoint, PDF→Excel, PDF→PDF/A, PDF→Markdown, Edit PDF, Add Page Numbers, Crop PDF, PDF Forms, Protect PDF, Redact PDF, AI Summarizer, Translate PDF, Compare PDF.
 
-OCR, repair corrupted PDFs, redact, form fill/signing, AI summarization/translation, digital signatures, password protection/encryption, PDF/A conversion, document comparison, scan-to-PDF, mobile/desktop downloadable apps, premium/upgrade marketing flows, and any server-side backend. Where a tool page would normally point to one of these, this site shows an explicit "not available in this demo" message.
+These are present in the catalog and render a "coming soon / server-side" page, per the spec.
 
-## Run
+## Visual fidelity
 
-From the `PDF Site/` folder:
+The homepage mirrors the iLovePDF pattern:
+
+- Sticky header with the brand wordmark, "All tools" / "Features" dropdown nav, login/ghost + sign-up/primary-red buttons, and a language selector.
+- Mobile hamburger drawer with all tool links.
+- Hero: Display-size headline ("Every tool you need to work with PDFs in one place"), the spec subtitle, a "Select PDF file" dropzone CTA (also opens a file picker), a "Try Merge PDF" secondary CTA, and a stacked-PDF-pages visual mockup on the right.
+- Tools catalog grouped into the 6 categories (Organize PDF, Convert to PDF, Convert from PDF, Edit PDF, PDF Security, AI & Advanced), each with a Headline-MD header and a 4-col (desktop) / 2-col (tablet) / 1-col (mobile) grid of tool cards.
+- Tool cards: colored accent badge, tool name (Title-LG), one-line description, hover scale(1.02) + shadow + border.
+- Footer with brand bar + link columns + legal note.
+- Tool pages: header + dropzone + file list + options panel + action button + loading/result states, matching the spec's common tool page layout.
+
+## Colors & typography (extracted from the spec)
+
+See `src/index.css` and `tailwind.config.ts` for the tokens. Highlights:
+
+- Primary (action red): `#e5322d`
+- Primary container: `#ff6a58`
+- Surface / background: `#f5f5fa`
+- Surface container: `#e8e8ed`
+- On-surface: `#161616`; on-surface variant: `#47474f`
+- Secondary (blue): `#4a7aab`; tertiary (purple): `#7253e2`
+- Outline: `#c4c4cc`
+- Typography scale: Display 60px/700, Headline LG 42px/600, Headline MD 28px/600, Title LG 20px/600, Body LG 18px, Body MD 16px, Label MD 14px/600.
+
+## Install & run
 
 ```bash
+cd PDF Site
 npm install
 npm run dev
 ```
 
-Then open the URL the dev server prints. You can also open `index.html` directly from disk for the homepage, but tool pages that rely on fetch for a page shell may be simpler to run via the dev server.
+Then open the URL printed by Vite (default `http://127.0.0.1:3000`).
 
-If you do not have Node, serve the folder with any static server (Python, PHP, etc.) or open the homepage HTML file directly.
+To build for production:
+
+```bash
+npm run build   # tsc + vite build -> dist/
+npm run preview  # preview the production build locally
+```
+
+## Compression backend (Ghostscript) — not included
+
+True PDF compression/recompression of images requires a server-side tool such as Ghostscript (`gs`). This repo does **not** include Ghostscript, and the development environment it was built in did not have `gs`/`qpdf`/LibreOffice installed, so the compression tool is a realistic UI simulation with a clearly-labeled estimate and a real pdf-lib re-packaged download.
+
+To enable real compression, add a backend with Ghostscript, e.g.:
+
+```bash
+# example: compress with Ghostscript (ebook preset)
+gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH -sOutputFile=out.pdf in.pdf
+```
+
+The `CompressPDF.tsx` component is written so that, on a real deployment, you could POST the file to `/api/compress` and return the Ghostscript output. The backend is **outside the scope** of this client-side demo.
+
+Similarly, the following would need a backend on a real site: Protect PDF (qpdf encryption), Office→PDF conversions (LibreOffice headless), Repair PDF, OCR PDF, and the AI/translation tools.
 
 ## Dependencies
 
-No install step downloads runtime assets locally. The app loads the following from CDN at runtime:
+- `pdf-lib` (bundled) — merge, split, rotate, embed images/text, sign.
+- `pdf.js` (loaded from CDN at runtime) — page previews and PDF→JPG rendering.
+- `lucide-react`, `react`, `react-dom`, `react-router-dom`, `tailwindcss`, `@vitejs/plugin-react`, `typescript`, `vite`.
 
-- pdf.js (Mozilla) — rendering PDF pages to canvas for previews and PDF-to-JPG.
-- pdf-lib — creating, loading, and manipulating PDFs in the browser.
+The site needs an internet connection at runtime to load pdf.js + pdf.js worker from the CDN. If offline, the preview-based tools (PDF to JPG, per-page thumbnails) will not work; the pdf-lib-only tools (merge, split, rotate, jpg-to-pdf, unlock, watermark, sign) can still work if pdf-lib is bundled (it is).
 
-Exact CDN URLs are referenced in the app and listed in the README so the site is transparent about what it loads.
+## Known limitations
 
-## Verification (results from this build)
+- The iLovePDF **wordmark** is reproduced as a text logo (text "iLovePDF") to match the reference design. Do not present this as the official iLovePDF site.
+- Tool cards use Lucide icons mapped by tool; if an icon name is missing, a fallback is rendered and a console warning is emitted.
+- PDF.js must load from CDN; if the CDN is unreachable, preview-based tools show an error.
+- Organize-pdf reorder, page-specific drag-and-drop thumbnails, and some advanced options are stubs covered by ComingSoon.
+- The compression estimate is an approximation, not a measured recompressed file size.
+- Mobile drawer closes on route change; body scroll is locked while open.
 
-The dev server was started with `npx vite` on 127.0.0.1:3000 and the following was confirmed in the browser:
+## README state
 
-1. Homepage loads with all 12 tool cards, category nav, filter pills, hero, and footer.
-2. Filter pills work: clicking "Organize PDF" shows only the 3 organize-category cards; clicking "All" restores all cards.
-3. Merge PDF: drop 2 PDFs, click "Do it", produces a downloadable merged PDF (verified by fetching the result blob — valid %PDF-1.7).
-4. Split PDF: drop a 4-page PDF, select pages 2-3, produces a downloadable extracted PDF.
-5. Rotate PDF: drop a PDF, click "Do it", produces a downloadable rotated PDF.
-6. Add page numbers: drop a PDF, click "Do it", produces a downloadable PDF with page numbers.
-7. Add watermark: drop a PDF, click "Do it", produces a downloadable watermarked PDF.
-8. Organize pages: drop a PDF, shows page thumbnails, click "Do it", saves a downloadable PDF in the shown order.
-9. PDF to JPG: drop a 2-page PDF, click "Do it", renders and downloads 2 JPGs (one per page).
-10. Unlock PDF: drop a PDF, shows an encryption report (encrypted / not encrypted, reported permissions).
-11. Compress PDF and PDF to Word pages render as labeled stubs ("Not available in this demo").
+- This file is `PDF Site/README.md` (the project's primary docs).
+- A short root-level `README.md` at the repo root points into `PDF Site/`.
 
-Known limitations observed:
-- Organize pages renders page thumbnails via pdf.js canvas; in some browser contexts the thumbnails fall back to page-number text only. The save/sort/drop/rotate functionality still works.
-- All tools load pdf.js and pdf-lib from CDN at runtime. If offline, the tools that need rendering (PDF to JPG, organize thumbnails) will not work.
-- Test PDFs used during verification were generated with pdf-lib's `addPage([width, height])` (a 2-element array). A 4-element MediaBox array `[llx, lly, urx, ury]` does not set the MediaBox correctly in the pdf-lib version used here.
+## Credits / references
 
-## Files
-
-- `index.html` — homepage.
-- `vite.config.js` — Vite config (dev server on 127.0.0.1).
-- `package.json` + `package-lock.json` — dev dependency on Vite.
-- `js/app.js` — shared homepage UI helpers (category nav, filter pills, tool grid).
-- `js/tools.js` — tool card catalog and homepage rendering.
-- `js/tool-shell.js` — shared tool-page shell (header, dropzone, file list, action row, result, stub page).
-- `js/pdf.js` — pdf.js + pdf-lib loading and integration helpers (loadPdfJs, ensurePdfJs, ensurePdfLib, readFileAsBuffer, pdfPageCount, renderPageToCanvas, renderPageToPngBlob, renderPageToJpgBlob, renderPageToJpgFromDoc, inspectPdfSecurity).
-- `tools/*.html` — individual tool pages (merge, split, rotate, numbers, watermark, organize, pdf-to-jpg, unlock, compress, pdf-to-word, jpg-to-pdf, word-to-pdf).
-- `styles/global.css` — shared styles (header, filter pills, tool grid, dropzone, file list, action row, result, stub, footer).
-- `styles/tool.css` — tool-page-specific styles.
-- `styles/home.css` — homepage styles (currently empty; shared styles live in global.css).
-- `README.md` — this file.
+Built by inspecting the live iLovePDF homepage (pattern, layout, color palette, typography, tool catalog, UX) and reproducing it as a learning/demo site. Not derived from iLovePDF's copyrighted copy, logos, or assets beyond the functional/structural design pattern.
