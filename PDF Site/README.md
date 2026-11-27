@@ -23,6 +23,7 @@ A client-side PDF tool site built as a **design/UX clone** of the [iLovePDF](htt
 | Add Page Numbers | Stamp page numbers on any PDF |
 | Edit PDF | Add text, shapes, and images directly on pages |
 | Crop PDF | Trim margins with pdf-lib crop boxes |
+| PDF Forms | Fill AcroForm text fields, checkboxes, and dropdowns via pdf-lib |
 | Redact PDF | Permanently black out sensitive content |
 | OCR PDF | Turn scanned pages into searchable text via Tesseract.js (WebAssembly) |
 | PDF to Text | Extract embedded text layer from PDF pages into a .txt file via PDF.js |
@@ -42,7 +43,6 @@ All client tools run entirely in the browser using **pdf-lib** (merge/split/rota
 | PDF → Word/Excel/PowerPoint | LibreOffice headless |
 | HTML → PDF | Puppeteer (not available in this deployment) |
 | PDF to PDF/A / Markdown | pdf-lib passthrough |
-| PDF Forms | — |
 | AI Summarizer / Translate PDF | — |
 
 See `server/routes/process.js` for the full action list and fallbacks.

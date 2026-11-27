@@ -337,13 +337,13 @@ export const TOOLS: ToolConfig[] = [
   {
     id: 'pdf-forms',
     name: 'PDF Forms',
-    description: 'Fill, sign, and manage PDF form fields.',
+    description: 'Fill AcroForm text fields, checkboxes, and dropdowns in a PDF.',
     category: 'Edit PDF',
     categoryKey: 'edit',
     icon: 'FileSignature',
     accent: 'primary',
     route: '/pdf-forms',
-    status: 'backend',
+    status: 'implemented',
   },
 
   // ---- PDF Security ----
