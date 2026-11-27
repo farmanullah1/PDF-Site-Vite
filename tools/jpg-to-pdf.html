@@ -6,27 +6,139 @@
   <title>JPG to PDF — PDF Toolkit</title>
   <link rel="stylesheet" href="../styles/global.css" />
   <link rel="stylesheet" href="../styles/tool.css" />
+  <style>
+    .image-file-list .file-item { gap: 8px; }
+    .image-file-list .file-item .file-icon { background: #eef7ee; color: #2f7d3f; }
+    .image-file-list .file-item .thumb-wrap {
+      width: 56px; height: 42px; overflow: hidden; border: 1px solid var(--line);
+      border-radius: 4px; background: #fff; flex: 0 0 auto;
+    }
+    .image-file-list .file-item .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .image-file-list .file-item:not(.has-thumb) .file-icon { display: none; }
+  </style>
 </head>
 <body>
   <script type="module">
     import { toolShell, showResult, escapeHtml } from '../js/tool-shell.js';
-    import { ensurePdfLib } from '../js/pdf.js';
+    import { ensurePdfLib, readFileAsBuffer } from '../js/pdf.js';
 
     toolShell({
       mark: '>',
       title: 'JPG to PDF',
-      summary: 'Bundle images into a single PDF. Placeholder page for this demo.',
+      summary: 'Bundle JPG/PNG images into a single downloadable PDF, in the order you choose.',
       category: 'convert',
-      preUpload: `
-        <section class="jpg-note">
-          <p>This demo page is provided as a placeholder for the JPG-to-PDF idea. The real image-to-PDF conversion flow is not wired here yet.</p>
+      postUpload: `
+        <section class="jpg-tip">
+          <p>Drop image files in the order you want them in the PDF. Use <strong>Choose files</strong> to add more, or <strong>Clear all</strong> to start over.</p>
         </section>
       `,
     });
 
     const main = document.querySelector('main.tool-main');
+
+    /* ---------- image-file list ---------- */
+    function makeImageFileItem(file) {
+      const li = document.createElement('li');
+      li.className = 'file-item image-file-list';
+      li.__file = file;
+      const meta = file.size >= 1024 * 1024
+        ? (file.size / (1024 * 1024)).toFixed(2) + ' MB'
+        : (file.size / 1024).toFixed(1) + ' KB';
+
+      const thumbWrap = document.createElement('div');
+      thumbWrap.className = 'thumb-wrap';
+      const img = document.createElement('img');
+      img.alt = file.name;
+      li.appendChild(thumbWrap);
+      const url = URL.createObjectURL(file);
+      li._thumbUrl = url;
+      img.src = url;
+      img.onload = () => { URL.revokeObjectURL(li._thumbUrl); li._thumbUrl = null; };
+      if (img.error) { thumbWrap.remove(); li.classList.add('has-thumb'); }
+
+      li.appendChild(Object.assign(document.createElement('span'), { className: 'file-icon', textContent: file.type.startsWith('image/jpeg') ? 'JPG' : 'IMG' }));
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'file-name';
+      nameSpan.textContent = file.name;
+      li.appendChild(nameSpan);
+      const sizeSpan = document.createElement('span');
+      sizeSpan.className = 'file-size';
+      sizeSpan.textContent = meta;
+      li.appendChild(sizeSpan);
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'remove-file';
+      remove.textContent = 'Remove';
+      remove.setAttribute('aria-label', `Remove ${escapeHtml(file.name)}`);
+      remove.addEventListener('click', () => {
+        if (li._thumbUrl) URL.revokeObjectURL(li._thumbUrl);
+        li.remove();
+        if (!main.querySelector('.file-list .file-items .file-item')) {
+          main.querySelector('.file-list').hidden = true;
+          main.querySelector('.image-file-list-section')?.remove();
+        }
+      });
+      li.appendChild(remove);
+      return li;
+    }
+
+    function addImageFiles(files) {
+      const list = main.querySelector('.file-list .file-items');
+      const hasImages = Array.from(files).some((f) => f.type.startsWith('image/'));
+      for (const file of files) {
+        if (!file.type.startsWith('image/')) continue;
+        list.appendChild(makeImageFileItem(file));
+      }
+      if (!main.querySelector('.image-file-list-section')) {
+        const tip = document.createElement('section');
+        tip.className = 'jpg-tip';
+        tip.innerHTML = `<p>Drop image files in the order you want them in the PDF. Use <strong>Choose files</strong> to add more, or <strong>Clear all</strong> to start over.</p>`;
+        const listHead = main.querySelector('.file-list-head');
+        if (listHead && listHead.parentNode) listHead.parentNode.insertBefore(tip, listHead.nextSibling);
+      }
+      main.querySelector('.file-list').hidden = false;
+    }
+
+    main.querySelector('.dropzone').addEventListener('dragover', (e) => {
+      e.preventDefault();
+      main.querySelector('.dropzone').classList.add('dragover');
+    });
+    main.querySelector('.dropzone').addEventListener('dragleave', () => {
+      main.querySelector('.dropzone').classList.remove('dragover');
+    });
+    main.querySelector('.dropzone').addEventListener('drop', (e) => {
+      e.preventDefault();
+      main.querySelector('.dropzone').classList.remove('dragover');
+      addImageFiles(Array.from(e.dataTransfer.files || []));
+    });
+    main.querySelector('.file-input').addEventListener('change', () => {
+      addImageFiles(Array.from(main.querySelector('.file-input').files || []));
+      main.querySelector('.file-input').value = '';
+    });
+    main.querySelector('.choose-btn').addEventListener('click', () => {
+      main.querySelector('.file-input').click();
+    });
+    main.querySelector('.file-input').accept = 'image/*';
+
+    /* ---------- build ---------- */
     main.__runToolAction = async () => {
-      throw new Error('This tool is a placeholder. Attach images and re-run the build to implement it.');
+      const items = Array.from(main.querySelectorAll('.file-list .file-item.image-file-list'));
+      if (!items.length) throw new Error('Add at least one image first.');
+      const files = items.map((li) => li.__file);
+      const buffers = await Promise.all(files.map((f) => readFileAsBuffer(f)));
+      const PDFLib = await ensurePdfLib();
+      const out = await PDFLib.PDFDocument.create();
+      for (let i = 0; i < buffers.length; i++) {
+        const img = await out.embedPng(buffers[i]);
+        const page = await out.addPage([img.width, img.height]);
+        page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+      }
+      const bytes = await out.save();
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const name = files.length === 1
+        ? (files[0].name.replace(/\.[^.]+$/, '') || 'images') + '.pdf'
+        : 'images-combined.pdf';
+      showResult(main, 'ok', `Bundled ${files.length} image${files.length === 1 ? '' : 's'} into one PDF.`, blob, name);
     };
   </script>
 </body>
