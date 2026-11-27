@@ -69,7 +69,7 @@ export default function SignPDF() {
   const onPointerUp = () => { drawing.current = false; };
 
   const addFile = useCallback(
-    (incoming: File[]) => {
+    async (incoming: File[]) => {
       const f = incoming[0];
       if (!f) return;
       const isPdf = f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
@@ -78,10 +78,8 @@ export default function SignPDF() {
       setFile({ file: f, url: URL.createObjectURL(f), pages: 0 });
       setError(null);
       setResult(null);
-      if (pageIdx === 0 && file && file.pages === 0) setPageIdx(0);
-      pdfPageCount(new Uint8Array(await readFileAsArrayBuffer(f))).then((n) =>
-        setFile((p) => (p && p.file === f ? { ...p, pages: n } : p))
-      ).catch(() => setError('Could not read the PDF.'));
+      const count = await pdfPageCount(new Uint8Array(await readFileAsArrayBuffer(f)));
+      setFile((p) => (p && p.file === f ? { ...p, pages: count } : p));
     },
     [pageIdx]
   );
