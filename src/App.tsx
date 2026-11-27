@@ -41,14 +41,14 @@ export default function App() {
           <Route path="/pdf_to_excel" element={<ToolPage />} />
           <Route path="/pdf_to_powerpoint" element={<ToolPage />} />
           <Route path="/html-to-pdf" element={<ToolPage />} />
-          <Route path="/convert-pdf-to-pdfa" element={<ToolPage />} />
+          <Route path="/pdf_to_pdfa" element={<ToolPage />} />
           <Route path="/pdf-to-markdown" element={<ToolPage />} />
           <Route path="/pdf-to-text" element={<ToolPage />} />
           <Route path="/pdf_to_html" element={<ToolPage />} />
           <Route path="/scan-pdf" element={<ToolPage />} />
           <Route path="/repair-pdf" element={<ToolPage />} />
           <Route path="/pdf-forms" element={<ToolPage />} />
-          <Route path="/pdf-summarize" element={<ToolPage />} />
+          <Route path="/ai_summarizer" element={<ToolPage />} />
           <Route path="/translate-pdf" element={<ToolPage />} />
           <Route path="/compare-pdf" element={<ToolPage />} />
           <Route path="/login" element={<LoginPage />} />
