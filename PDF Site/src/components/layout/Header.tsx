@@ -132,13 +132,7 @@ export default function Header() {
 
 function LogoMark() {
   return (
-    <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <rect width="32" height="32" rx="6" fill="#e5322d"/>
-      <rect x="6" y="9" width="20" height="14" rx="2" stroke="#fff" strokeWidth="1.6"/>
-      <path d="M7 11h4v10H7z" fill="#fff" opacity=".95"/>
-      <path d="M14 9h4v12h-4z" fill="#fff" opacity=".95"/>
-      <path d="M21 13h4v8h-4z" fill="#fff" opacity=".95"/>
-    </svg>
+    <img src="/logo.svg" alt="iLovePDF logo" width="26" height="26" aria-hidden="true" />
   );
 }
 
