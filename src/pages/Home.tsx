@@ -1,5 +1,25 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  IconCompare_pdf,
+  IconCompress_pdf,
+  IconCrop_pdf,
+  IconEdit_pdf,
+  IconHtml_to_pdf,
+  IconMerge_pdf,
+  IconOcr_pdf,
+  IconOrganize_pdf,
+  IconPdf_to_markdown,
+  IconProtect_pdf,
+  IconRedact_pdf,
+  IconRemove_pages,
+  IconRepair_pdf,
+  IconScan_pdf,
+  IconSign_pdf,
+  IconSplit_pdf,
+  IconTranslate_pdf,
+  IconPdf_forms,
+} from '../components/pdf/icons';
 import { TOOL_CATEGORIES, toolsByCategory, ToolConfig, allImplementedTools } from '../data/toolsConfig';
 
 const FILTERS: { key: string; label: string }[] = [
@@ -89,43 +109,29 @@ function ToolCard({ tool }: { tool: ToolConfig }) {
   );
 }
 
+const ICON_COMPONENTS: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+  Compare: IconCompare_pdf,
+  Compress: IconCompress_pdf,
+  Crop: IconCrop_pdf,
+  Edit: IconEdit_pdf,
+  Forms: IconPdf_forms,
+  HtmlToPdf: IconHtml_to_pdf,
+  Merge: IconMerge_pdf,
+  OCR: IconOcr_pdf,
+  Organize: IconOrganize_pdf,
+  PdfToMarkdown: IconPdf_to_markdown,
+  Protect: IconProtect_pdf,
+  Redact: IconRedact_pdf,
+  Remove: IconRemove_pages,
+  Repair: IconRepair_pdf,
+  Scan: IconScan_pdf,
+  Sign: IconSign_pdf,
+  Split: IconSplit_pdf,
+  Translate: IconTranslate_pdf,
+};
+
 function toolIcon(name: string): React.ReactNode {
-  const svgMap: Record<string, string> = {
-    'Compare': '/assets/icons/compare-pdf.svg',
-    'Compress': '/assets/icons/compress_pdf.svg',
-    'Crop': '/assets/icons/crop-pdf.svg',
-    'Edit': '/assets/icons/edit-pdf.svg',
-    'Forms': '/assets/icons/pdf-forms.svg',
-    'HtmlToPdf': '/assets/icons/html-to-pdf.svg',
-    'Merge': '/assets/icons/merge_pdf.svg',
-    'OCR': '/assets/icons/ocr-pdf.svg',
-    'Organize': '/assets/icons/organize-pdf.svg',
-    'PdfToMarkdown': '/assets/icons/pdf-to-markdown.svg',
-    'Protect': '/assets/icons/protect-pdf.svg',
-    'Redact': '/assets/icons/redact-pdf.svg',
-    'Remove': '/assets/icons/remove-pages.svg',
-    'Repair': '/assets/icons/repair-pdf.svg',
-    'Scan': '/assets/icons/scan-pdf.svg',
-    'Sign': '/assets/icons/sign-pdf.svg',
-    'Split': '/assets/icons/split_pdf.svg',
-    'Translate': '/assets/icons/translate-pdf.svg',
-  };
-
-  const path = svgMap[name];
-
-  if (path) {
-    return (
-      <img
-        key={path}
-        src={path}
-        className="h-full w-full max-w-full max-h-full object-contain"
-        alt=""
-        aria-hidden="true"
-        width="48"
-        height="48"
-      />
-    );
-  }
-
-  return null;
+  const Component = ICON_COMPONENTS[name];
+  if (!Component) return null;
+  return <Component className="h-6 w-6" />;
 }

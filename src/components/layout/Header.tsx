@@ -229,7 +229,7 @@ export default function Header() {
               aria-haspopup="true"
               aria-expanded={convertOpen}
             >
-              Convert PDF <span className="ico ico--down" style={{ fontSize: '10px', marginLeft: '4px' }} />
+              Convert PDF <DownArrow style={{ fontSize: '10px', marginLeft: '4px', color: '#161616' }} />
             </button>
             {convertOpen && (
               <div className="nav-dropdown absolute left-0 top-full mt-2 min-w-[260px] rounded-lg border border-[#c4c4cc] bg-white p-2 shadow-[0_10px_24px_rgba(16,24,32,0.14)] z-50">
@@ -246,7 +246,7 @@ export default function Header() {
                             onClick={(e) => { if (!l.external) e.preventDefault(); handleNavLink(l.href, l.external); }}
                             className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]"
                           >
-                            <span className="ico" style={{ fontSize: '14px' }} />
+                            <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
                             {l.label}
                           </a>
                         </li>
@@ -265,7 +265,7 @@ export default function Header() {
               aria-haspopup="true"
               aria-expanded={allOpen}
             >
-              All PDF tools <span className="ico ico--down" style={{ fontSize: '10px', marginLeft: '4px' }} />
+              All PDF tools <DownArrow style={{ fontSize: '10px', marginLeft: '4px', color: '#161616' }} />
             </button>
             {allOpen && (
               <div className="nav-dropdown nav-dropdown--full absolute left-0 top-full mt-2 min-w-[560px] rounded-lg border border-[#c4c4cc] bg-white p-4 shadow-[0_10px_24px_rgba(16,24,32,0.14)] z-50">
@@ -283,7 +283,7 @@ export default function Header() {
                               onClick={(e) => { if (!l.external) e.preventDefault(); handleNavLink(l.href, l.external); }}
                               className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]"
                             >
-                              <span className="ico" style={{ fontSize: '14px' }} />
+                              <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
                               {l.label}
                             </a>
                           </li>
@@ -315,7 +315,7 @@ export default function Header() {
               aria-label="More options"
               onClick={() => setCompanyOpen((v) => !v)}
             >
-              <span className="ico ico--more" style={{ fontSize: '20px' }} />
+              <MoreIcon style={{ fontSize: '20px', color: '#161616' }} />
             </button>
             {companyOpen && (
               <div className="nav-dropdown nav-dropdown--left nav-dropdown--company absolute right-0 top-full mt-2 min-w-[320px] rounded-lg border border-[#c4c4cc] bg-white p-4 shadow-[0_10px_24px_rgba(16,24,32,0.14)] z-50 sm:hidden">
@@ -337,12 +337,12 @@ export default function Header() {
                                 className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]"
                               >
                                 <div className="flex items-center gap-2">
-                                  <span className="ico" style={{ fontSize: '14px' }} />
+                                  <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
                                   <div className="navbar__item__content">
                                     <div className="navbar__item__title font-medium">{l.label}</div>
                                   </div>
                                 </div>
-                                <span className="ico ico--arrow-r" style={{ fontSize: '10px', color: '#47474f' }} />
+                                <ArrowRight style={{ fontSize: '10px', color: '#47474f' }} />
                               </a>
                             </li>
                           ))}
@@ -358,13 +358,13 @@ export default function Header() {
                       <li>
                         <a href="/business" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
                           <div className="flex items-center gap-2">
-                            <span className="ico" style={{ fontSize: '14px' }} />
+                            <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
                             <div className="navbar__item__content">
                               <div className="navbar__item__title font-medium">Business</div>
                               <div className="navbar__item__description text-[11px] text-[#47474f]">Streamlined PDF editing and workflows for business teams</div>
                             </div>
                           </div>
-                          <span className="ico ico--arrow-r" style={{ fontSize: '10px', color: '#47474f' }} />
+                          <ArrowRight style={{ fontSize: '10px', color: '#47474f' }} />
                         </a>
                       </li>
                     </ul>
@@ -377,25 +377,25 @@ export default function Header() {
                       <li>
                         <a href="/desktop" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
                           <div className="flex items-center gap-2">
-                            <span className="ico" style={{ fontSize: '14px' }} />
+                            <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
                             <div className="navbar__item__content">
                               <div className="navbar__item__title font-medium">Desktop App</div>
                               <div className="navbar__item__description text-[11px] text-[#47474f]">Available for Mac and Windows</div>
                             </div>
                           </div>
-                          <span className="ico ico--arrow-r" style={{ fontSize: '10px', color: '#47474f' }} />
+                          <ArrowRight style={{ fontSize: '10px', color: '#47474f' }} />
                         </a>
                       </li>
                       <li>
                         <a href="/mobile" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
                           <div className="flex items-center gap-2">
-                            <span className="ico" style={{ fontSize: '14px' }} />
+                            <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
                             <div className="navbar__item__content">
                               <div className="navbar__item__title font-medium">Mobile App</div>
                               <div className="navbar__item__description text-[11px] text-[#47474f]">Available for iOS and Android</div>
                             </div>
                           </div>
-                          <span className="ico ico--arrow-r" style={{ fontSize: '10px', color: '#47474f' }} />
+                          <ArrowRight style={{ fontSize: '10px', color: '#47474f' }} />
                         </a>
                       </li>
                     </ul>
@@ -421,16 +421,16 @@ export default function Header() {
                         onClick={() => setLangOpen((v) => !v)}
                       >
                         <span className="flex items-center gap-2">
-                          <span className="ico ico--world" style={{ fontSize: '14px' }} />
+                          <WorldIcon style={{ fontSize: '14px', color: '#161616' }} />
                           <span className="font-medium">{currentLang === 'en' ? 'English' : LANGUAGES.find((l) => l.code === currentLang)?.label}</span>
-                          <span className="ico ico--down-w" style={{ fontSize: '10px' }} />
+                          <DownArrow style={{ fontSize: '10px', color: '#161616' }} />
                         </span>
                       </button>
                       {langOpen && (
                         <div className="nav-dropdown lang absolute left-0 top-full mt-2 min-w-[200px] rounded-lg border border-[#c4c4cc] bg-white p-2 shadow-[0_10px_24px_rgba(16,24,32,0.14)] z-50">
                           <span className="lang__current flex items-center gap-2 px-3 py-2 text-sm font-semibold text-[#161616] border-b border-[#c4c4cc]/30 mb-2">
-                            <span className="ico ico--world" style={{ fontSize: '14px' }} />
-                            English <span className="ico ico--down-w" style={{ fontSize: '10px' }} />
+                            <WorldIcon style={{ fontSize: '14px', color: '#161616' }} />
+                            English <DownArrow style={{ fontSize: '10px', color: '#161616' }} />
                           </span>
                           <ul className="lang__menu flex flex-col gap-1">
                             <li>
@@ -481,7 +481,7 @@ export default function Header() {
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
           >
-            <span className="ico ico--hamburger" style={{ fontSize: '22px' }} />
+            <HamburgerIcon style={{ fontSize: '22px', color: '#161616' }} />
           </button>
         </div>
       </nav>
@@ -504,7 +504,7 @@ export default function Header() {
                 <img src="/img/ilovepdf.svg" alt="iLovePDF" />
               </Link>
               <button onClick={() => setMobileOpen(false)} className="rounded-md p-1.5 text-[#161616] transition-colors hover:bg-[#f0f0f5]" aria-label="Close menu">
-                <span className="ico ico--close" style={{ fontSize: '22px' }} />
+                <CloseIcon style={{ fontSize: '22px', color: '#161616' }} />
               </button>
             </div>
             <nav className="overflow-y-auto px-4 py-4" style={{ height: 'calc(100vh - 80px)' }}>
@@ -553,6 +553,57 @@ export default function Header() {
         </div>
       )}
     </header>
+  );
+}
+
+type IconProps = { className?: string; style?: React.CSSProperties };
+function DownArrow({ className, style }: IconProps) {
+  return (
+    <svg viewBox="0 0 10 10" fill="none" className={className} style={style} width="10" height="10">
+      <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M3 3l4 4m0-4L7 3" />
+    </svg>
+  );
+}
+function DocIcon({ className, style }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="24" height="24">
+      <path stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" d="M14 2v6h6" />
+    </svg>
+  );
+}
+function CloseIcon({ className, style }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="24" height="24">
+      <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M18 6L6 12" />
+    </svg>
+  );
+}
+function HamburgerIcon({ className, style }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="24" height="24">
+      <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M3 12h18M3 18h18" />
+    </svg>
+  );
+}
+function MoreIcon({ className, style }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="24" height="24">
+      <circle cx="12" cy="12" r="1" fill="currentColor" /><circle cx="12" cy="5" r="1" fill="currentColor" /><circle cx="12" cy="19" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+function WorldIcon({ className, style }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="24" height="24">
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" /><path stroke="currentColor" strokeWidth="1.5" d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2ZM2 12c0 5.523 4.477 10 10 10s10-4.477 10-10" />
+    </svg>
+  );
+}
+function ArrowRight({ className, style }: IconProps) {
+  return (
+    <svg viewBox="0 0 10 10" fill="none" className={className} style={style} width="10" height="10">
+      <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M3 1l4 4M3 1l4 4M7 5l-4-4M7 5l-4 4" />
+    </svg>
   );
 }
 
