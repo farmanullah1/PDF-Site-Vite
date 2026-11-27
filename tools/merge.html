@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Merge PDF — PDF Toolkit</title>
+  <link rel="stylesheet" href="../styles/global.css" />
+  <link rel="stylesheet" href="../styles/tool.css" />
+</head>
+<body>
+  <script type="module">
+    import { toolShell, showResult, escapeHtml } from '../js/tool-shell.js';
+    import { ensurePdfLib, readFileAsBuffer } from '../js/pdf.js';
+
+    toolShell({
+      mark: 'M',
+      title: 'Merge PDF',
+      summary: 'Combine several PDFs in the order you choose, then download one merged file.',
+      category: 'organize',
+      postUpload: `
+        <section class="order-tip">
+          <p>Drag the file rows to set the merge order, then press "Do it".</p>
+        </section>
+      `,
+    });
+
+    const main = document.querySelector('main.tool-main');
+    main.__runToolAction = async () => {
+      const items = Array.from(main.querySelectorAll('.file-item'));
+      if (!items.length) throw new Error('Add at least one PDF first.');
+      const files = items.map((li) => li.__file);
+      if (!files.length) throw new Error('Add at least one PDF first.');
+      const buffers = await Promise.all(files.map((f) => readFileAsBuffer(f)));
+      const PDFLib = await ensurePdfLib();
+      const merged = await PDFLib.PDFDocument.create();
+      for (const buf of buffers) {
+        const src = await PDFLib.PDFDocument.load(buf);
+        const pages = await merged.copyPages(src, src.getPageIndices());
+        const indices = pages.map((p) => p.index);
+        for (const p of pages) await merged.addPage(p);
+      }
+      const out = await merged.save();
+      const blob = new Blob([out], { type: 'application/pdf' });
+      showResult(main, 'ok', `Merged ${files.length} file${files.length === 1 ? '' : 's'} into one PDF.`, blob, 'merged.pdf');
+    };
+
+    function addFiles(files) {
+      const list = main.querySelector('.file-items');
+      files.forEach((file) => {
+        const li = document.createElement('li');
+        li.className = 'file-item';
+        li.__file = file;
+        const meta = file.size >= 1024 * 1024 ? (file.size / (1024 * 1024)).toFixed(2) + ' MB' : (file.size / 1024).toFixed(1) + ' KB';
+        li.innerHTML = `
+          <span class="file-icon">PDF</span>
+          <span class="file-name">${escapeHtml(file.name)}</span>
+          <span class="file-size">${meta}</span>
+          <button class="remove-file" type="button" aria-label="Remove ${escapeHtml(file.name)}">Remove</button>
+        `;
+        li.querySelector('.remove-file').addEventListener('click', () => {
+          li.remove();
+          if (!list.querySelectorAll('.file-item').length) {
+            main.querySelector('.file-list').hidden = true;
+          }
+        });
+        list.appendChild(li);
+      });
+      main.querySelector('.file-list').hidden = false;
+    }
+
+    main.querySelector('.dropzone').addEventListener('drop', (e) => {
+      e.preventDefault();
+      main.querySelector('.dropzone').classList.remove('dragover');
+      const files = Array.from(e.dataTransfer.files || []).filter((f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
+      if (files.length) addFiles(files);
+    });
+    main.querySelector('.dropzone').addEventListener('dragover', (e) => e.preventDefault());
+    main.querySelector('.file-input').addEventListener('change', () => {
+      addFiles(Array.from(main.querySelector('.file-input').files || []));
+      main.querySelector('.file-input').value = '';
+    });
+    main.querySelector('.choose-btn').addEventListener('click', () => main.querySelector('.file-input').click());
+  </script>
+</body>
+</html>

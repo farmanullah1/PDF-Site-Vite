@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Compress PDF — PDF Toolkit</title>
+  <link rel="stylesheet" href="../styles/global.css" />
+  <link rel="stylesheet" href="../styles/tool.css" />
+</head>
+<body>
+  <script type="module">
+    import { toolShell, showResult, escapeHtml } from '../js/tool-shell.js';
+
+    toolShell({
+      mark: 'C',
+      title: 'Compress PDF',
+      summary: 'Shrink file size. Real compression is server-side — this demo explains the limit and does not fake a result.',
+      category: 'optimize',
+      stub: true,
+    });
+  </script>
+</body>
+</html>

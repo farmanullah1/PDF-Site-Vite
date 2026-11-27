@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Organize pages — PDF Toolkit</title>
+  <link rel="stylesheet" href="../styles/global.css" />
+  <link rel="stylesheet" href="../styles/tool.css" />
+</head>
+<body>
+  <script type="module">
+    import { toolShell, showResult, escapeHtml } from '../js/tool-shell.js';
+    import { ensurePdfLib, ensurePdfJs, readFileAsBuffer, pdfPageCount, renderPageToCanvas } from '../js/pdf.js';
+
+    toolShell({
+      mark: 'O',
+      title: 'Organize pages',
+      summary: 'List pages, reorder them, drop pages, and rotate individual pages, then save.',
+      category: 'organize',
+      postUpload: `
+        <section class="organize-controls">
+          <div class="organize-rotates">
+            <span>Rotate selected:</span>
+            <button class="mini-rotate" data-deg="90" type="button">90°</button>
+            <button class="mini-rotate" data-deg="180" type="button">180°</button>
+            <button class="mini-rotate" data-deg="270" type="button">270°</button>
+          </div>
+          <button class="drop-pages-btn" type="button">Drop selected pages</button>
+        </section>
+        <section class="page-list" hidden>
+          <div class="page-list-head"><h2>Pages</h2><span class="page-count">0 pages</span></div>
+          <ul class="page-items"></ul>
+        </section>
+      `,
+    });
+
+    const main = document.querySelector('main.tool-main');
+    let loadedFile = null;
+    let pageCount = 0;
+
+    main.__runToolAction = async () => {
+      if (!loadedFile) throw new Error('Add one PDF first.');
+      const buffer = await readFileAsBuffer(loadedFile);
+      const PDFLib = await ensurePdfLib();
+      const src = await PDFLib.PDFDocument.load(buffer);
+      const order = Array.from(main.querySelectorAll('.page-item')).map((li) => parseInt(li.dataset.index, 10));
+      const out = await PDFLib.PDFDocument.create();
+      const copied = await out.copyPages(src, order);
+      const rotations = Array.from(main.querySelectorAll('.page-item')).map((li) => parseInt(li.dataset.rotate, 10) || 0);
+      copied.forEach((p, i) => {
+        p.rotate = rotations[i];
+      });
+      const indices = copied.map((p) => p.index);
+      for (const p of copied) await out.addPage(p);
+      const bytes = await out.save();
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      showResult(main, 'ok', `Saved ${order.length} page${order.length === 1 ? '' : 's'} in the order shown.`, blob, 'organized.pdf');
+    };
+
+    function addFiles(files) {
+      if (files.length > 1) {
+        showResult(main, 'error', 'Attach one PDF at a time for page organization.');
+        return;
+      }
+      loadedFile = files[0];
+      const meta = loadedFile.size >= 1024 * 1024 ? (loadedFile.size / (1024 * 1024)).toFixed(2) + ' MB' : (loadedFile.size / 1024).toFixed(1) + ' KB';
+      const list = main.querySelector('.file-items');
+      const li = document.createElement('li');
+      li.className = 'file-item';
+      li.__file = loadedFile;
+      li.innerHTML = `
+        <span class="file-icon">PDF</span>
+        <span class="file-name">${escapeHtml(loadedFile.name)}</span>
+        <span class="file-size">${meta}</span>
+      `;
+      list.appendChild(li);
+      main.querySelector('.file-list').hidden = false;
+      loadPages();
+    }
+
+    async function loadPages() {
+      if (!loadedFile) return;
+      pageCount = await pdfPageCount(await readFileAsBuffer(loadedFile));
+      const canvas = document.createElement('canvas');
+      const list = main.querySelector('.page-items');
+      list.innerHTML = '';
+      for (let i = 0; i < pageCount; i++) {
+        const num = i + 1;
+        const item = document.createElement('li');
+        item.className = 'page-item';
+        item.dataset.index = i;
+        item.dataset.rotate = 0;
+        try {
+          await renderPageToCanvas(await readFileAsBuffer(loadedFile), num, canvas, 72);
+          const thumb = canvas.toDataURL('image/png');
+          item.innerHTML = `
+            <span class="page-thumb" data-thumb="${escapeHtml(thumb)}"></span>
+            <span class="page-label">Page ${num}</span>
+            <button class="page-rotate" type="button" data-deg="90" aria-label="Rotate page ${num} 90°">↻</button>
+            <button class="page-drop" type="button" aria-label="Drop page ${num}">Remove</button>
+          `;
+          item.querySelector('.page-drop').addEventListener('click', () => {
+            item.remove();
+            updatePageCount();
+          });
+          item.querySelector('.page-rotate').addEventListener('click', () => {
+            const cur = parseInt(item.dataset.rotate, 10) || 0;
+            item.dataset.rotate = (cur + 90) % 360;
+          });
+        } catch (e) {
+          item.innerHTML = `<span class="page-label">Page ${num}</span>`;
+        }
+        list.appendChild(item);
+      }
+      updatePageCount();
+      main.querySelector('.page-list').hidden = false;
+    }
+
+    function updatePageCount() {
+      const count = main.querySelector('.page-items')?.children?.length || 0;
+      const head = main.querySelector('.page-count');
+      if (head) head.textContent = `${count} page${count === 1 ? '' : 's'}`;
+    }
+
+    main.querySelector('.dropzone').addEventListener('drop', (e) => {
+      e.preventDefault();
+      main.querySelector('.dropzone').classList.remove('dragover');
+      const files = Array.from(e.dataTransfer.files || []).filter((f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
+      if (files.length) addFiles(files);
+    });
+    main.querySelector('.dropzone').addEventListener('dragover', (e) => e.preventDefault());
+    main.querySelector('.file-input').addEventListener('change', () => {
+      addFiles(Array.from(main.querySelector('.file-input').files || []));
+      main.querySelector('.file-input').value = '';
+    });
+    main.querySelector('.choose-btn').addEventListener('click', () => main.querySelector('.file-input').click());
+
+    main.querySelectorAll('.mini-rotate').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const deg = parseInt(btn.dataset.deg, 10);
+        const selected = Array.from(main.querySelectorAll('.page-item.selected'));
+        selected.forEach((li) => {
+          const cur = parseInt(li.dataset.rotate, 10) || 0;
+          li.dataset.rotate = (cur + deg) % 360;
+        });
+      });
+    });
+
+    Array.from(main.querySelectorAll('.page-item')).forEach((li) => {
+      li.addEventListener('click', (e) => {
+        if (e.target.closest('button')) return;
+        li.classList.toggle('selected');
+      });
+    });
+
+    main.querySelector('.drop-pages-btn').addEventListener('click', () => {
+      Array.from(main.querySelectorAll('.page-item.selected')).forEach((li) => li.remove());
+      updatePageCount();
+      if (!main.querySelector('.page-items').children.length) {
+        main.querySelector('.page-list').hidden = true;
+      }
+    });
+  </script>
+</body>
+</html>

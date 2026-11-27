@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Unlock PDF — PDF Toolkit</title>
+  <link rel="stylesheet" href="../styles/global.css" />
+  <link rel="stylesheet" href="../styles/tool.css" />
+</head>
+<body>
+  <script type="module">
+    import { toolShell, showResult, escapeHtml } from '../js/tool-shell.js';
+    import { ensurePdfLib, readFileAsBuffer, inspectPdfSecurity } from '../js/pdf.js';
+
+    toolShell({
+      mark: 'U',
+      title: 'Unlock PDF',
+      summary: 'Read-only check: see whether a PDF is encrypted and what permissions it reports.',
+      category: 'security',
+      postUpload: `
+        <section class="unlock-note">
+          <p>This tool only inspects the PDF's encryption flag and any reported permissions. It does not remove passwords. If a PDF requires an open password, this demo cannot open it.</p>
+        </section>
+      `,
+    });
+
+    const main = document.querySelector('main.tool-main');
+    main.__runToolAction = async () => {
+      const item = main.querySelector('.file-item');
+      if (!item || !item.__file) throw new Error('Add one PDF first.');
+      const file = item.__file;
+      const buffer = await readFileAsBuffer(file);
+      const report = await inspectPdfSecurity(buffer);
+      let html;
+      if (report.isEncrypted) {
+        html = `
+          <h2>Encryption report</h2>
+          <p>This PDF is encrypted.</p>
+          <ul>
+            <li>Encrypted: <strong>yes</strong></li>
+            <li>Reported permissions: ${escapeHtml(report.permissions)}</li>
+            <li>Open password required: <strong>${report.userPasswordRequired ? 'yes (not supported in this demo)' : 'not detected by this demo'}</strong></li>
+          </ul>
+          <p>This demo reads the encryption flag but does not crack or remove passwords.</p>
+        `;
+      } else {
+        html = `
+          <h2>Encryption report</h2>
+          <p>This PDF is not encrypted.</p>
+          <ul>
+            <li>Encrypted: <strong>no</strong></li>
+            <li>Reported permissions: ${escapeHtml(report.permissions)}</li>
+          </ul>
+        `;
+      }
+      const result = main.querySelector('.result');
+      result.hidden = false;
+      result.innerHTML = `<div class="report-block">${html}</div>`;
+    };
+
+    function addFiles(files) {
+      if (files.length > 1) {
+        showResult(main, 'error', 'Inspect one PDF at a time.');
+        return;
+      }
+      const list = main.querySelector('.file-items');
+      const file = files[0];
+      const li = document.createElement('li');
+      li.className = 'file-item';
+      li.__file = file;
+      const meta = file.size >= 1024 * 1024 ? (file.size / (1024 * 1024)).toFixed(2) + ' MB' : (file.size / 1024).toFixed(1) + ' KB';
+      li.innerHTML = `
+        <span class="file-icon">PDF</span>
+        <span class="file-name">${escapeHtml(file.name)}</span>
+        <span class="file-size">${meta}</span>
+      `;
+      list.appendChild(li);
+      main.querySelector('.file-list').hidden = false;
+    }
+
+    main.querySelector('.dropzone').addEventListener('drop', (e) => {
+      e.preventDefault();
+      main.querySelector('.dropzone').classList.remove('dragover');
+      const files = Array.from(e.dataTransfer.files || []).filter((f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
+      if (files.length) addFiles(files);
+    });
+    main.querySelector('.dropzone').addEventListener('dragover', (e) => e.preventDefault());
+    main.querySelector('.file-input').addEventListener('change', () => {
+      addFiles(Array.from(main.querySelector('.file-input').files || []));
+      main.querySelector('.file-input').value = '';
+    });
+    main.querySelector('.choose-btn').addEventListener('click', () => main.querySelector('.file-input').click());
+  </script>
+</body>
+</html>

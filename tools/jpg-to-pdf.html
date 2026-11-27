@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JPG to PDF — PDF Toolkit</title>
+  <link rel="stylesheet" href="../styles/global.css" />
+  <link rel="stylesheet" href="../styles/tool.css" />
+</head>
+<body>
+  <script type="module">
+    import { toolShell, showResult, escapeHtml } from '../js/tool-shell.js';
+    import { ensurePdfLib } from '../js/pdf.js';
+
+    toolShell({
+      mark: '>',
+      title: 'JPG to PDF',
+      summary: 'Bundle images into a single PDF. Placeholder page for this demo.',
+      category: 'convert',
+      preUpload: `
+        <section class="jpg-note">
+          <p>This demo page is provided as a placeholder for the JPG-to-PDF idea. The real image-to-PDF conversion flow is not wired here yet.</p>
+        </section>
+      `,
+    });
+
+    const main = document.querySelector('main.tool-main');
+    main.__runToolAction = async () => {
+      throw new Error('This tool is a placeholder. Attach images and re-run the build to implement it.');
+    };
+  </script>
+</body>
+</html>
