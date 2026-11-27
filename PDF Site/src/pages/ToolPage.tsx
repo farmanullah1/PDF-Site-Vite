@@ -18,6 +18,7 @@ import EditPDF from './tools/EditPDF';
 import CropPDF from './tools/CropPDF';
 import RedactPDF from './tools/RedactPDF';
 import OCRPDF from './tools/OCRPDF';
+import PdfToText from './tools/PdfToText';
 import ComparePDF from './tools/ComparePDF';
 import ServerTool from './tools/ServerTool';
 import ComingSoon from './tools/ComingSoon';
@@ -41,6 +42,7 @@ const CLIENT_COMPONENTS: Record<string, React.ComponentType> = {
   'crop-pdf': CropPDF,
   'redact-pdf': RedactPDF,
   'ocr-pdf': OCRPDF,
+  'pdf-to-text': PdfToText,
   'optimize-pdf': CompressPDF,
   'compare-pdf': ComparePDF,
 };

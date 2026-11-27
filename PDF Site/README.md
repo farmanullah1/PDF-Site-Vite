@@ -27,6 +27,7 @@ A client-side PDF tool site built as a **design/UX clone** of the [iLovePDF](htt
 | Crop PDF | Trim margins with pdf-lib crop boxes |
 | Redact PDF | Permanently black out sensitive content |
 | OCR PDF | Turn scanned pages into searchable text via Tesseract.js (WebAssembly) |
+| PDF to Text | Extract embedded text layer from PDF pages into a .txt file via PDF.js |
 
 All client tools run entirely in the browser using **pdf-lib** (merge/split/rotate/embed) and **pdf.js** (page previews, loaded from CDN).
 

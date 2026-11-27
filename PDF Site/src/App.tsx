@@ -48,6 +48,7 @@ export default function App() {
           <Route path="/ai-summarizer" element={<ToolPage />} />
           <Route path="/translate-pdf" element={<ToolPage />} />
           <Route path="/compare-pdf" element={<ToolPage />} />
+          <Route path="/pdf-to-text" element={<ToolPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
