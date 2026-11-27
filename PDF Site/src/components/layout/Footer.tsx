@@ -76,8 +76,16 @@ export default function Footer() {
       <div className="border-t border-[#2a2a30] px-6 py-4 sm:px-10 lg:px-14">
         <div className="mx-auto flex max-w-[1280px] flex-col items-center justify-between gap-2 text-xs text-[#7a7a82] sm:flex-row">
           <span>© iLovePDF. All rights reserved.</span>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <span>iLovePDF is a demo project for learning purposes.</span>
+            <span className="inline-flex items-center gap-1">
+              <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#e5322d]" />
+              Client tools run locally in your browser. Nothing is uploaded.
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#7253e2]" />
+              Server tools require a backend and are placeholders in this demo.
+            </span>
           </div>
         </div>
       </div>

@@ -38,11 +38,14 @@ export default function Home() {
                 Every tool you need to use PDFs, at your fingertips. All are 100% free and easy to use!
               </p>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-3">
-                <InputFilePicker
-                  accept=".pdf"
+                <Dropzone
+                  accept=".pdf,application/pdf"
+                  maxSizeMB={100}
+                  multiple
                   label="Select PDF file"
-                  onFile={handleHeroUpload}
-                  selectedCount={selectedCount}
+                  helper="Add files or drag and drop them here"
+                  onFiles={handleHeroUpload}
+                  fileCount={selectedCount}
                 />
                 <Button variant="outline" onClick={() => navigate('/merge-pdf')}>
                   Try Merge PDF
@@ -53,54 +56,110 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Hero visual: stacked PDF pages mockup */}
-            <div className="flex h-64 w-full flex-1 items-end justify-center overflow-hidden sm:h-72 lg:h-96" aria-hidden="true">
-              <div className="relative flex h-full w-full items-end justify-center px-6">
+            {/* Hero visual: stacked document/UI cards mockup */}
+            <div className="relative flex h-72 w-full items-end justify-center overflow-hidden bg-[#eef0f4] sm:h-80 lg:h-96" aria-hidden="true">
+              {/* soft dot grid backdrop */}
+              <div
+                className="absolute inset-0 opacity-[0.5]"
+                style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, #c4c4cc 1px, transparent 0)', backgroundSize: '24px 24px' }}
+              />
+              <div className="relative z-10 flex h-full w-full items-end justify-center px-4">
+                {/* Far back card: wide UI panel */}
+                <div
+                  className="absolute rounded-2xl border border-[#c4c4cc] bg-white/90 shadow-[0_12px_32px_rgba(16,24,32,0.14)]"
+                  style={{ width: '280px', height: '170px', top: '6%', left: '8%', transform: 'rotate(-2deg)' }}
+                >
+                  <div className="flex h-9 items-center justify-between border-b border-[#c4c4cc]/60 px-3">
+                    <span className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                      <span className="inline-block h-2 w-2 rounded-full bg-[#4a7aab]" />
+                      Convert PDF
+                    </span>
+                    <span className="text-[10px] font-medium text-[#47474f]">File</span>
+                  </div>
+                  <div className="ml-3 flex h-[calc(100%-2.25rem)] flex-col justify-between gap-2 p-3">
+                    <div className="flex gap-1.5">
+                      <span className="h-2 w-8 rounded bg-[#c4c4cc]" />
+                      <span className="h-2 w-full rounded bg-[#e8e8ed]" />
+                    </div>
+                    <div className="space-y-1.5">
+                      {[1,2,3,4].map((n) => (
+                        <span key={n} className="block h-1.5 rounded bg-[#f0f0f5]" style={{ width: `${70 + n * 5}%` }} />
+                      ))}
+                    </div>
+                    <div className="flex gap-1">
+                      <span className="h-5 w-5 rounded-full bg-[#e5322d]/70" />
+                      <span className="h-2 w-12 rounded bg-[#e5322d]/70" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Mid stack: two PDF doc cards, varied positions */}
                 {[
-                  { top: '2%', left: '10%', w: '160px', h: '200px', shade: 0 },
-                  { top: '6%', left: '22%', w: '160px', h: '200px', shade: 1 },
-                  { top: '10%', left: '34%', w: '160px', h: '200px', shade: 2 },
-                  { top: '14%', left: '46%', w: '160px', h: '200px', shade: 3 },
+                  { top: '14%', left: '30%', w: '150px', h: '190px', rot: '-3deg', accent: '#e5322d', label: 'Doc A' },
+                  { top: '18%', left: '46%', w: '150px', h: '190px', rot: '2deg', accent: '#4a7aab', label: 'Doc B' },
                 ].map((p, i) => (
                   <div
                     key={i}
-                    className="relative rounded-xl border border-[#c4c4cc] bg-white shadow-[0_8px_24px_rgba(16,24,32,0.12)]"
-                    style={{
-                      position: 'absolute',
-                      top: p.top,
-                      left: p.left,
-                      width: p.w,
-                      height: p.h,
-                      transform: i === 0 ? 'rotate(-3deg)' : i === 1 ? 'rotate(0deg)' : i === 2 ? 'rotate(3deg)' : 'rotate(-1deg)',
-                      boxShadow: i === 0 ? '0 12px 28px rgba(16,24,32,0.14)' : '0 6px 16px rgba(16,24,32,0.10)',
-                    }}
+                    className="relative rounded-xl border border-[#c4c4cc] bg-white shadow-[0_10px_24px_rgba(16,24,32,0.14)]"
+                    style={{ position: 'absolute', top: p.top, left: p.left, width: p.w, height: p.h, transform: `rotate(${p.rot})` }}
                   >
-                    {/* Page header strip */}
-                    <div className="flex h-8 items-center justify-between border-b border-[#c4c4cc]/60 px-3">
-                      <span className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
-                        <span className="inline-block h-2 w-2 rounded-full bg-[#e5322d]" />
+                    <div className="flex h-7 items-center justify-between border-b border-[#c4c4cc]/60 px-2.5">
+                      <span className="flex items-center gap-1.5 text-[9px] font-semibold uppercase tracking-wider text-[#47474f]">
+                        <span className="inline-block h-2 w-2 rounded-full" style={{ background: p.accent }} />
                         PDF
                       </span>
-                      <span className="text-[10px] font-medium text-[#47474f]">{['Doc A','Doc B','Doc C','Doc D'][i]}</span>
+                      <span className="text-[9px] font-medium text-[#47474f]">{p.label}</span>
                     </div>
-                    {/* Page body */}
-                    <div className="ml-3 flex h-[calc(100%-2rem)] flex-col justify-between gap-2 p-3">
-                      <div className="flex gap-1.5">
-                        <span className="h-2.5 w-8 rounded bg-[#c4c4cc]" />
-                        <span className="h-2.5 w-12 rounded bg-[#e8e8ed]" />
+                    <div className="ml-2.5 flex h-[calc(100%-1.75rem)] flex-col justify-between gap-2 p-2.5">
+                      <div className="flex gap-1">
+                        <span className="h-1.5 w-6 rounded bg-[#c4c4cc]" />
+                        <span className="h-1.5 w-9 rounded bg-[#e8e8ed]" />
                       </div>
-                      <div className="space-y-2">
-                        {[1,2,3,4,5].map((n) => (
-                          <span key={n} className="block h-2 rounded bg-[#f0f0f5]" style={{ width: `${60 + n * 6}%` }} />
+                      <div className="space-y-1.5">
+                        {[1,2,3,4,5,6].map((n) => (
+                          <span key={n} className="block h-1.5 rounded bg-[#f0f0f5]" style={{ width: `${55 + n * 5}%` }} />
                         ))}
                       </div>
-                      <div className="flex gap-1.5">
-                        <span className="h-2 w-10 rounded bg-[#e5322d]/70" />
-                        <span className="h-2 w-14 rounded bg-[#e5322d]/70" />
+                      <div className="flex gap-1">
+                        <span className="h-1.5 w-7 rounded bg-[#e5322d]/70" />
+                        <span className="h-1.5 w-10 rounded bg-[#e5322d]/70" />
                       </div>
+                    </div>
+                    {/* folded corner */}
+                    <div className="absolute right-0 top-0 h-4 w-4 overflow-hidden">
+                      <div className="flex h-4 w-4"><div className="h-full w-3 bg-white border-l border-t border-[#c4c4cc]" /><div className="h-3 w-3 bg-[#f0f0f5] border-l border-t border-[#c4c4cc]" /></div>
                     </div>
                   </div>
                 ))}
+
+                {/* Front card: larger, crisp shadow, slightly rotated */}
+                <div
+                  className="absolute rounded-xl border border-[#c4c4cc] bg-white shadow-[0_14px_32px_rgba(16,24,32,0.18)]"
+                  style={{ width: '180px', height: '220px', top: '30%', left: '58%', transform: 'rotate(4deg)' }}
+                >
+                  <div className="flex h-8 items-center justify-between border-b border-[#c4c4cc]/60 px-3">
+                    <span className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                      <span className="inline-block h-2 w-2 rounded-full bg-[#7253e2]" />
+                      Sign PDF
+                    </span>
+                    <span className="text-[10px] font-medium text-[#47474f]">Page 1</span>
+                  </div>
+                  <div className="ml-3 flex h-[calc(100%-2rem)] flex-col justify-between gap-2 p-3">
+                    <div className="flex gap-1.5">
+                      <span className="h-2 w-7 rounded bg-[#c4c4cc]" />
+                      <span className="h-2 w-10 rounded bg-[#e8e8ed]" />
+                    </div>
+                    <div className="space-y-2">
+                      {[1,2,3,4].map((n) => (
+                        <span key={n} className="block h-2.5 rounded bg-[#f0f0f5]" style={{ width: `${60 + n * 7}%` }} />
+                      ))}
+                    </div>
+                    <div className="flex gap-1.5">
+                      <span className="h-2 w-9 rounded bg-[#7253e2]/70" />
+                      <span className="h-2 w-12 rounded bg-[#7253e2]/70" />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -138,6 +197,12 @@ export default function Home() {
                       <ToolCard key={tool.id} tool={tool} />
                     ))}
                   </div>
+                  {/* per-category note for server-only groups */}
+                  {tools.length > 0 && tools.every((t) => t.status === 'backend') && (
+                    <p className="mt-3 text-xs text-[#47474f]">
+                      These tools require a server backend. In this demo they show a placeholder.
+                    </p>
+                  )}
                 </div>
               );
             })}
@@ -155,12 +220,14 @@ export default function Home() {
             Combine, convert, and edit your PDFs in seconds — no install, no sign-up required.
           </p>
           <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <InputFilePicker
-              accept=".pdf"
+            <Dropzone
+              accept=".pdf,application/pdf"
+              maxSizeMB={100}
+              multiple
               label="Select PDF file"
-              onFile={handleHeroUpload}
-              selectedCount={selectedCount}
-              className="w-full sm:w-auto"
+              helper="Add files or drag and drop them here"
+              onFiles={handleHeroUpload}
+              fileCount={selectedCount}
             />
             <Button variant="ghost" size="lg" onClick={() => navigate('/merge-pdf')} className="text-white border border-[#c4c4cc]">
               Browse all tools
@@ -169,76 +236,5 @@ export default function Home() {
         </div>
       </section>
     </>
-  );
-}
-
-function InputFilePicker({
-  accept,
-  label,
-  onFile,
-  selectedCount,
-  className,
-}: {
-  accept: string;
-  label: string;
-  onFile: (files: File[]) => void;
-  selectedCount: number;
-  className?: string;
-}) {
-  const [dragOver, setDragOver] = useState(false);
-  const inputRef = { current: null as HTMLInputElement | null };
-
-  const pick = useCallback(() => inputRef.current?.click(), []);
-
-  const onDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setDragOver(false);
-      const files = Array.from(e.dataTransfer.files || []);
-      const pdfs = files.filter((f) => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
-      onFile(pdfs);
-    },
-    [onFile]
-  );
-
-  return (
-    <div
-      className={`dropzone group ${className ?? ''} ${dragOver ? 'drag-over' : ''}`}
-      onClick={pick}
-      onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-      onDragLeave={() => setDragOver(false)}
-      onDrop={onDrop}
-      role="button"
-      tabIndex={0}
-      aria-label={label}
-    >
-      <input
-        ref={inputRef}
-        type="file"
-        accept={accept}
-        className="sr-only"
-        onChange={(e) => {
-          const files = Array.from(e.target.files || []);
-          onFile(files);
-          e.target.value = '';
-        }}
-      />
-      <div className="flex flex-col items-center gap-3">
-        <svg className="h-12 w-12 transition-colors group-hover:bg-[#fbeae7] sm:h-12 sm:w-12" viewBox="0 0 48 48" fill="none" aria-hidden="true" style={{ color: dragOver ? '#c92a24' : '#c4c4cc' }}>
-          <path d="M8 12v24a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V12a4 4 0 0 0-4-4H12a4 4 0 0 0-4 4z" stroke="currentColor" strokeWidth="2" fill="none" />
-          <path d="M24 18v15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="24" cy="11" r="3" stroke="currentColor" strokeWidth="2" fill="none" />
-        </svg>
-        <div className="flex flex-col items-center gap-1">
-          <span className="text-base font-medium text-[#161616]">{label}</span>
-          <span className="text-xs text-[#47474f]">Add files or drag and drop them here</span>
-        </div>
-        {selectedCount > 0 && (
-          <span className="rounded-full bg-[#e5322d] px-3 py-1 text-xs font-semibold text-white">
-            {selectedCount} file{selectedCount === 1 ? '' : 's'} selected
-          </span>
-        )}
-      </div>
-    </div>
   );
 }

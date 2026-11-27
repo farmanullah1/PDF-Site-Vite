@@ -8,6 +8,7 @@ interface ToolCardProps {
     icon: string;
     accent: string;
     route: string;
+    status?: string;
   };
 }
 
@@ -19,6 +20,7 @@ const ICON_COLORS: Record<string, string> = {
 
 export default function ToolCard({ tool }: ToolCardProps) {
   const color = ICON_COLORS[tool.accent] ?? ICON_COLORS.primary;
+  const status = tool.status ?? 'demo';
 
   return (
     <Link
@@ -34,11 +36,30 @@ export default function ToolCard({ tool }: ToolCardProps) {
         <CardIcon name={tool.icon} color={color} />
       </div>
       <div className="flex flex-col gap-1">
-        <span className="text-[1.25rem] font-semibold leading-tight text-[#161616]">{tool.name}</span>
+        <div className="flex items-center justify-between">
+          <span className="text-[1.25rem] font-semibold leading-tight text-[#161616]">{tool.name}</span>
+          <span className={`rounded-full px-2.5 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-wider ${chipClass(status)}`}>
+            {chipLabel(status)}
+          </span>
+        </div>
         <span className="text-[0.875rem] leading-normal text-[#47474f] line-clamp-2">{tool.description}</span>
       </div>
     </Link>
   );
+}
+
+function chipLabel(status: string): string {
+  if (status === 'implemented') return 'Works now';
+  if (status === 'simulation') return 'Demo';
+  if (status === 'backend') return 'Server-side';
+  return 'Demo';
+}
+
+function chipClass(status: string): string {
+  if (status === 'implemented') return 'bg-[#e5322d]/10 text-[#e5322d]';
+  if (status === 'simulation') return 'bg-[#4a7aab]/10 text-[#4a7aab]';
+  if (status === 'backend') return 'bg-[#7253e2]/10 text-[#7253e2]';
+  return 'bg-[#4a7aab]/10 text-[#4a7aab]';
 }
 
 function CardIcon({ name, color }: { name: string; color: string }) {
