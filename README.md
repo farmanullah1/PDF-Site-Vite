@@ -26,6 +26,7 @@ A client-side PDF tool site built as a **design/UX clone** of the [iLovePDF](htt
 | Redact PDF | Permanently black out sensitive content |
 | OCR PDF | Turn scanned pages into searchable text via Tesseract.js (WebAssembly) |
 | PDF to Text | Extract embedded text layer from PDF pages into a .txt file via PDF.js |
+| PDF to Markdown | Convert PDF pages into clean Markdown (.md) via PDF.js |
 | Repair PDF | Re-serialize a PDF with pdf-lib to fix some structural issues |
 | Compare PDF | Compare two PDFs side by side (page count, size, text report) |
 
