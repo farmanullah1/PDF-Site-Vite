@@ -9,6 +9,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'sans-serif'],
+        heading: ['Poppins', 'Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       colors: {
         primary: {
@@ -26,14 +27,15 @@ export default {
         secondary: '#4a7aab',
         tertiary: '#7253e2',
         outline: '#c4c4cc',
+        border: '#e8e8ef',
       },
-        fontSize: {
+      fontSize: {
         display: ['3.75rem', { lineHeight: '4.25rem', fontWeight: '700', letterSpacing: '-0.02em' }],
         'headline-lg': ['2.625rem', { lineHeight: '3.125rem', fontWeight: '600' }],
-        'headline-md': ['1.75rem', { lineHeight: '2.25rem', fontWeight: '600' }],
+        'headline-md': ['1.375rem', { lineHeight: '1.875rem', fontWeight: '600' }],
         'title-lg': ['1.25rem', { lineHeight: '1.75rem', fontWeight: '600' }],
-        'body-lg': ['1.125rem', { lineHeight: '1.75rem' }],
-        'body-md': ['1rem', { lineHeight: '1.5rem' }],
+        'body-lg': ['1.125rem', { lineHeight: '1.75rem', fontWeight: '400' }],
+        'body-md': ['1rem', { lineHeight: '1.5rem', fontWeight: '400' }],
         'label-md': ['0.875rem', { lineHeight: '1.25rem', fontWeight: '600' }],
       },
       boxShadow: {

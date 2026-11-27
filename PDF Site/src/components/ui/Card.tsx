@@ -9,6 +9,7 @@ interface ToolCardProps {
     accent: string;
     route: string;
     status?: string;
+    new?: boolean;
   };
 }
 
@@ -37,10 +38,17 @@ export default function ToolCard({ tool }: ToolCardProps) {
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex items-center justify-between">
-          <span className="text-[1.25rem] font-semibold leading-tight text-[#161616]">{tool.name}</span>
-          <span className={`rounded-full px-2.5 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-wider ${chipClass(status)}`}>
-            {chipLabel(status)}
-          </span>
+          <span className="text-[1.375rem] font-semibold leading-tight text-[#161616]">{tool.name}</span>
+          {tool.new && (
+            <span className="rounded-full px-2.5 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-wider bg-[#e5322d] text-white">
+              NEW!
+            </span>
+          )}
+          {tool.status !== 'implemented' && (
+            <span className={`rounded-full px-2.5 py-0.5 text-[0.6875rem] font-semibold uppercase tracking-wider ${chipClass(status)}`}>
+              {chipLabel(status)}
+            </span>
+          )}
         </div>
         <span className="text-[0.875rem] leading-normal text-[#47474f] line-clamp-2">{tool.description}</span>
       </div>

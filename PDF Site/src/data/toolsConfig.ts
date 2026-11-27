@@ -16,6 +16,7 @@ export interface ToolConfig {
   accent: string;          // CSS color token / gradient hint
   route: string;           // e.g. "/merge-pdf"
   status: 'implemented' | 'simulation' | 'backend';
+  new?: boolean;           // show red "NEW!" badge on newest tools
 }
 
 export const TOOL_CATEGORIES: { key: ToolCategoryKey; label: string }[] = [
@@ -263,6 +264,7 @@ export const TOOLS: ToolConfig[] = [
     accent: 'tertiary',
     route: '/pdf-to-text',
     status: 'implemented',
+    new: true,
   },
 
   {
@@ -275,6 +277,7 @@ export const TOOLS: ToolConfig[] = [
     accent: 'tertiary',
     route: '/pdf-to-html',
     status: 'implemented',
+    new: true,
   },
 
   {
@@ -287,6 +290,7 @@ export const TOOLS: ToolConfig[] = [
     accent: 'tertiary',
     route: '/pdf-to-markdown',
     status: 'implemented',
+    new: true,
   },
 
   // ---- Edit PDF ----
