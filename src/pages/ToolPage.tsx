@@ -18,6 +18,7 @@ import EditPDF from './tools/EditPDF';
 import CropPDF from './tools/CropPDF';
 import RedactPDF from './tools/RedactPDF';
 import OCRPDF from './tools/OCRPDF';
+import ComparePDF from './tools/ComparePDF';
 import ServerTool from './tools/ServerTool';
 import ComingSoon from './tools/ComingSoon';
 import type { ServerToolOption } from './tools/ServerTool';
@@ -40,6 +41,8 @@ const CLIENT_COMPONENTS: Record<string, React.ComponentType> = {
   'crop-pdf': CropPDF,
   'redact-pdf': RedactPDF,
   'ocr-pdf': OCRPDF,
+  'optimize-pdf': CompressPDF,
+  'compare-pdf': ComparePDF,
 };
 
 // Backend-dependent tools rendered via ServerTool. Requires the Express server (see server/).
@@ -55,6 +58,9 @@ const BACKEND_TOOL_IDS = new Set([
   'pdf-to-pdfa',
   'pdf-to-markdown',
   'repair-pdf',
+  'pdf-forms',
+  'ai-summarizer',
+  'translate-pdf',
 ]);
 
 export default function ToolPage() {
