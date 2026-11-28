@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -37,6 +37,7 @@ const FOOTER_LINKS = [
 export default function Footer() {
   const [langOpen, setLangOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState('en');
+  const navigate = useNavigate();
 
   const LANGUAGES = [
     { code: 'en', label: 'English' },
@@ -68,7 +69,7 @@ export default function Footer() {
                       target={l.external ? '_blank' : undefined}
                       rel={l.external ? 'noopener noreferrer' : undefined}
                       className="footer-col-link"
-                      onClick={(e) => { if (!l.external) e.preventDefault(); }}
+                      onClick={(e) => { if (!l.external) { e.preventDefault(); navigate(l.href); } }}
                     >
                       {l.label}
                     </a>
@@ -107,9 +108,9 @@ export default function Footer() {
                 <ul className="py-1">
                   <li>
                     <a
-                      href="/"
+                      href="#"
+                      onClick={(e) => { e.preventDefault(); setCurrentLang('en'); setLangOpen(false); }}
                       className={`block px-3 py-2 text-sm ${currentLang === 'en' ? 'bg-[#EBEBF2] font-semibold text-[#E5322D]' : 'text-[#33333B]'}`}
-                      onClick={() => { setCurrentLang('en'); setLangOpen(false); }}
                     >
                       English
                     </a>
@@ -117,9 +118,9 @@ export default function Footer() {
                   {LANGUAGES.map((l) => (
                     <li key={l.code}>
                       <a
-                        href={`/${l.code}`}
+                        href="#"
+                        onClick={(e) => { e.preventDefault(); setCurrentLang(l.code); setLangOpen(false); }}
                         className={`block px-3 py-2 text-sm ${currentLang === l.code ? 'bg-[#EBEBF2] font-semibold text-[#E5322D]' : 'text-[#33333B]'}`}
-                        onClick={() => { setCurrentLang(l.code); setLangOpen(false); }}
                       >
                         {l.label}
                       </a>

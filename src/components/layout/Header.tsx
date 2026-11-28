@@ -445,14 +445,15 @@ export default function Header() {
                       </button>
                       {langOpen && (
                         <div className="nav-dropdown lang absolute left-0 top-full mt-2 min-w-[200px] rounded-[12px] border border-[#EBEBF0] bg-white p-2 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50">
-                          <span className="lang__current flex items-center gap-2 px-3 py-2 text-[13px] font-semibold text-[#33333B] border-b border-[#EBEBF0]/30 mb-2">
-                            <WorldIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
-                            English <DownArrow style={{ fontSize: '10px', color: '#6E6E7A' }} />
-                          </span>
+                            <span className="lang__current flex items-center gap-2 px-3 py-2 text-[13px] font-semibold text-[#33333B] border-b border-[#EBEBF0]/30 mb-2">
+                              <WorldIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
+                              {currentLang === 'en' ? 'English' : LANGUAGES.find((l) => l.code === currentLang)?.label} <DownArrow style={{ fontSize: '10px', color: '#6E6E7A' }} />
+                            </span>
                           <ul className="lang__menu flex flex-col gap-1">
                             <li>
                               <a
                                 href="/"
+                                onClick={(e) => { e.preventDefault(); setCurrentLang('en'); setLangOpen(false); }}
                                 className={`rounded-md px-3 py-1.5 text-[13px] ${currentLang === 'en' ? 'bg-[#EBEBF2] font-semibold' : 'text-[#33333B]'}`}
                               >
                                 English
@@ -461,7 +462,8 @@ export default function Header() {
                             {LANGUAGES.map((l) => (
                               <li key={l.code}>
                                 <a
-                                  href={`/${l.code}`}
+                                  href="/"
+                                  onClick={(e) => { e.preventDefault(); setCurrentLang(l.code); setLangOpen(false); }}
                                   className={`rounded-md px-3 py-1.5 text-[13px] ${currentLang === l.code ? 'bg-[#EBEBF2] font-semibold' : 'text-[#33333B]'}`}
                                 >
                                   {l.label}
