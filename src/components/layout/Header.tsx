@@ -176,9 +176,33 @@ export default function Header() {
       if (companyRef.current && !companyRef.current.contains(e.target as Node)) setCompanyOpen(false);
       if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
     }
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setConvertOpen(false);
+        setAllOpen(false);
+        setCompanyOpen(false);
+        setLangOpen(false);
+        setMobileOpen(false);
+      }
+    }
     window.addEventListener('mousedown', handleClick);
-    return () => window.removeEventListener('mousedown', handleClick);
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      window.removeEventListener('mousedown', handleClick);
+      window.removeEventListener('keydown', handleKey);
+    };
   }, []);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
 
   const handleNavLink = (href: string, external?: boolean) => {
     setMobileOpen(false);
@@ -187,7 +211,7 @@ export default function Header() {
     setCompanyOpen(false);
     setLangOpen(false);
     if (external) {
-      window.open(href, '_blank', 'noopener');
+      window.open(href, '_blank', 'noopener,noreferrer');
     } else {
       navigate(href);
     }

@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { LoginPage, SignupPage, PrivacyPage } from './pages/AccountPages';
+import { LoginPage, SignupPage } from './pages/AccountPages';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
+import InfoPage from './pages/InfoPage';
 import ToolPage from './pages/ToolPage';
 import NotFound from './pages/NotFound';
 
@@ -13,6 +14,28 @@ export default function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/features" element={<InfoPage pathname="/features" />} />
+          <Route path="/pricing" element={<InfoPage pathname="/pricing" />} />
+          <Route path="/privacy" element={<InfoPage pathname="/privacy" />} />
+          <Route path="/terms" element={<InfoPage pathname="/terms" />} />
+          <Route path="/security" element={<InfoPage pathname="/security" />} />
+          <Route path="/about" element={<InfoPage pathname="/about" />} />
+          <Route path="/contact" element={<InfoPage pathname="/contact" />} />
+          <Route path="/faq" element={<InfoPage pathname="/faq" />} />
+          <Route path="/blog" element={<InfoPage pathname="/blog" />} />
+          <Route path="/desktop" element={<InfoPage pathname="/desktop" />} />
+          <Route path="/mobile" element={<InfoPage pathname="/mobile" />} />
+          <Route path="/business" element={<InfoPage pathname="/business" />} />
+          <Route path="/education" element={<InfoPage pathname="/education" />} />
+          <Route path="/press" element={<InfoPage pathname="/press" />} />
+          <Route path="/help/faq" element={<InfoPage pathname="/help/faq" />} />
+          <Route path="/help/documentation" element={<InfoPage pathname="/help/documentation" />} />
+          <Route path="/help/legal" element={<InfoPage pathname="/help/legal" />} />
+          <Route path="/help/security" element={<InfoPage pathname="/help/security" />} />
+          <Route path="/help/privacy" element={<InfoPage pathname="/help/privacy" />} />
+          <Route path="/help/terms" element={<InfoPage pathname="/help/terms" />} />
+          <Route path="/help/cookies" element={<InfoPage pathname="/help/cookies" />} />
+          <Route path="/help/about" element={<InfoPage pathname="/help/about" />} />
           {/* Client-side (real) processing tools */}
           <Route path="/merge_pdf" element={<ToolPage />} />
           <Route path="/split_pdf" element={<ToolPage />} />
@@ -51,8 +74,6 @@ export default function App() {
           <Route path="/compare-pdf" element={<ToolPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<SignupPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/terms" element={<PrivacyPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
