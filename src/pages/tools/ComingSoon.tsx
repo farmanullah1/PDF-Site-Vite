@@ -18,7 +18,7 @@ export default function ComingSoon({ tool }: { tool: ToolConfig }) {
           </h2>
           <p className="mt-3 text-[0.9375rem] leading-normal text-[#47474f]">
             {isBackend
-              ? `${tool.name} is a server-side tool. On the live iLovePDF service this runs on a backend with Ghostscript or LibreOffice. This demo site does not include that backend, so the tool is shown here for completeness but is not available yet.`
+              ? `${tool.name} is a server-side tool. On the live service this runs on a backend with Ghostscript or LibreOffice. This demo site does not include that backend, so the tool is shown here for completeness but is not available yet.`
               : `${tool.name} is on our roadmap. This demo includes the design and layout for the tool, but the full functionality is not implemented yet.`}
           </p>
           <div className="mt-4 rounded-xl border border-[#c4c4cc] bg-[#f5f5fa] p-4">
@@ -49,7 +49,7 @@ export default function ComingSoon({ tool }: { tool: ToolConfig }) {
             </Link>
             {!isBackend && (
               <Link
-                to={`/merge-pdf`}
+                to={`/merge_pdf`}
                 className="inline-flex items-center rounded-lg bg-[#e5322d] px-4 py-2 text-sm font-medium text-white shadow-[0_2px_6px_rgba(229,50,45,0.25)] transition-all hover:shadow-[0_6px_14px_rgba(229,50,45,0.32)] hover:-translate-y-0.5"
                 style={{ background: 'linear-gradient(128deg, #ff6a58 0%, #e5322d 100%)' }}
               >

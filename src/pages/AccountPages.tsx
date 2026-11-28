@@ -11,10 +11,10 @@ export function LoginPage() {
           <path d="M14 9h4v12h-4z" fill="#fff" opacity=".95"/>
           <path d="M21 13h4v8h-4z" fill="#fff" opacity=".95"/>
         </svg>
-        <span className="text-[1.25rem] font-bold tracking-tight">iLovePDF</span>
+        <span className="text-[1.25rem] font-bold tracking-tight">PDF Site</span>
       </Link>
       <h1 className="mt-8 text-[1.75rem] font-semibold text-[#161616]">Sign in</h1>
-      <p className="mt-2 text-[#47474f]">Sign in to your iLovePDF account.</p>
+      <p className="mt-2 text-[#47474f]">Sign in to your PDF Site account.</p>
       <div className="mt-6 space-y-3">
         <button className="w-full rounded-lg border border-[#c4c4cc] bg-white px-4 py-2.5 text-sm font-medium text-[#161616] transition-colors hover:border-[#161616]">
           Continue with Google
@@ -54,10 +54,10 @@ export function SignupPage() {
           <path d="M14 9h4v12h-4z" fill="#fff" opacity=".95"/>
           <path d="M21 13h4v8h-4z" fill="#fff" opacity=".95"/>
         </svg>
-        <span className="text-[1.25rem] font-bold tracking-tight">iLovePDF</span>
+        <span className="text-[1.25rem] font-bold tracking-tight">PDF Site</span>
       </Link>
       <h1 className="mt-8 text-[1.75rem] font-semibold text-[#161616]">Create account</h1>
-      <p className="mt-2 text-[#47474f]">Create your free iLovePDF account.</p>
+      <p className="mt-2 text-[#47474f]">Create your free PDF Site account.</p>
       <div className="mt-6 space-y-3">
         <button className="w-full rounded-lg border border-[#c4c4cc] bg-white px-4 py-2.5 text-sm font-medium text-[#161616] transition-colors hover:border-[#161616]">
           Continue with Google
@@ -100,7 +100,7 @@ export function PrivacyPage() {
           <path d="M14 9h4v12h-4z" fill="#fff" opacity=".95"/>
           <path d="M21 13h4v8h-4z" fill="#fff" opacity=".95"/>
         </svg>
-        <span className="text-[1.25rem] font-bold tracking-tight">iLovePDF</span>
+        <span className="text-[1.25rem] font-bold tracking-tight">PDF Site</span>
       </Link>
       <h1 className="mt-8 text-[1.75rem] font-semibold text-[#161616]">Privacy policy</h1>
       <p className="mt-2 text-[#47474f]">Last updated: today.</p>

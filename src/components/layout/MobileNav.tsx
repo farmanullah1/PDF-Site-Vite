@@ -9,16 +9,16 @@ interface MobileNavProps {
 
 const MOBILE_LINKS = [
   { label: 'All tools', href: '/' },
-  { label: 'Merge PDF', href: '/merge-pdf' },
-  { label: 'Split PDF', href: '/split-pdf' },
-  { label: 'Compress PDF', href: '/compress-pdf' },
+  { label: 'Merge PDF', href: '/merge_pdf' },
+  { label: 'Split PDF', href: '/split_pdf' },
+  { label: 'Compress PDF', href: '/compress_pdf' },
   { label: 'Sign PDF', href: '/sign-pdf' },
-  { label: 'Unlock PDF', href: '/unlock-pdf' },
+  { label: 'Unlock PDF', href: '/unlock_pdf' },
   { label: 'Protect PDF', href: '/protect-pdf' },
   { label: 'Rotate PDF', href: '/rotate-pdf' },
-  { label: 'Watermark PDF', href: '/add-watermark' },
-  { label: 'JPG to PDF', href: '/jpg-to-pdf' },
-  { label: 'PDF to JPG', href: '/pdf-to-jpg' },
+  { label: 'Watermark PDF', href: '/pdf_add_watermark' },
+  { label: 'JPG to PDF', href: '/jpg_to_pdf' },
+  { label: 'PDF to JPG', href: '/pdf_to_jpg' },
   { label: 'Compare PDF', href: '/compare-pdf' },
   { label: 'OCR PDF', href: '/ocr-pdf' },
 ];
@@ -59,8 +59,8 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#c4c4cc]/30 px-5 py-4">
           <Link to="/" onClick={onClose} className="flex items-center gap-2 text-[#161616]">
-            <img src="/img/ilovepdf.svg" alt="iLovePDF" width="26" height="26" aria-hidden="true" />
-            <span className="text-[1.25rem] font-bold">iLovePDF</span>
+            <img src="/img/ilovepdf.svg" alt="PDF Site" width="26" height="26" aria-hidden="true" />
+            <span className="text-[1.25rem] font-bold">PDF Site</span>
           </Link>
           <button onClick={onClose} className="rounded-lg p-1.5 text-[#161616] transition-colors hover:bg-[#f0f0f5]" aria-label="Close menu">
             <X size={22} />
