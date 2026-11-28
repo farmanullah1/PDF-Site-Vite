@@ -162,7 +162,7 @@ export default function Quiz() {
               <X size={15} /> End quiz
             </button>
           </div>
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-6 shadow-[card]">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-6 shadow-sm">
             <div className="mb-4 flex items-center gap-2 text-sm text-[#47474f]">
               <HelpCircle size={14} />
               <span>Try to answer before revealing.</span>
@@ -228,7 +228,7 @@ export default function Quiz() {
               <X size={15} /> Start over
             </button>
           </div>
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-8 shadow-[card] text-center">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-8 shadow-sm text-center">
             <p className="mb-2 text-sm text-[#47474f]">You answered {score.total} question{score.total === 1 ? '' : 's'}.</p>
             <p className="mb-2 text-2xl font-semibold text-[#161616]">{score.correct} / {score.total} correct</p>
             <button onClick={() => setCurrent(0)} className="btn-primary mt-2">
@@ -276,7 +276,7 @@ export default function Quiz() {
 
       {questions.length > 0 && (
         <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
             <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Review mode</h3>
             <div className="flex flex-col gap-4">
               <Field
@@ -325,3 +325,4 @@ export default function Quiz() {
     </StandardLayout>
   );
 }
+

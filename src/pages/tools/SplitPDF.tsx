@@ -193,7 +193,7 @@ export default function SplitPDF() {
       )}
 
       <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Options</h3>
           <div className="flex flex-col gap-4">
             <Select
@@ -257,3 +257,4 @@ async function requireUnsafe(file: File): Promise<ArrayBuffer> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (file as any).arrayBuffer ? await (file as any).arrayBuffer() : await (file as any).arrayBuffer();
 }
+

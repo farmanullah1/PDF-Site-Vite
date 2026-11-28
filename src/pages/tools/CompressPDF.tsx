@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react';
 import StandardLayout from '../../components/layout/StandardLayout';
 import Dropzone from '../../components/ui/Dropzone';
-import { Select } from '../../components/pdf/ToolOptionsPanel';
 import { getPdfLib, readFileAsArrayBuffer, bytesToBlob, downloadBlob } from '../../lib/pdf-helpers';
 import { toolById } from '../../data/toolsConfig';
 import { PDFDocument } from 'pdf-lib';
@@ -9,15 +8,8 @@ import { FileText, Download, X } from 'lucide-react';
 
 const tool = toolById('compress-pdf')!;
 
-const PRESETS = [
-  { value: 'high', label: 'Less compression — high quality', note: 'Keeps quality, smaller savings.' },
-  { value: 'recommended', label: 'Recommended — balanced', note: 'Good balance of size and quality.' },
-  { value: 'extreme', label: 'Extreme compression — smallest size', note: 'Smallest file, more quality loss.' },
-];
-
 export default function CompressPDF() {
   const [file, setFile] = useState<{ file: File; url: string; pages: number; size: number } | null>(null);
-  const [preset, setPreset] = useState('recommended');
   const [phase, setPhase] = useState<'idle' | 'reading' | 'compressing' | 'done'>('idle');
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -53,7 +45,6 @@ export default function CompressPDF() {
   const clearAll = useCallback(() => {
     if (file) URL.revokeObjectURL(file.url);
     setFile(null);
-    setPreset('recommended');
     setProgress(0);
     setPhase('idle');
     setLoading(false);
@@ -99,7 +90,7 @@ export default function CompressPDF() {
     } finally {
       setLoading(false);
     }
-  }, [file, preset]);
+  }, [file]);
 
   const ready = file !== null && !loading;
 
@@ -142,7 +133,6 @@ export default function CompressPDF() {
             Download compressed PDF
           </button>
           <div className="rounded-xl border border-[#c4c4cc] bg-[#f5f5fa] p-4 text-sm text-[#47474f]">
-            Preset used: <strong className="text-[#161616]">{PRESETS.find((p) => p.value === preset)?.label}</strong>.
             Processing was done entirely in your browser using pdf-lib (deflate compression of object streams). Nothing was uploaded.
           </div>
         </div>
@@ -186,39 +176,9 @@ export default function CompressPDF() {
         </div>
       )}
 
-      {phase === 'idle' && (
-        <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
-            <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Compression level</h3>
-            <div className="flex flex-col gap-3">
-              {PRESETS.map((p) => (
-                <button
-                  key={p.value}
-                  onClick={() => setPreset(p.value)}
-                  className={`flex items-center gap-3 rounded-lg border px-4 py-3 text-left transition-all ${
-                    preset === p.value
-                      ? 'border-[#e5322d] bg-[#fbeae7]'
-                      : 'border-[#c4c4cc] bg-white hover:border-[#161616]'
-                  }`}
-                >
-                  <span className="flex h-3 w-3 shrink-0 rounded-full" style={{ background: preset === p.value ? '#e5322d' : 'transparent' }} />
-                  <span className={`flex flex-1 flex-col ${preset === p.value ? 'text-[#c92a24] font-semibold' : 'text-[#161616]'}`}>
-                    <span className="text-sm font-medium">{p.label}</span>
-                    <span className="text-xs text-[#47474f]">{p.note}</span>
-                  </span>
-                </button>
-              ))}
-            </div>
-            <p className="mt-3 text-xs text-[#47474f]">
-              Compression re-serializes the PDF with deflate-compressed object streams and removes unused objects. Savings depend on the file's content.
-            </p>
-          </div>
-        </div>
-      )}
-
       {(phase === 'reading' || phase === 'compressing') && (
         <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-[#161616]">
                 {phase === 'compressing' ? 'Compressing your PDF…' : 'Reading your PDF…'}
@@ -232,7 +192,7 @@ export default function CompressPDF() {
               />
             </div>
             <p className="mt-3 text-xs text-[#47474f]">
-              Preset: <strong className="text-[#161616]">{PRESETS.find((p) => p.value === preset)?.label}</strong>.
+              Compression re-serializes the PDF with deflate-compressed object streams and removes unused objects. Savings depend on the file's content.
             </p>
           </div>
         </div>

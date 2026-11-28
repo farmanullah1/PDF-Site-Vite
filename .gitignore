@@ -38,3 +38,5 @@ yarn.lock
 
 # User screenshots (not project assets)
 screenshot-*.png
+
+.vercel

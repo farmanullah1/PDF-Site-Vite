@@ -228,7 +228,7 @@ export default function EditPDF() {
       )}
 
       <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Add content to page</h3>
           <div className="flex gap-3 flex-wrap">
             <button onClick={() => addEdit('text')} className="flex items-center gap-2 rounded-lg border px-3 py-2 text-sm transition-all hover:border-[#161616]">
@@ -326,3 +326,4 @@ export default function EditPDF() {
     </StandardLayout>
   );
 }
+

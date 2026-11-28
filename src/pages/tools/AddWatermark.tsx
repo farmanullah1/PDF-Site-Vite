@@ -258,7 +258,7 @@ export default function AddWatermark() {
 
       {/* watermark type toggle */}
       <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Watermark type</h3>
           <div className="flex gap-3">
             <button
@@ -313,7 +313,7 @@ export default function AddWatermark() {
       {/* text options (shown only in text mode) */}
       {mode === 'text' && (
         <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
             <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Text options</h3>
             <div className="flex flex-col gap-4">
               <TextField label="Watermark text" value={text} onChange={setText} placeholder="CONFIDENTIAL" help="The text that will be stamped on every page." />
@@ -357,3 +357,4 @@ export default function AddWatermark() {
     </StandardLayout>
   );
 }
+

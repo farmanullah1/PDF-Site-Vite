@@ -229,7 +229,7 @@ export default function SignPDF() {
       )}
 
       <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Create your signature</h3>
           <div className="flex gap-4">
             <div className="flex-1">
@@ -296,7 +296,7 @@ export default function SignPDF() {
 
       {file && (
         <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
             <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Signature placement</h3>
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between">
@@ -337,3 +337,4 @@ export default function SignPDF() {
     </StandardLayout>
   );
 }
+

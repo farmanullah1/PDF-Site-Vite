@@ -5,7 +5,7 @@ interface ProcessingProgressProps {
 
 export default function ProcessingProgress({ status, progress }: ProcessingProgressProps) {
   return (
-    <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+    <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-medium text-[#161616]">{status}</span>
         <span className="text-sm text-[#47474f]">{progress}%</span>
@@ -19,3 +19,4 @@ export default function ProcessingProgress({ status, progress }: ProcessingProgr
     </div>
   );
 }
+

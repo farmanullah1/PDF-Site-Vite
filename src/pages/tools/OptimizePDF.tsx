@@ -204,7 +204,7 @@ export default function OptimizePDF() {
 
       {phase === 'idle' && (
         <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
             <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Optimization level</h3>
             <div className="flex flex-col gap-3">
               {PRESETS.map((p) => (
@@ -234,7 +234,7 @@ export default function OptimizePDF() {
 
       {(phase === 'reading' || phase === 'optimizing') && (
         <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-[#161616]">
                 {phase === 'optimizing' ? 'Optimizing your PDF…' : 'Reading your PDF…'}
@@ -279,3 +279,4 @@ export default function OptimizePDF() {
     </StandardLayout>
   );
 }
+

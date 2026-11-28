@@ -194,7 +194,7 @@ export default function PDFToJPG() {
       )}
 
       <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <div className="mb-4 flex items-center gap-2">
             <Image size={18} className="text-[#7253e2]" />
             <h3 className="text-[1.125rem] font-semibold text-[#161616]">Conversion options</h3>
@@ -233,3 +233,4 @@ export default function PDFToJPG() {
     </StandardLayout>
   );
 }
+

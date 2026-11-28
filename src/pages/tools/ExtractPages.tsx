@@ -152,7 +152,7 @@ export default function ExtractPages() {
       )}
 
       <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Pages to extract</h3>
           <TextField
             label="Page ranges"
@@ -192,3 +192,4 @@ export default function ExtractPages() {
     </StandardLayout>
   );
 }
+

@@ -4,7 +4,7 @@ import Dropzone from '../../components/ui/Dropzone';
 import { getPdfLib, readFileAsArrayBuffer, bytesToBlob, downloadBlob, pdfPageCount, ensurePdfJs } from '../../lib/pdf-helpers';
 import { toolById } from '../../data/toolsConfig';
 import { PDFDocument } from 'pdf-lib';
-import { FileText, Download, X, GripVertical } from 'lucide-react';
+import { FileText, Download, X, Trash2 } from 'lucide-react';
 
 const tool = toolById('organize-pdf')!;
 
@@ -20,6 +20,7 @@ export default function OrganizePDF() {
   const [result, setResult] = useState<{ blob: Blob; name: string } | null>(null);
   const [draggedIdx, setDraggedIdx] = useState<number | null>(null);
   const [hoverIdx, setHoverIdx] = useState<number | null>(null);
+  const [deleted, setDeleted] = useState<Set<number>>(new Set());
   const pdfJsLib = useRef<unknown>(null);
   const fileInputRef = { current: null as HTMLInputElement|null };
 
@@ -88,6 +89,7 @@ export default function OrganizePDF() {
     setOrder([]);
     setThumbs([]);
     setThumbsReady([]);
+    setDeleted(new Set());
     setResult(null);
     setError(null);
   }, [file]);
@@ -112,6 +114,17 @@ export default function OrganizePDF() {
     });
   };
 
+  const deletePage = useCallback((pageIdx: number) => {
+    setDeleted((prev) => {
+      const next = new Set(prev);
+      next.add(pageIdx);
+      return next;
+    });
+    setOrder((prev) => prev.filter((p) => p !== pageIdx));
+    setThumbs((prev) => { const next = [...prev]; next[pageIdx] = ''; return next; });
+    setThumbsReady((prev) => { const next = [...prev]; next[pageIdx] = false; return next; });
+  }, []);
+
   const doOrganize = useCallback(async () => {
     if (!file) return;
     setLoading(true);
@@ -121,7 +134,7 @@ export default function OrganizePDF() {
       const PDFLib = await getPdfLib();
       const src = await PDFLib.PDFDocument.load(new Uint8Array(buf), { ignoreEncryption: true });
       const out = await PDFLib.PDFDocument.create();
-      const copied = await out.copyPages(src, order);
+      const copied = await out.copyPages(src, order.filter((p) => !deleted.has(p)));
       for (const p of copied) out.addPage(p);
       const bytes = await out.save();
       const blob = bytesToBlob(bytes, 'application/pdf');
@@ -134,7 +147,7 @@ export default function OrganizePDF() {
     }
   }, [file, order]);
 
-  const ready = file !== null && order.length > 0 && !loading;
+  const ready = file !== null && order.length > 0 && order.some((p) => !deleted.has(p)) && !loading;
 
   if (result) {
     return (
@@ -146,7 +159,7 @@ export default function OrganizePDF() {
           </button>
         </div>
         <p className="mb-4 text-sm text-[#47474f]">
-          Reordered {order.length} page{order.length === 1 ? '' : 's'}. Download the result below.
+          Reordered {order.filter((p) => !deleted.has(p)).length} page{order.filter((p) => !deleted.has(p)).length === 1 ? '' : 's'}{deleted.size > 0 ? ` (${deleted.size} deleted)` : ''}. Download the result below.
         </p>
         <div className="flex flex-col gap-4">
           <button onClick={() => downloadBlob(result.blob, result.name)} className="btn-primary w-full">
@@ -192,7 +205,7 @@ export default function OrganizePDF() {
             </button>
           </div>
           <p className="mt-3 text-xs text-[#47474f]">
-            Drag page thumbnails to reorder them. {thumbsReady.filter(Boolean).length}/{file.pages} pages loaded.
+            Drag page thumbnails to reorder them. {order.filter((p) => !deleted.has(p)).length}/{file.pages} pages remain. {thumbsReady.filter(Boolean).length}/{file.pages} loaded.
           </p>
         </div>
       )}
@@ -201,19 +214,20 @@ export default function OrganizePDF() {
         <div className="mb-5">
           <div className="rounded-xl border border-[#c4c4cc] bg-white p-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {order.map((pageIdx, pos) => {
+              {order.filter((p) => !deleted.has(p)).map((pageIdx, pos) => {
                 const ready = thumbsReady[pageIdx];
                 const src = thumbs[pageIdx];
                 const isDragging = draggedIdx === pos;
+                const isDeleted = deleted.has(pageIdx);
                 return (
                   <div
                     key={pageIdx}
                     className={`relative flex flex-col items-center gap-2 rounded-xl border p-3 transition-all ${isDragging ? 'border-[#e5322d] bg-[#fbeae7]' : hoverIdx === pos ? 'border-[#e5322d]/50 bg-[#fbeae7]/30' : 'border-[#c4c4cc] hover:border-[#161616]'}`}
-                    draggable
-                    onDragStart={() => handleDragStart(pos)}
-                    onDragOver={(e) => handleDragOver(e, pos)}
-                    onDragLeave={handleDragLeave}
-                    onDrop={(e) => handleDrop(e, pos)}
+                    draggable={!isDeleted}
+                    onDragStart={isDeleted ? undefined : () => handleDragStart(pos)}
+                    onDragOver={isDeleted ? undefined : (e) => handleDragOver(e, pos)}
+                    onDragLeave={isDeleted ? undefined : handleDragLeave}
+                    onDrop={isDeleted ? undefined : (e) => handleDrop(e, pos)}
                     role="listitem"
                     aria-label={`Page ${pageIdx + 1} at position ${pos + 1}`}
                   >
@@ -230,11 +244,15 @@ export default function OrganizePDF() {
                           Page {pageIdx + 1}
                         </div>
                       )}
+                      <button
+                        onClick={(e) => { e.stopPropagation(); deletePage(pageIdx); }}
+                        className="absolute -top-2 -right-2 rounded-full bg-[#c92a24] p-1 text-white shadow-sm hover:bg-[#e5322d] transition-colors"
+                        aria-label={`Delete page ${pageIdx + 1}`}
+                      >
+                        <Trash2 size={12} />
+                      </button>
                     </div>
-                    <span className="text-xs font-medium text-[#161616]">Page {pageIdx + 1}</span>
-                    <button className="absolute -top-2 -right-2 rounded-full bg-white p-1 text-[#47474f] shadow-sm hover:bg-[#e5322d] hover:text-white transition-colors" aria-label="Drag handle" style={{ display:'none' }}>
-                      <GripVertical size={12} />
-                    </button>
+                    <span className={`text-xs font-medium ${isDeleted ? 'text-[#c92a24]' : 'text-[#161616]'}`}>Page {pageIdx + 1}</span>
                   </div>
                 );
               })}

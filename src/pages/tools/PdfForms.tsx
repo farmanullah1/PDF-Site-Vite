@@ -185,7 +185,7 @@ export default function PdfForms() {
       )}
 
       {fields.length > 0 && (
-        <div className="mb-5 rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="mb-5 rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Fill form fields ({fields.length})</h3>
           <div className="space-y-4">
             {fields.map((field) => (
@@ -265,3 +265,4 @@ export default function PdfForms() {
     </StandardLayout>
   );
 }
+

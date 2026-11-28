@@ -194,7 +194,7 @@ export default function ComparePDF() {
       </div>
 
       {(a || b) && (
-        <div className="mb-5 rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="mb-5 rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Files to compare</h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {a && (
@@ -257,3 +257,4 @@ export default function ComparePDF() {
     </StandardLayout>
   );
 }
+

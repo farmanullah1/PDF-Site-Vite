@@ -175,7 +175,7 @@ export default function HtmlToPdf() {
       </div>
 
       <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">HTML code</h3>
           <div className="relative">
             <textarea
@@ -195,7 +195,7 @@ export default function HtmlToPdf() {
       </div>
 
       <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Preview</h3>
           <div ref={containerRef} style={{ display: 'none' }} />
         </div>
@@ -223,3 +223,4 @@ export default function HtmlToPdf() {
     </StandardLayout>
   );
 }
+

@@ -139,7 +139,7 @@ export default function CropPDF() {
       )}
 
       <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Crop margins</h3>
           <div className="grid grid-cols-2 gap-3">
             <div className="flex flex-col gap-1">
@@ -193,3 +193,4 @@ export default function CropPDF() {
     </StandardLayout>
   );
 }
+

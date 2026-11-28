@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import StandardLayout from '../../components/layout/StandardLayout';
 import Dropzone from '../../components/ui/Dropzone';
-import { TextField, Select } from '../../components/pdf/ToolOptionsPanel';
 import { getPdfLib, readFileAsArrayBuffer, bytesToBlob, downloadBlob, pdfPageCount } from '../../lib/pdf-helpers';
 import { toolById } from '../../data/toolsConfig';
 import { PDFDocument } from 'pdf-lib';
@@ -247,24 +246,6 @@ export default function MergePDF() {
           <p className="mt-2 text-xs text-[#47474f]">Drag the handle on the left to reorder files.</p>
         </div>
       )}
-
-      {/* Options */}
-      <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
-          <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Options</h3>
-          <div className="flex flex-col gap-4">
-            <Select
-              label="Page order"
-              value="order-added"
-              onChange={() => {}}
-              options={[
-                { value: 'order-added', label: 'Keep the order you added them in' },
-              ]}
-              help="Reorder files using the drag handles above."
-            />
-          </div>
-        </div>
-      </div>
 
       {/* Action */}
       <div className="flex flex-col gap-4">

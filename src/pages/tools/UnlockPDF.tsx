@@ -171,7 +171,7 @@ export default function UnlockPDF() {
 
       {showPasswordInput && encrypted && (
         <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
             <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">Enter the PDF password</h3>
             <p className="mb-4 text-sm text-[#47474f]">
               To remove the restrictions, we need to open the PDF with its password.
@@ -209,7 +209,7 @@ export default function UnlockPDF() {
 
       {encrypted === false && file && (
         <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
             <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">This file is already unrestricted</h3>
             <p className="mb-4 text-sm text-[#47474f]">
               This PDF has no password or restrictions. You can still download a fresh copy below.
@@ -241,3 +241,4 @@ export default function UnlockPDF() {
     </StandardLayout>
   );
 }
+

@@ -229,7 +229,7 @@ export default function OCRPDF() {
       )}
 
       <div className="mb-5">
-        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+        <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
           <h3 className="mb-4 text-[1.125rem] font-semibold text-[#161616]">OCR options</h3>
           <div className="flex flex-col gap-4">
             <Select label="Language" value={lang} onChange={setLang} options={LANG_OPTIONS.map((o) => ({ value: o.value, label: o.label }))} help="Choose the language of the text in the document." />
@@ -258,7 +258,7 @@ export default function OCRPDF() {
 
       {(ocrPhase === 'rendering' || ocrPhase === 'ocr') && (
         <div className="mb-5">
-          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+          <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-[#161616]">{ocrPhase === 'ocr' ? 'Recognizing text…' : 'Rendering pages…'}</span>
               <span className="text-sm text-[#47474f]">{ocrProgress}%</span>
@@ -296,3 +296,4 @@ export default function OCRPDF() {
     </StandardLayout>
   );
 }
+

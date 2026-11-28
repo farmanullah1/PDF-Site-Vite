@@ -14,7 +14,7 @@ interface FileItem {
 }
 
 const ACCENT_COLORS: Record<string, string> = {
-  primary: '#EE6C4D',
+  primary: '#E5322D',
   secondary: '#295795',
   tertiary: '#ab6993',
   quaternary: '#B7A001',
@@ -61,7 +61,7 @@ export default function StandardLayout({ tool, children }: { tool: ToolConfig; c
         <p className="max-w-2xl text-[0.9375rem] leading-normal text-[#47474f]">{tool.description}</p>
       </div>
 
-      <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-[card]">
+      <div className="rounded-xl border border-[#c4c4cc] bg-white p-5 shadow-sm">
         {children}
       </div>
 
