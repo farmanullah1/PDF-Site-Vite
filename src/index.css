@@ -22,6 +22,10 @@
   --muted: #D8D8E0;
   /* Active pill */
   --inactive: #222222;
+  /* Border radius */
+  --border-radius-default: 12px;
+  /* Card hover shadow */
+  --card-hover: 0 10px 24px rgba(25, 25, 40, 0.07);
   /* Premium */
   --premium: #FFF9EC;
   --premium-gold: #FFB800;
@@ -159,7 +163,7 @@ body {
   justify-content: center;
 }
 .filter-pill {
-  @apply inline-flex items-center justify-center rounded-full px-4 py-2 text-[14px] font-medium transition-all duration-150 cursor-pointer border border-transparent;
+  @apply inline-flex items-center justify-center rounded-full px-4 py-2 text-[14px] font-medium transition-all duration-150 cursor-pointer border border-[#D8D8E0];
   color: var(--ink);
   background: var(--surface);
 }
@@ -191,6 +195,11 @@ body {
 @media (min-width: 640px) {
   .tools__container {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 768px) {
+  .tools__container {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (min-width: 1024px) {

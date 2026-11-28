@@ -112,7 +112,7 @@ export default function Home() {
       <div className="hero-ribbon" />
       <div className="home-title">
         <h1 className="home-title__title">Every tool you need to work with PDFs in one place</h1>
-        <h2 className="home-title__subtitle">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</h2>
+        <p className="home-title__subtitle">Every tool you need to use PDFs, at your fingertips. All are 100% FREE and easy to use! Merge, split, compress, convert, rotate, unlock and watermark PDFs with just a few clicks.</p>
       </div>
 
       <div className="filters">

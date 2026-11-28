@@ -224,18 +224,27 @@ export default function Header() {
                       {group.group}
                     </div>
                     <ul className="flex flex-col gap-1">
-                      {group.links.map((l) => (
+                      {group.links.map((l) => {
+                      const formatColor = l.label.includes('JPG') || l.label.includes('PDF to JPG') ? '#E6A100' :
+                        l.label.includes('WORD') ? '#3B66B8' :
+                        l.label.includes('POWERPOINT') ? '#E55B3C' :
+                        l.label.includes('EXCEL') ? '#2E7D32' :
+                        l.label.includes('HTML') ? '#6E6E7A' :
+                        l.label.includes('PDF/A') ? '#3B5998' :
+                        '#6E6E7A';
+                      return (
                         <li key={l.href}>
                           <a
                             href={l.href}
                             onClick={(e) => { if (!l.external) e.preventDefault(); handleNavLink(l.href, l.external); }}
                             className="flex items-center gap-2 rounded-md px-3 py-1.5 text-[13px] text-[#33333B] transition-colors hover:bg-[#EBEBF2]"
                           >
-                            <DocIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
+                            <DocIcon style={{ fontSize: '14px', color: formatColor }} />
                             {l.label}
                           </a>
                         </li>
-                      ))}
+                      );
+                    })}
                     </ul>
                   </div>
                 ))}
@@ -295,14 +304,14 @@ export default function Header() {
 
           <div className="relative">
             <button
-              className="flex items-center justify-center rounded-[6px] p-2 text-[#222222] transition-colors hover:bg-[#F0F0F5] sm:hidden"
+              className="flex items-center justify-center rounded-[6px] p-2 text-[#222222] transition-colors hover:bg-[#F0F0F5]"
               aria-label="More options"
               onClick={() => setCompanyOpen((v) => !v)}
             >
               <AppSwitcher style={{ fontSize: '20px', color: '#33333B' }} />
             </button>
             {companyOpen && (
-              <div className="nav-dropdown nav-dropdown--left nav-dropdown--company absolute right-0 top-full mt-2 min-w-[320px] rounded-[12px] border border-[#EBEBF0] bg-white p-4 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50 sm:hidden">
+              <div className="nav-dropdown nav-dropdown--left nav-dropdown--company absolute right-0 top-full mt-2 min-w-[320px] rounded-[12px] border border-[#EBEBF0] bg-white p-4 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50">
                 <div className="menu-comp">
                   {COMPANY_LINKS.map((group) => (
                     <div key={group.group} className="mb-4 last:mb-0">

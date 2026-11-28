@@ -116,7 +116,7 @@ export default function Footer() {
               <span className="text-[24px] font-bold slab text-[#33333B]">PDF</span>
             </Link>
           </div>
-          <div className="footer-copy">© PDF Site 2026 ® - Your PDF Editor</div>
+          <div className="footer-copy">© iLovePDF 2026 ® - Your PDF Editor</div>
           <div className="footer-social">
             {SOCIAL_LINKS.map((s) => (
               <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="footer-social-link" aria-label={s.label}>
