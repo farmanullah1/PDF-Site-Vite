@@ -120,7 +120,10 @@ export default function JPGToPDF() {
       const imagesSnapshot = images.map((r) => r.file);
       for (const f of imagesSnapshot) {
         const buf = await readFileAsArrayBuffer(f);
-        const img = await out.embedPng(new Uint8Array(buf));
+        const isJpeg = f.type === 'image/jpeg' || f.name.toLowerCase().endsWith('.jpg') || f.name.toLowerCase().endsWith('.jpeg');
+        const img = isJpeg
+          ? await out.embedJpg(new Uint8Array(buf))
+          : await out.embedPng(new Uint8Array(buf));
         let w: number, h: number;
         const row = images.find((r) => r.file === f);
         if (pageSize === 'a4') {

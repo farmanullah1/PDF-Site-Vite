@@ -42,7 +42,10 @@ export default function CompressPDF() {
         return getPdfLib().then((PDFLib) => PDFLib.PDFDocument.load(new Uint8Array(buf), { ignoreEncryption: true }));
       }).then((doc) => {
         setFile((p) => (p && p.file === f ? { ...p, pages: doc.getPageCount() } : p));
-      }).catch(() => {});
+        setPhase('idle');
+      }).catch(() => {
+        setPhase('idle');
+      });
     },
     []
   );
