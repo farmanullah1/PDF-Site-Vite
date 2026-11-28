@@ -128,6 +128,18 @@ test.describe('Tool pages', () => {
     await expect(page.locator('h1')).toBeVisible();
   });
 
+  test('new tool routes load correctly', async ({ page }) => {
+    await page.goto('http://127.0.0.1:5173/rotate-pdf');
+    await expect(page.locator('h1')).toContainText('Rotate PDF');
+    await page.goto('http://127.0.0.1:5173/optimize-pdf');
+    await expect(page.locator('h1')).toContainText('Optimize PDF');
+  });
+
+  test('extract-pages tool page loads', async ({ page }) => {
+    await page.goto('http://127.0.0.1:5173/extract_pages');
+    await expect(page.locator('h1')).toContainText('Extract pages');
+  });
+
   test('not found page works', async ({ page }) => {
     await page.goto('http://127.0.0.1:5173/nonexistent');
     await expect(page.getByText('Page not found')).toBeVisible();

@@ -98,6 +98,17 @@ export const TOOLS: ToolConfig[] = [
     route: '/scan-pdf',
     status: 'implemented',
   },
+  {
+    id: 'rotate-pdf',
+    name: 'Rotate PDF',
+    description: 'Rotate pages of your PDF by 90, 180, or 270 degrees. Works on all pages or a custom selection.',
+    category: 'Organize PDF',
+    categoryKey: 'organize',
+    icon: 'Rotate',
+    accent: 'primary',
+    route: '/rotate-pdf',
+    status: 'implemented',
+  },
 
   // ---- Optimize PDF ----
   {
@@ -131,6 +142,17 @@ export const TOOLS: ToolConfig[] = [
     icon: 'OCR',
     accent: 'secondary',
     route: '/ocr-pdf',
+    status: 'implemented',
+  },
+  {
+    id: 'optimize-pdf',
+    name: 'Optimize PDF',
+    description: 'Re-serialize and compress your PDF to reduce file size while keeping quality.',
+    category: 'Optimize PDF',
+    categoryKey: 'optimize',
+    icon: 'Optimize',
+    accent: 'secondary',
+    route: '/optimize-pdf',
     status: 'implemented',
   },
 

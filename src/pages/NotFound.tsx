@@ -20,7 +20,7 @@ export default function NotFound() {
           Back to home
         </Link>
         <Link
-          to="/merge-pdf"
+          to="/merge_pdf"
           className="inline-flex items-center rounded-lg border border-[#c4c4cc] bg-white px-5 py-2.5 text-sm font-medium text-[#161616] transition-colors hover:border-[#161616]"
         >
           Try Merge PDF

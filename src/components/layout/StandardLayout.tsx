@@ -99,6 +99,8 @@ function iconPath(name: string) {
     Scan: <><path d="M3 7V5a2 2 0 0 1 2-2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M21 17v2a2 2 0 0 1-2 2h-2" /><path d="M7 21H5a2 2 0 0 1-2-2v-2" /><path d="M8 11h8" /><path d="M8 15h5" /></>,
     Compress: <><path d="M12 20V10" /><path d="M18 20V4" /><path d="M6 20v-4" /></>,
     Repair: <><path d="M14.5 2L20 7.5" /><path d="M3.47 20.5 12 12" /><path d="M20.5 3.5l-8.57 8.57a2 2 0 0 1-2.83 0" /><path d="M8.54 17.46a2 2 0 0 1-2.83 0" /><circle cx="12" cy="12" r="3" /></>,
+    Rotate: <><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-2.167.563l-4.833 4.833L21 12l-4.833-4.833A9.75 9.75 0 0 0 21 21a9 9 0 0 0-9-9Z" /><path d="M12 3v6M12 15v6M9 12h6M15 12h6" /></>,
+    Optimize: <><path d="M13 13H3v10h10v-4ZM3 3l9 9" /></>,
     OCR: <><path d="M3 7V5a2 2 0 0 1 2-2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M21 17v2a2 2 0 0 1-2 2h-2" /><path d="M7 21H5a2 2 0 0 1-2-2v-2" /><path d="M8 11h8" /><path d="M8 15h5" /></>,
     JpgToPdf: <><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></>,
     WordToPdf: <><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /><path d="M9 15h6" /><path d="M9 11h6" /></>,

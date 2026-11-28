@@ -44,10 +44,12 @@ export default function App() {
           <Route path="/pdf_add_watermark" element={<ToolPage />} />
           <Route path="/unlock_pdf" element={<ToolPage />} />
           <Route path="/compress_pdf" element={<ToolPage />} />
+          <Route path="/optimize-pdf" element={<ToolPage />} />
           <Route path="/sign-pdf" element={<ToolPage />} />
           <Route path="/remove-pages" element={<ToolPage />} />
           <Route path="/extract_pages" element={<ToolPage />} />
           <Route path="/organize-pdf" element={<ToolPage />} />
+          <Route path="/rotate-pdf" element={<ToolPage />} />
           <Route path="/add_pdf_page_number" element={<ToolPage />} />
           <Route path="/edit-pdf" element={<ToolPage />} />
           <Route path="/crop-pdf" element={<ToolPage />} />

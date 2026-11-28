@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Search, X, Monitor, Smartphone, Building2 } from 'lucide-react';
+import { Search, X, Monitor, Smartphone, Building2, RotateCw, Zap, Minimize } from 'lucide-react';
 import {
   IconCompare_pdf,
   IconCompress_pdf,
@@ -72,11 +72,13 @@ const ICON_COMPONENTS: Record<string, React.ComponentType<React.SVGProps<SVGSVGE
   Compress: IconCompress_pdf,
   Crop: IconCrop_pdf,
   Edit: IconEdit_pdf,
+  Extract: () => (<Minimize className="h-5 w-5" strokeWidth={1.5} />),
   Forms: IconEdit_pdf_forms,
   HtmlToPdf: IconHtml_to_pdf,
   JpgToPdf: IconJpgToPdf,
   Merge: IconMerge_pdf,
   OCR: IconOcr_pdf,
+  Optimize: () => (<Zap className="h-5 w-5" strokeWidth={1.5} />),
   Organize: IconOrganize_pdf,
   PageNumbers: IconPageNumbers,
   PdfToHtml: IconPdfToHtml,
@@ -87,6 +89,7 @@ const ICON_COMPONENTS: Record<string, React.ComponentType<React.SVGProps<SVGSVGE
   Redact: IconRedact_pdf,
   Remove: IconRemove_pages,
   Repair: IconRepair_pdf,
+  Rotate: () => (<RotateCw className="h-5 w-5" strokeWidth={1.5} />),
   Scan: IconScan_pdf,
   Sign: IconSign_pdf,
   Split: IconSplit_pdf,
