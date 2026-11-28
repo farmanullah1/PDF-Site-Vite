@@ -210,7 +210,7 @@ export default function Home() {
                 return (
                   <div key={cat.key}>
                     <h3 className="mb-4 text-[1.75rem] font-semibold tracking-tight text-[#161616]">{cat.label}</h3>
-                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
                       {tools.map((tool) => (
                         <ToolCard key={tool.id} tool={tool} />
                       ))}

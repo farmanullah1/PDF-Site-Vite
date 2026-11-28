@@ -164,28 +164,47 @@ export default function RemovePages() {
           </div>
 
           <div className="mt-3 max-h-[340px] overflow-y-auto rounded-xl border border-[#c4c4cc] bg-white">
-            <div className="grid grid-cols-12">
-              <div className="col-span-11 border-b border-[#c4c4cc]/40 px-3 py-2 text-xs font-medium text-[#161616]">Page</div>
-              <div className="col-span-1 border-b border-[#c4c4cc]/40 px-3 py-2 text-xs font-medium text-[#161616] text-right">Remove</div>
-            </div>
-            <div className="divide-y divide-[#c4c4cc]/40">
+            <div className="flex flex-col sm:hidden divide-y divide-[#c4c4cc]/40">
               {Array.from({ length: file.pages }, (_, i) => i + 1).map((p) => {
                 const isRemoved = remove.has(p);
                 return (
-                  <div key={p} className="grid grid-cols-12 items-center border-b border-[#c4c4cc]/40 px-3 py-2.5 hover:bg-[#f0f0f5]">
-                    <div className="col-span-11 text-sm text-[#161616]">Page {p}</div>
-                    <div className="col-span-1 flex items-center justify-end">
-                      <button
-                        onClick={() => togglePage(p)}
-                        className={`rounded-lg p-1.5 transition-colors ${isRemoved ? 'bg-[#fbeae7] text-[#c92a24]' : 'text-[#47474f] hover:bg-[#f0f0f5]'}`}
-                        aria-label={`Toggle page ${p}`}
-                      >
-                        {isRemoved ? <Check size={14} /> : <Square size={14} />}
-                      </button>
-                    </div>
+                  <div key={p} className="flex items-center justify-between px-3 py-3 border-b border-[#c4c4cc]/40 hover:bg-[#f0f0f5]">
+                    <span className="text-sm text-[#161616]">Page {p}</span>
+                    <button
+                      onClick={() => togglePage(p)}
+                      className={`rounded-lg p-1.5 transition-colors ${isRemoved ? 'bg-[#fbeae7] text-[#c92a24]' : 'text-[#47474f] hover:bg-[#f0f0f5]'}`}
+                      aria-label={`Toggle page ${p}`}
+                    >
+                      {isRemoved ? <Check size={14} /> : <Square size={14} />}
+                    </button>
                   </div>
                 );
               })}
+            </div>
+            <div className="hidden sm:block">
+              <div className="grid grid-cols-12">
+                <div className="col-span-11 border-b border-[#c4c4cc]/40 px-3 py-2 text-xs font-medium text-[#161616]">Page</div>
+                <div className="col-span-1 border-b border-[#c4c4cc]/40 px-3 py-2 text-xs font-medium text-[#161616] text-right">Remove</div>
+              </div>
+              <div className="divide-y divide-[#c4c4cc]/40">
+                {Array.from({ length: file.pages }, (_, i) => i + 1).map((p) => {
+                  const isRemoved = remove.has(p);
+                  return (
+                    <div key={p} className="grid grid-cols-12 items-center border-b border-[#c4c4cc]/40 px-3 py-2.5 hover:bg-[#f0f0f5]">
+                      <div className="col-span-11 text-sm text-[#161616]">Page {p}</div>
+                      <div className="col-span-1 flex items-center justify-end">
+                        <button
+                          onClick={() => togglePage(p)}
+                          className={`rounded-lg p-1.5 transition-colors ${isRemoved ? 'bg-[#fbeae7] text-[#c92a24]' : 'text-[#47474f] hover:bg-[#f0f0f5]'}`}
+                          aria-label={`Toggle page ${p}`}
+                        >
+                          {isRemoved ? <Check size={14} /> : <Square size={14} />}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
           {file.pages === 0 && (

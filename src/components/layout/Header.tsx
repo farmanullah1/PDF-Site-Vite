@@ -286,7 +286,7 @@ export default function Header() {
               All PDF tools <DownArrow style={{ fontSize: '10px', marginLeft: '4px', color: '#222222' }} />
             </button>
             {allOpen && (
-              <div className="nav-dropdown nav-dropdown--full absolute left-0 top-full mt-2 min-w-[560px] rounded-[12px] border border-[#EBEBF0] bg-white p-4 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50">
+              <div className="nav-dropdown nav-dropdown--full absolute left-0 top-full mt-2 rounded-[12px] border border-[#EBEBF0] bg-white p-4 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50 w-auto max-w-[560px] min-w-[280px]">
                 <div className="grid grid-cols-2 gap-6">
                   {ALL_TOOLS_LINKS.map((group) => (
                     <div key={group.group} className="flex flex-col gap-2">
@@ -335,7 +335,7 @@ export default function Header() {
               <AppSwitcher style={{ fontSize: '20px', color: '#33333B' }} />
             </button>
             {companyOpen && (
-              <div className="nav-dropdown nav-dropdown--left nav-dropdown--company absolute right-0 top-full mt-2 min-w-[320px] rounded-[12px] border border-[#EBEBF0] bg-white p-4 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50">
+              <div className="nav-dropdown nav-dropdown--left nav-dropdown--company absolute right-0 top-full mt-2 rounded-[12px] border border-[#EBEBF0] bg-white p-4 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50 w-auto max-w-[320px] min-w-[200px]">
                 <div className="menu-comp">
                   {COMPANY_LINKS.map((group) => (
                     <div key={group.group} className="mb-4 last:mb-0">

@@ -25,7 +25,7 @@ export default function StandardLayout({ tool, children }: { tool: ToolConfig; c
   const accent = ACCENT_COLORS[tool.accent] || '#EE6C4D';
 
   return (
-    <div className="mx-auto max-w-[1280px] px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 pb-16 pt-8 sm:pt-6">
       <a
         href="/"
         onClick={(e) => { e.preventDefault(); navigate('/'); }}

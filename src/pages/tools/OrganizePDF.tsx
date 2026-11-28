@@ -232,7 +232,7 @@ export default function OrganizePDF() {
                     aria-label={`Page ${pageIdx + 1} at position ${pos + 1}`}
                   >
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">Position {pos + 1}</span>
-                    <div className="relative flex h-48 w-36 items-center justify-center rounded-lg border border-[#c4c4cc] bg-[#f0f0f5] overflow-hidden shrink-0">
+                    <div className="relative flex h-32 sm:h-40 md:h-48 w-28 sm:w-32 md:w-36 items-center justify-center rounded-lg border border-[#c4c4cc] bg-[#f0f0f5] overflow-hidden shrink-0">
                       {!ready && (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-[#c4c4cc] border-t-[#e5322d]" />
