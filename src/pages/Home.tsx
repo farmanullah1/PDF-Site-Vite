@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Search, X, Monitor, Smartphone, Building2, RotateCw, Zap, Minimize } from 'lucide-react';
 import {
   IconCompare_pdf,
@@ -46,14 +46,14 @@ const FILTERS: { key: string; label: string }[] = [
 
 function getIconColor(id: string): string {
   const coral = ['merge-pdf', 'split-pdf', 'organize-pdf', 'scan-pdf', 'remove-pages', 'extract-pages'];
-  const green = ['compress-pdf', 'repair-pdf', 'ocr-pdf'];
+  const green = ['compress-pdf', 'repair-pdf', 'ocr-pdf', 'optimize-pdf'];
   const royal = ['word-to-pdf', 'pdf-to-word'];
   const burnt = ['powerpoint-to-pdf', 'pdf-to-powerpoint'];
   const forest = ['excel-to-pdf', 'pdf-to-excel'];
   const amber = ['jpg-to-pdf', 'html-to-pdf', 'pdf-to-jpg'];
   const plum = ['edit-pdf', 'add-pdf-page-number', 'pdf-add-watermark', 'crop-pdf', 'pdf-forms', 'rotate-pdf'];
   const teal = ['sign-pdf', 'unlock-pdf', 'compare-pdf'];
-  const navy = ['protect-pdf', 'pdf-to-pdfa', 'redact-pdf'];
+  const navy = ['protect-pdf', 'pdf-to-pdfa', 'redact-pdf', 'pdf-to-markdown', 'pdf-to-html', 'pdf-to-text'];
 
   if (coral.includes(id)) return 'coral';
   if (green.includes(id)) return 'green';
@@ -101,9 +101,32 @@ const ICON_COMPONENTS: Record<string, React.ComponentType<React.SVGProps<SVGSVGE
 };
 
 export default function Home() {
-  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [search, setSearch] = useState('');
+  const searchRef = useRef<HTMLInputElement | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const setSearchDebounced = useCallback((value: string) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => setSearch(value), 150);
+  }, []);
+
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    }
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
 
   const allTools = useMemo(() => allImplementedTools(), []);
 
@@ -135,11 +158,12 @@ export default function Home() {
           <div className="search-field">
             <Search className="search-icon" size={18} strokeWidth={1.5} />
             <input
+              ref={searchRef}
               className="search-input"
               type="search"
-              placeholder="Search for a PDF tool"
+              placeholder="Search for a PDF tool (Ctrl+K)"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => setSearchDebounced(e.target.value)}
               aria-label="Search PDF tools"
             />
             {search && (
@@ -188,7 +212,7 @@ export default function Home() {
                     <h3 className="mb-4 text-[1.75rem] font-semibold tracking-tight text-[#161616]">{cat.label}</h3>
                     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                       {tools.map((tool) => (
-                        <ToolCard key={tool.id} tool={tool} navigate={navigate} />
+                        <ToolCard key={tool.id} tool={tool} />
                       ))}
                     </div>
                   </div>
@@ -216,7 +240,7 @@ export default function Home() {
               ) : (
                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                   {filteredTools.map((tool) => (
-                    <ToolCard key={tool.id} tool={tool} navigate={navigate} />
+                    <ToolCard key={tool.id} tool={tool} />
                   ))}
                 </div>
               )}
@@ -265,7 +289,7 @@ export default function Home() {
   );
 }
 
-function ToolCard({ tool, navigate }: { tool: ToolConfig; navigate: any }) {
+function ToolCard({ tool }: { tool: ToolConfig }) {
   const iconColor = getIconColor(tool.id);
 
   const Component = ICON_COMPONENTS[tool.icon];
@@ -277,12 +301,11 @@ function ToolCard({ tool, navigate }: { tool: ToolConfig; navigate: any }) {
   const IconComp = Component || FallbackIcon;
 
   return (
-    <a
-      href={tool.route}
-      onClick={(e) => { e.preventDefault(); navigate(tool.route); }}
-      title={tool.name}
-      className="block"
-    >
+      <Link
+        to={tool.route}
+        title={tool.name}
+        className="block"
+      >
       <div className="tool-card">
         <div className={`tool-icon ${iconColor}`}>
           <IconComp className="h-5 w-5" />
@@ -291,6 +314,6 @@ function ToolCard({ tool, navigate }: { tool: ToolConfig; navigate: any }) {
         <p>{tool.description}</p>
         {tool.new && <span className="new-tag mt-3 inline-block">New!</span>}
       </div>
-    </a>
+    </Link>
   );
 }

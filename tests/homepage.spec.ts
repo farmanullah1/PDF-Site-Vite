@@ -9,14 +9,14 @@ test.describe('Homepage UI/UX', () => {
 
   test('search input is present and accessible', async ({ page }) => {
     await page.goto('http://127.0.0.1:5174/');
-    const searchInput = page.locator('input[placeholder="Search for a PDF tool"]');
+    const searchInput = page.locator('input[placeholder="Search for a PDF tool (Ctrl+K)"]');
     await expect(searchInput).toBeVisible();
     await expect(searchInput).toHaveAttribute('aria-label', 'Search PDF tools');
   });
 
   test('search filters tools by keyword', async ({ page }) => {
     await page.goto('http://127.0.0.1:5174/');
-    const searchInput = page.locator('input[placeholder="Search for a PDF tool"]');
+    const searchInput = page.locator('input[placeholder="Search for a PDF tool (Ctrl+K)"]');
     await searchInput.fill('merge');
     await expect(page.locator('.tool-card:has-text("Merge PDF")')).toBeVisible();
     await expect(page.locator('.tool-card:has-text("Split PDF")')).toBeHidden();
@@ -36,7 +36,7 @@ test.describe('Homepage UI/UX', () => {
   test('search and category filter combine', async ({ page }) => {
     await page.goto('http://127.0.0.1:5174/');
     await page.getByRole('button', { name: 'Optimize PDF' }).click();
-    const searchInput = page.locator('input[placeholder="Search for a PDF tool"]');
+    const searchInput = page.locator('input[placeholder="Search for a PDF tool (Ctrl+K)"]');
     await searchInput.fill('compress');
     await expect(page.locator('.tool-card:has-text("Compress PDF")')).toBeVisible();
     await searchInput.fill('nonexistent');
@@ -45,7 +45,7 @@ test.describe('Homepage UI/UX', () => {
 
   test('clear search restores results', async ({ page }) => {
     await page.goto('http://127.0.0.1:5174/');
-    const searchInput = page.locator('input[placeholder="Search for a PDF tool"]');
+    const searchInput = page.locator('input[placeholder="Search for a PDF tool (Ctrl+K)"]');
     await searchInput.fill('merge');
     await page.getByLabel('Clear search').click();
     await expect(page.locator('.tool-card:has-text("Merge PDF")')).toBeVisible();
@@ -59,7 +59,7 @@ test.describe('Homepage UI/UX', () => {
 
   test('empty state shows when no results', async ({ page }) => {
     await page.goto('http://127.0.0.1:5174/');
-    const searchInput = page.locator('input[placeholder="Search for a PDF tool"]');
+    const searchInput = page.locator('input[placeholder="Search for a PDF tool (Ctrl+K)"]');
     await searchInput.fill('xyzzy123nonexistent');
     await expect(page.getByRole('heading', { name: 'No matching tools' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Clear all filters' })).toBeVisible();

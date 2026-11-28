@@ -7,6 +7,7 @@ interface DropzoneProps {
   label?: string;
   helper?: string;
   onFiles: (files: File[]) => void;
+  onError?: (errors: string[]) => void;
   fileCount?: number;
   children?: React.ReactNode;
   fileInputRef?: { current: HTMLInputElement | null };
@@ -19,10 +20,13 @@ export default function Dropzone({
   label = 'Select PDF files',
   helper = 'Add files or drag and drop them here',
   onFiles,
+  onError,
   fileCount = 0,
   children,
+  fileInputRef,
 }: DropzoneProps) {
   const [dragging, setDragging] = useState(false);
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const validate = useCallback(
     (files: File[]): File[] => {
@@ -45,14 +49,14 @@ export default function Dropzone({
         valid.push(f);
       }
       if (errors.length) {
-        // fire a single toast-like alert via a callback-free approach: window.alert is disruptive,
-        // so we queue a browser-friendly status message into the parent via onFiles with no-op,
-        // but keep it simple for now by using a small modal-ish console + visible message is handled by callers.
-        console.warn('[Dropzone] validation errors:', errors.join(' '));
+        setValidationError(errors[0]);
+        onError?.(errors);
+      } else {
+        setValidationError(null);
       }
       return valid;
     },
-    [accept, maxSizeMB]
+    [accept, maxSizeMB, onError]
   );
 
   const handleDrop = useCallback(
@@ -122,6 +126,9 @@ export default function Dropzone({
           <span className="rounded-full bg-[#e5322d] px-3 py-1 text-xs font-semibold text-white">
             {fileCount} file{fileCount === 1 ? '' : 's'} selected
           </span>
+        )}
+        {validationError && (
+          <span className="text-xs text-[#c92a24] font-medium mt-1">{validationError}</span>
         )}
       </div>
       {children}

@@ -3,7 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
-const FOOTER_LINKS = [
+type FooterLink = { label: string; href: string; external?: boolean };
+
+const FOOTER_LINKS: { label: string; links: FooterLink[] }[] = [
   { label: 'Product', links: [
     { label: 'Home', href: '/' },
     { label: 'Features', href: '/features' },
@@ -14,7 +16,7 @@ const FOOTER_LINKS = [
   { label: 'Resources', links: [
     { label: 'Desktop app', href: '/desktop' },
     { label: 'Mobile app', href: '/mobile' },
-    { label: 'API', href: 'https://www.iloveapi.com', external: true },
+    { label: 'API', href: '/features' },
   ]},
   { label: 'Solutions', links: [
     { label: 'Business', href: '/business' },
