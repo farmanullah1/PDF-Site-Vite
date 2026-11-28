@@ -35,19 +35,19 @@ const FOOTER_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: 'Twitter', href: 'https://twitter.com/ilovepdf_com', icon: 'twitter' },
-  { label: 'Facebook', href: 'https://www.facebook.com/ilovepdfcom-238648522858564/', icon: 'facebook' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/ilovepdf/', icon: 'linkedin' },
-  { label: 'Instagram', href: 'https://www.instagram.com/ilovepdf_official/', icon: 'instagram' },
-  { label: 'TikTok', href: 'https://www.tiktok.com/@ilovepdf_official/', icon: 'tiktok' },
-  { label: 'Reddit', href: 'https://www.reddit.com/r/ilovepdf/', icon: 'reddit' },
+  { label: 'Twitter', href: 'https://twitter.com/ilovepdf_com' },
+  { label: 'Facebook', href: 'https://www.facebook.com/ilovepdfcom-238648522858564/' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/ilovepdf/' },
+  { label: 'Instagram', href: 'https://www.instagram.com/ilovepdf_official/' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@ilovepdf_official/' },
+  { label: 'Reddit', href: 'https://www.reddit.com/r/ilovepdf/' },
 ];
 
 const APP_STORE_LINKS = [
-  { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.ilovepdf.www', icon: 'google-play' },
-  { label: 'App Store', href: 'https://itunes.apple.com/app/ilovepdf/id1207332399?mt=8', icon: 'app-store' },
-  { label: 'Mac Store', href: 'https://apps.apple.com/app/ilovepdf-pdf-editor-scan/id1207332399?mt=8', icon: 'mac-store' },
-  { label: 'Microsoft Store', href: 'ms-windows-store://pdp/?productid=9NLVZBZ2WZ28', icon: 'microsoft-store' },
+  { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.ilovepdf.www' },
+  { label: 'App Store', href: 'https://itunes.apple.com/app/ilovepdf/id1207332399?mt=8' },
+  { label: 'Mac Store', href: 'https://apps.apple.com/app/ilovepdf-pdf-editor-scan/id1207332399?mt=8' },
+  { label: 'Microsoft Store', href: 'ms-windows-store://pdp/?productid=9NLVZBZ2WZ28' },
 ];
 
 const LANGUAGES = [
@@ -63,20 +63,6 @@ const LANGUAGES = [
   { code: 'zh-cn', label: '中文 (简体)' },
   { code: 'zh-tw', label: '中文 (繁體)' },
   { code: 'ar', label: 'العربية' },
-  { code: 'bg', label: 'Български' },
-  { code: 'ca', label: 'Català' },
-  { code: 'nl', label: 'Nederlands' },
-  { code: 'el', label: 'Ελληνικά' },
-  { code: 'hi', label: 'हिन्दी' },
-  { code: 'id', label: 'Bahasa Indonesia' },
-  { code: 'ms', label: 'Bahasa Melayu' },
-  { code: 'pl', label: 'Polski' },
-  { code: 'sv', label: 'Svenska' },
-  { code: 'th', label: 'ภาษาไทย' },
-  { code: 'tr', label: 'Türkçe' },
-  { code: 'uk', label: 'Українська' },
-  { code: 'vi', label: 'Tiếng Việt' },
-  { code: 'sw', label: 'Kiswahili' },
 ];
 
 export default function Footer() {
@@ -84,44 +70,21 @@ export default function Footer() {
   const [currentLang, setCurrentLang] = useState('en');
 
   return (
-    <footer className="bg-[#161616] text-[#c4c4cc]">
-      {/* Top links */}
-      <div className="px-6 py-4 sm:px-10 lg:px-14 border-b border-[#2a2a30]">
-        <div className="mx-auto max-w-[1280px] flex flex-wrap items-center justify-between gap-4 text-xs sm:text-sm">
-          <div className="flex items-center gap-4 sm:gap-6">
-            <Link to="/features" className="text-[#c4c4cc] hover:text-white">Features</Link>
-            <Link to="/pricing" className="text-[#c4c4cc] hover:text-white">Pricing</Link>
-            <Link to="/business" className="text-[#c4c4cc] hover:text-white">Business</Link>
-            <Link to="/education" className="text-[#c4c4cc] hover:text-white">Education</Link>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-[#c4c4cc]">Language</span>
-            <button
-              onClick={() => setLangOpen((v) => !v)}
-              className="flex items-center gap-1 px-2 py-1 rounded hover:bg-[#2a2a30] text-[#c4c4cc]"
-              aria-expanded={langOpen}
-            >
-              <span className="font-medium">{currentLang === 'en' ? 'English' : currentLang}</span>
-              <DownArrow style={{ fontSize: '10px', color: '#c4c4cc' }} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Main footer grid */}
-      <div className="px-6 py-10 sm:px-10 lg:px-14">
-        <div className="mx-auto max-w-[1280px] grid grid-cols-2 gap-8 sm:grid-cols-4 lg:gap-12">
+    <footer className="site-footer">
+      <div className="footer-top">
+        <div className="footer-grid">
           {FOOTER_LINKS.map((col) => (
-            <div key={col.label}>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-[#c4c4cc]">{col.label}</h3>
-              <ul className="flex flex-col gap-3">
+            <div key={col.label} className="footer-col">
+              <h3>{col.label}</h3>
+              <ul>
                 {col.links.map((l) => (
                   <li key={l.href}>
                     <a
                       href={l.href}
                       target={l.external ? '_blank' : undefined}
                       rel={l.external ? 'noopener noreferrer' : undefined}
-                      className="text-sm text-[#c4c4cc] transition-colors hover:text-white"
+                      className="footer-col-link"
+                      onClick={(e) => { if (!l.external) e.preventDefault(); }}
                     >
                       {l.label}
                     </a>
@@ -133,31 +96,72 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="border-t border-[#2a2a30] px-6 py-4 sm:px-10 lg:px-14">
-        <div className="mx-auto max-w-[1280px] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7a7a82]">
-          <div className="flex items-center gap-2">
-            <Link to="/" className="flex items-center gap-2 text-white">
-              <img src="/img/ilovepdf.svg" alt="iLovePDF" width="24" height="24" />
-              <span className="text-[1.125rem] font-bold tracking-tight">iLovePDF</span>
+      <div className="footer-apps">
+        <div className="app-badges">
+          {APP_STORE_LINKS.map((a) => (
+            <a key={a.label} href={a.href} target="_blank" rel="noopener noreferrer" className="app-badge" aria-label={a.label}>
+              <span className="app-badge-icon" aria-hidden="true">📱</span>
+              <span>{a.label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div className="footer-bottom">
+        <div className="footer-bottom-inner">
+          <div className="footer-brand">
+            <Link to="/" className="flex items-center gap-2">
+              <span className="text-[24px] font-bold slab text-[#33333B]">I</span>
+              <span className="text-[24px] font-bold slab text-[#E5322D]">&#10084;</span>
+              <span className="text-[24px] font-bold slab text-[#33333B]">PDF</span>
             </Link>
-            <span className="text-[#c4c4cc]">© iLovePDF 2026 ® - Your PDF Editor</span>
           </div>
-          <div className="flex items-center gap-4 sm:gap-6">
-            <div className="flex items-center gap-4">
-                  {SOCIAL_LINKS.map((s) => (
-                    <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="text-[#c4c4cc] transition-colors hover:text-white" aria-label={s.label}>
-                      <SocialIcon name={s.icon} style={{ fontSize: '16px', color: '#c4c4cc' }} />
+          <div className="footer-copy">© PDF Site 2026 ® - Your PDF Editor</div>
+          <div className="footer-social">
+            {SOCIAL_LINKS.map((s) => (
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="footer-social-link" aria-label={s.label}>
+                <SocialIcon name={s.label.toLowerCase()} />
+              </a>
+            ))}
+          </div>
+          <div className="footer-lang">
+            <span className="mr-2">{currentLang === 'en' ? 'English' : LANGUAGES.find((l) => l.code === currentLang)?.label}</span>
+            <button
+              onClick={() => setLangOpen((v) => !v)}
+              className="ml-2"
+              aria-expanded={langOpen}
+            >
+              <DownArrow />
+            </button>
+            {langOpen && (
+              <div className="footer-lang-menu absolute mt-1 left-0 min-w-[180px] rounded-lg border border-[#EBEBF0] bg-white shadow-lg z-50">
+                <span className="block px-3 py-2 text-sm font-semibold text-[#33333B] border-b border-[#EBEBF0]/30">
+                  <span className="mr-2">English</span><DownArrow style={{ fontSize: '10px', color: '#6E6E7A', marginLeft: '6px' }} />
+                </span>
+                <ul className="py-1">
+                  <li>
+                    <a
+                      href="/"
+                      className={`block px-3 py-2 text-sm ${currentLang === 'en' ? 'bg-[#EBEBF2] font-semibold text-[#E5322D]' : 'text-[#33333B]'}`}
+                      onClick={() => { setCurrentLang('en'); setLangOpen(false); }}
+                    >
+                      English
                     </a>
+                  </li>
+                  {LANGUAGES.map((l) => (
+                    <li key={l.code}>
+                      <a
+                        href={`/${l.code}`}
+                        className={`block px-3 py-2 text-sm ${currentLang === l.code ? 'bg-[#EBEBF2] font-semibold text-[#E5322D]' : 'text-[#33333B]'}`}
+                        onClick={() => { setCurrentLang(l.code); setLangOpen(false); }}
+                      >
+                        {l.label}
+                      </a>
+                    </li>
                   ))}
-            </div>
-            <div className="flex items-center gap-4">
-              {APP_STORE_LINKS.map((s) => (
-                <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="text-[#c4c4cc] transition-colors hover:text-white" aria-label={s.label}>
-                  <SocialIcon name={s.icon} style={{ fontSize: '16px', color: '#c4c4cc' }} />
-                </a>
-              ))}
-            </div>
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -175,65 +179,41 @@ function DownArrow({ className, style }: IconProps) {
   );
 }
 
-function SocialIcon({ name, className, style }: { name: string; className?: string; style?: React.CSSProperties }): React.ReactNode {
+function SocialIcon({ name }: { name: string }) {
   const icons: Record<string, React.ReactNode> = {
     twitter: (
-      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+      <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
         <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c4 12 20 12 20 0a6.2 6.2 0 0 0 2-4 20 20 0 0 0-1-3" />
       </svg>
     ),
     facebook: (
-      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+      <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
         <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
       </svg>
     ),
     linkedin: (
-      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+      <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
         <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
         <rect width="4" height="12" x="2" y="9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         <circle cx="4" cy="4" r="2" stroke="currentColor" strokeWidth="2" />
       </svg>
     ),
     instagram: (
-      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+      <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
         <rect width="20" height="20" x="2" y="2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" rx="5" ry="5" />
         <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
       </svg>
     ),
     tiktok: (
-      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+      <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
         <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 2L2 7l10 5 10-5L12 2z" />
         <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
       </svg>
     ),
     reddit: (
-      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
+      <svg viewBox="0 0 24 24" fill="none" width="16" height="16">
         <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
         <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M2 12l2 4 2-4M22 12l-2 4-2-4M12 2v8m0 8V22M4 12h16" />
-      </svg>
-    ),
-    'google-play': (
-      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
-        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 2v20M2 12h20" />
-        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
-      </svg>
-    ),
-    'app-store': (
-      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
-        <rect width="18" height="18" x="3" y="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" rx="4" ry="4" />
-        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 7v10M7 12h10" />
-      </svg>
-    ),
-    'mac-store': (
-      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
-        <rect width="18" height="18" x="3" y="3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" rx="4" ry="4" />
-        <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 7v10M7 12h10" />
-      </svg>
-    ),
-    'microsoft-store': (
-      <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="16" height="16">
-        <rect width="16" height="16" x="4" y="4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        <path stroke="currentColor" strokeWidth="2" d="M4 12h16M12 4v16" />
       </svg>
     ),
   };

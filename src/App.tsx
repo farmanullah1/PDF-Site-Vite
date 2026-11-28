@@ -16,7 +16,6 @@ export default function App() {
           {/* Client-side (real) processing tools */}
           <Route path="/merge_pdf" element={<ToolPage />} />
           <Route path="/split_pdf" element={<ToolPage />} />
-          <Route path="/rotate_pdf" element={<ToolPage />} />
           <Route path="/jpg_to_pdf" element={<ToolPage />} />
           <Route path="/pdf_to_jpg" element={<ToolPage />} />
           <Route path="/pdf_add_watermark" element={<ToolPage />} />
@@ -24,14 +23,13 @@ export default function App() {
           <Route path="/compress_pdf" element={<ToolPage />} />
           <Route path="/sign-pdf" element={<ToolPage />} />
           <Route path="/remove-pages" element={<ToolPage />} />
-          <Route path="/extract-pages" element={<ToolPage />} />
+          <Route path="/extract_pages" element={<ToolPage />} />
           <Route path="/organize-pdf" element={<ToolPage />} />
           <Route path="/add_pdf_page_number" element={<ToolPage />} />
           <Route path="/edit-pdf" element={<ToolPage />} />
           <Route path="/crop-pdf" element={<ToolPage />} />
           <Route path="/redact-pdf" element={<ToolPage />} />
           <Route path="/ocr-pdf" element={<ToolPage />} />
-          <Route path="/optimize-pdf" element={<ToolPage />} />
           {/* Server-side tools (require backend binaries) */}
           <Route path="/protect-pdf" element={<ToolPage />} />
           <Route path="/word_to_pdf" element={<ToolPage />} />
@@ -42,14 +40,14 @@ export default function App() {
           <Route path="/pdf_to_powerpoint" element={<ToolPage />} />
           <Route path="/html-to-pdf" element={<ToolPage />} />
           <Route path="/pdf_to_pdfa" element={<ToolPage />} />
-          <Route path="/pdf-to-markdown" element={<ToolPage />} />
-          <Route path="/pdf-to-text" element={<ToolPage />} />
+          <Route path="/pdf_to_markdown" element={<ToolPage />} />
+          <Route path="/pdf_to_text" element={<ToolPage />} />
           <Route path="/pdf_to_html" element={<ToolPage />} />
           <Route path="/scan-pdf" element={<ToolPage />} />
           <Route path="/repair-pdf" element={<ToolPage />} />
           <Route path="/pdf-forms" element={<ToolPage />} />
           <Route path="/ai_summarizer" element={<ToolPage />} />
-          <Route path="/translate-pdf" element={<ToolPage />} />
+          <Route path="/translate_pdf" element={<ToolPage />} />
           <Route path="/compare-pdf" element={<ToolPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<SignupPage />} />

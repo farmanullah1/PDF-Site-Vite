@@ -14,20 +14,6 @@ const LANGUAGES = [
   { code: 'zh-cn', label: '中文 (简体)' },
   { code: 'zh-tw', label: '中文 (繁體)' },
   { code: 'ar', label: 'العربية' },
-  { code: 'bg', label: 'Български' },
-  { code: 'ca', label: 'Català' },
-  { code: 'nl', label: 'Nederlands' },
-  { code: 'el', label: 'Ελληνικά' },
-  { code: 'hi', label: 'हिन्दी' },
-  { code: 'id', label: 'Bahasa Indonesia' },
-  { code: 'ms', label: 'Bahasa Melayu' },
-  { code: 'pl', label: 'Polski' },
-  { code: 'sv', label: 'Svenska' },
-  { code: 'th', label: 'ภาษาไทย' },
-  { code: 'tr', label: 'Türkçe' },
-  { code: 'uk', label: 'Українська' },
-  { code: 'vi', label: 'Tiếng Việt' },
-  { code: 'sw', label: 'Kiswahili' },
 ];
 
 type NavLink = { label: string; href: string; external?: boolean };
@@ -51,7 +37,7 @@ const CONVERT_LINKS: NavGroup[] = [
       { label: 'PDF to WORD', href: '/pdf_to_word' },
       { label: 'PDF to POWERPOINT', href: '/pdf_to_powerpoint' },
       { label: 'PDF to EXCEL', href: '/pdf_to_excel' },
-      { label: 'PDF to PDF/A', href: '/convert-pdf-to-pdfa' },
+      { label: 'PDF to PDF/A', href: '/pdf_to_pdfa' },
     ],
   },
 ];
@@ -63,7 +49,7 @@ const ALL_TOOLS_LINKS: NavGroup[] = [
       { label: 'Merge PDF', href: '/merge_pdf' },
       { label: 'Split PDF', href: '/split_pdf' },
       { label: 'Remove pages', href: '/remove-pages' },
-      { label: 'Extract pages', href: '/split_pdf#split,extract' },
+      { label: 'Extract pages', href: '/extract_pages' },
       { label: 'Organize PDF', href: '/organize-pdf' },
       { label: 'Scan to PDF', href: '/scan-pdf' },
     ],
@@ -93,13 +79,13 @@ const ALL_TOOLS_LINKS: NavGroup[] = [
       { label: 'PDF to WORD', href: '/pdf_to_word' },
       { label: 'PDF to POWERPOINT', href: '/pdf_to_powerpoint' },
       { label: 'PDF to EXCEL', href: '/pdf_to_excel' },
-      { label: 'PDF to PDF/A', href: '/convert-pdf-to-pdfa' },
+      { label: 'PDF to PDF/A', href: '/pdf_to_pdfa' },
     ],
   },
   {
     group: 'Edit PDF',
     links: [
-      { label: 'Rotate PDF', href: '/rotate_pdf' },
+      { label: 'Edit PDF', href: '/edit-pdf' },
       { label: 'Add page numbers', href: '/add_pdf_page_number' },
       { label: 'Add watermark', href: '/pdf_add_watermark' },
       { label: 'Crop PDF', href: '/crop-pdf' },
@@ -108,7 +94,7 @@ const ALL_TOOLS_LINKS: NavGroup[] = [
     ],
   },
   {
-    group: 'PDF security',
+    group: 'PDF Security',
     links: [
       { label: 'Unlock PDF', href: '/unlock_pdf' },
       { label: 'Protect PDF', href: '/protect-pdf' },
@@ -120,9 +106,9 @@ const ALL_TOOLS_LINKS: NavGroup[] = [
   {
     group: 'PDF Intelligence',
     links: [
-      { label: 'AI Summarizer', href: '/pdf-summarize' },
-      { label: 'Translate PDF', href: '/translate-pdf' },
-      { label: 'PDF to Markdown', href: '/pdf-to-markdown' },
+      { label: 'AI Summarizer', href: '/ai_summarizer' },
+      { label: 'Translate PDF', href: '/translate_pdf' },
+      { label: 'PDF to Markdown', href: '/pdf_to_markdown' },
     ],
   },
 ];
@@ -134,7 +120,6 @@ const COMPANY_LINKS: NavGroup[] = [
       { label: 'iLoveIMG', href: 'https://www.iloveimg.com', external: true },
       { label: 'iLoveSign', href: 'https://www.ilovesign.com', external: true },
       { label: 'iLoveAPI', href: 'https://www.iloveapi.com', external: true },
-      { label: 'Integrations', href: 'https://www.iloveapi.com/integrations', external: true },
     ],
   },
   {
@@ -210,32 +195,32 @@ export default function Header() {
 
   return (
     <header className="site-header">
-      <nav className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-        <Link to="/" className="brand flex items-center" aria-label="iLovePDF home">
-          <img src="/img/ilovepdf.svg" alt="iLovePDF" />
+      <nav className="mx-auto max-w-[1380px] px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+        <Link to="/" className="brand flex items-center gap-2" aria-label="PDF Site home">
+          <span className="text-[24px] font-bold slab text-[#33333B]">I</span>
+          <span className="text-[24px] font-bold slab text-[#E5322D]">&#10084;</span>
+          <span className="text-[24px] font-bold slab text-[#33333B]">PDF</span>
         </Link>
 
-        <div className="menu hidden sm:flex items-center gap-4 ml-8">
-          <div className="flex items-center gap-2">
-            <NavLink href="/merge_pdf">Merge PDF</NavLink>
-            <NavLink href="/split_pdf">Split PDF</NavLink>
-            <NavLink href="/compress_pdf">Compress PDF</NavLink>
-          </div>
+        <div className="menu hidden sm:flex items-center gap-6 ml-8">
+          <NavLink href="/merge_pdf">Merge PDF</NavLink>
+          <NavLink href="/split_pdf">Split PDF</NavLink>
+          <NavLink href="/compress_pdf">Compress PDF</NavLink>
 
           <div className="relative" ref={convertRef}>
             <button
-              className="flex items-center gap-1 text-sm font-medium text-[#161616] transition-colors hover:text-[#161616]"
+              className="flex items-center gap-1 text-[13px] font-bold uppercase tracking-wider text-[#222222] transition-colors hover:text-[#E5322D]"
               onClick={() => setConvertOpen((v) => !v)}
               aria-haspopup="true"
               aria-expanded={convertOpen}
             >
-              Convert PDF <DownArrow style={{ fontSize: '10px', marginLeft: '4px', color: '#161616' }} />
+              Convert PDF <DownArrow style={{ fontSize: '10px', marginLeft: '4px', color: '#222222' }} />
             </button>
             {convertOpen && (
-              <div className="nav-dropdown absolute left-0 top-full mt-2 min-w-[260px] rounded-lg border border-[#c4c4cc] bg-white p-2 shadow-[0_10px_24px_rgba(16,24,32,0.14)] z-50">
+              <div className="nav-dropdown absolute left-0 top-full mt-2 min-w-[260px] rounded-[12px] border border-[#EBEBF0] bg-white p-2 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50">
                 {CONVERT_LINKS.map((group) => (
                   <div key={group.group} className="mb-2 last:mb-0">
-                    <div className="nav__title mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                    <div className="nav__title mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-[#6E6E7A]">
                       {group.group}
                     </div>
                     <ul className="flex flex-col gap-1">
@@ -244,9 +229,9 @@ export default function Header() {
                           <a
                             href={l.href}
                             onClick={(e) => { if (!l.external) e.preventDefault(); handleNavLink(l.href, l.external); }}
-                            className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]"
+                            className="flex items-center gap-2 rounded-md px-3 py-1.5 text-[13px] text-[#33333B] transition-colors hover:bg-[#EBEBF2]"
                           >
-                            <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
+                            <DocIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
                             {l.label}
                           </a>
                         </li>
@@ -260,19 +245,19 @@ export default function Header() {
 
           <div className="relative" ref={allRef}>
             <button
-              className="flex items-center gap-1 text-sm font-medium text-[#161616] transition-colors hover:text-[#161616]"
+              className="flex items-center gap-1 text-[13px] font-bold uppercase tracking-wider text-[#222222] transition-colors hover:text-[#E5322D]"
               onClick={() => setAllOpen((v) => !v)}
               aria-haspopup="true"
               aria-expanded={allOpen}
             >
-              All PDF tools <DownArrow style={{ fontSize: '10px', marginLeft: '4px', color: '#161616' }} />
+              All PDF tools <DownArrow style={{ fontSize: '10px', marginLeft: '4px', color: '#222222' }} />
             </button>
             {allOpen && (
-              <div className="nav-dropdown nav-dropdown--full absolute left-0 top-full mt-2 min-w-[560px] rounded-lg border border-[#c4c4cc] bg-white p-4 shadow-[0_10px_24px_rgba(16,24,32,0.14)] z-50">
+              <div className="nav-dropdown nav-dropdown--full absolute left-0 top-full mt-2 min-w-[560px] rounded-[12px] border border-[#EBEBF0] bg-white p-4 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50">
                 <div className="grid grid-cols-2 gap-6">
                   {ALL_TOOLS_LINKS.map((group) => (
                     <div key={group.group} className="flex flex-col gap-2">
-                      <div className="nav__title mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                      <div className="nav__title mb-1 px-2 text-[10px] font-semibold uppercase tracking-wider text-[#6E6E7A]">
                         {group.group}
                       </div>
                       <ul className="flex flex-col gap-1">
@@ -281,9 +266,9 @@ export default function Header() {
                             <a
                               href={l.href}
                               onClick={(e) => { if (!l.external) e.preventDefault(); handleNavLink(l.href, l.external); }}
-                              className="flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]"
+                              className="flex items-center gap-2 rounded-md px-3 py-1.5 text-[13px] text-[#33333B] transition-colors hover:bg-[#EBEBF2]"
                             >
-                              <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
+                              <DocIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
                               {l.label}
                             </a>
                           </li>
@@ -298,32 +283,31 @@ export default function Header() {
         </div>
 
         <div className="nav-actions flex items-center gap-3">
-          <Link to="/login" className="link--secondary hidden sm:inline-block text-sm font-medium text-[#161616] hover:text-[#EE6C4D]">
+          <Link to="/login" className="link--secondary hidden sm:inline-block text-[14px] font-medium text-[#222222] hover:text-[#E5322D]">
             Login
           </Link>
           <Link
             to="/register"
-            className="btn btn--sm hidden sm:inline-block inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white shadow-[0_2px_6px_rgba(238,108,77,0.25)] transition-all hover:shadow-[0_6px_14px_rgba(238,108,77,0.32)] hover:-translate-y-0.5"
-            style={{ background: 'linear-gradient(128deg, #FF7651 0%, #EE6C4D 100%)' }}
+            className="btn-brand hidden sm:inline-block"
           >
             Sign up
           </Link>
 
           <div className="relative">
             <button
-              className="flex items-center justify-center rounded-md p-2 text-[#161616] transition-colors hover:bg-[#f0f0f5] sm:hidden"
+              className="flex items-center justify-center rounded-[6px] p-2 text-[#222222] transition-colors hover:bg-[#F0F0F5] sm:hidden"
               aria-label="More options"
               onClick={() => setCompanyOpen((v) => !v)}
             >
-              <MoreIcon style={{ fontSize: '20px', color: '#161616' }} />
+              <AppSwitcher style={{ fontSize: '20px', color: '#33333B' }} />
             </button>
             {companyOpen && (
-              <div className="nav-dropdown nav-dropdown--left nav-dropdown--company absolute right-0 top-full mt-2 min-w-[320px] rounded-lg border border-[#c4c4cc] bg-white p-4 shadow-[0_10px_24px_rgba(16,24,32,0.14)] z-50 sm:hidden">
+              <div className="nav-dropdown nav-dropdown--left nav-dropdown--company absolute right-0 top-full mt-2 min-w-[320px] rounded-[12px] border border-[#EBEBF0] bg-white p-4 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50 sm:hidden">
                 <div className="menu-comp">
                   {COMPANY_LINKS.map((group) => (
                     <div key={group.group} className="mb-4 last:mb-0">
                       <div className="menu-comp__products mb-2 px-2">
-                        <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                        <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#6E6E7A]">
                           {group.group}
                         </div>
                         <ul className="flex flex-col gap-1">
@@ -334,15 +318,15 @@ export default function Header() {
                                 target={l.external ? '_blank' : undefined}
                                 rel={l.external ? 'noopener' : undefined}
                                 onClick={(e) => { if (!l.external) e.preventDefault(); handleNavLink(l.href, l.external); }}
-                                className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]"
+                                className="flex items-center justify-between rounded-md px-3 py-2 text-[13px] text-[#33333B] transition-colors hover:bg-[#EBEBF2]"
                               >
                                 <div className="flex items-center gap-2">
-                                  <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
+                                  <DocIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
                                   <div className="navbar__item__content">
                                     <div className="navbar__item__title font-medium">{l.label}</div>
                                   </div>
                                 </div>
-                                <ArrowRight style={{ fontSize: '10px', color: '#47474f' }} />
+                                <ArrowRight style={{ fontSize: '10px', color: '#6E6E7A' }} />
                               </a>
                             </li>
                           ))}
@@ -351,92 +335,92 @@ export default function Header() {
                     </div>
                   ))}
                   <div className="menu-comp__business mt-4 px-2">
-                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#6E6E7A]">
                       Solutions
                     </div>
                     <ul className="flex flex-col gap-1">
                       <li>
-                        <a href="/business" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
+                        <a href="/business" className="flex items-center justify-between rounded-md px-3 py-2 text-[13px] text-[#33333B] transition-colors hover:bg-[#EBEBF2]">
                           <div className="flex items-center gap-2">
-                            <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
+                            <DocIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
                             <div className="navbar__item__content">
                               <div className="navbar__item__title font-medium">Business</div>
-                              <div className="navbar__item__description text-[11px] text-[#47474f]">Streamlined PDF editing and workflows for business teams</div>
+                              <div className="navbar__item__description text-[11px] text-[#6E6E7A]">Streamlined PDF editing and workflows for business teams</div>
                             </div>
                           </div>
-                          <ArrowRight style={{ fontSize: '10px', color: '#47474f' }} />
+                          <ArrowRight style={{ fontSize: '10px', color: '#6E6E7A' }} />
                         </a>
                       </li>
                     </ul>
                   </div>
-                  <div className="mt-4 border-t border-[#c4c4cc]/30 pt-4 px-2">
-                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                  <div className="mt-4 border-t border-[#EBEBF0]/30 pt-4 px-2">
+                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#6E6E7A]">
                       Applications
                     </div>
                     <ul className="flex flex-col gap-1">
                       <li>
-                        <a href="/desktop" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
+                        <a href="/desktop" className="flex items-center justify-between rounded-md px-3 py-2 text-[13px] text-[#33333B] transition-colors hover:bg-[#EBEBF2]">
                           <div className="flex items-center gap-2">
-                            <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
+                            <DocIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
                             <div className="navbar__item__content">
                               <div className="navbar__item__title font-medium">Desktop App</div>
-                              <div className="navbar__item__description text-[11px] text-[#47474f]">Available for Mac and Windows</div>
+                              <div className="navbar__item__description text-[11px] text-[#6E6E7A]">Available for Mac and Windows</div>
                             </div>
                           </div>
-                          <ArrowRight style={{ fontSize: '10px', color: '#47474f' }} />
+                          <ArrowRight style={{ fontSize: '10px', color: '#6E6E7A' }} />
                         </a>
                       </li>
                       <li>
-                        <a href="/mobile" className="flex items-center justify-between rounded-lg px-3 py-2 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
+                        <a href="/mobile" className="flex items-center justify-between rounded-md px-3 py-2 text-[13px] text-[#33333B] transition-colors hover:bg-[#EBEBF2]">
                           <div className="flex items-center gap-2">
-                            <DocIcon style={{ fontSize: '14px', color: '#161616' }} />
+                            <DocIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
                             <div className="navbar__item__content">
                               <div className="navbar__item__title font-medium">Mobile App</div>
-                              <div className="navbar__item__description text-[11px] text-[#47474f]">Available for iOS and Android</div>
+                              <div className="navbar__item__description text-[11px] text-[#6E6E7A]">Available for iOS and Android</div>
                             </div>
                           </div>
-                          <ArrowRight style={{ fontSize: '10px', color: '#47474f' }} />
+                          <ArrowRight style={{ fontSize: '10px', color: '#6E6E7A' }} />
                         </a>
                       </li>
                     </ul>
                   </div>
-                  <div className="mt-4 border-t border-[#c4c4cc]/30 pt-4 px-2">
-                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#47474f]">
+                  <div className="mt-4 border-t border-[#EBEBF0]/30 pt-4 px-2">
+                    <div className="nav__title mb-1 text-[10px] font-semibold uppercase tracking-wider text-[#6E6E7A]">
                       Help
                     </div>
                     <ul className="flex flex-col gap-1">
                       {HELP_LINKS.map((l) => (
                         <li key={l.href}>
-                          <a href={l.href} className="rounded-lg px-3 py-1.5 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]">
+                          <a href={l.href} className="rounded-md px-3 py-1.5 text-[13px] text-[#33333B] transition-colors hover:bg-[#EBEBF2]">
                             {l.label}
                           </a>
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <div className="mt-4 border-t border-[#c4c4cc]/30 pt-4 px-2">
+                  <div className="mt-4 border-t border-[#EBEBF0]/30 pt-4 px-2">
                     <div className="relative">
                       <button
-                        className="flex items-center justify-between w-full rounded-lg px-3 py-1.5 text-sm text-[#161616] transition-colors hover:bg-[#f5f5fa]"
+                        className="flex items-center justify-between w-full rounded-md px-3 py-1.5 text-[13px] text-[#33333B] transition-colors hover:bg-[#EBEBF2]"
                         onClick={() => setLangOpen((v) => !v)}
                       >
                         <span className="flex items-center gap-2">
-                          <WorldIcon style={{ fontSize: '14px', color: '#161616' }} />
+                          <WorldIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
                           <span className="font-medium">{currentLang === 'en' ? 'English' : LANGUAGES.find((l) => l.code === currentLang)?.label}</span>
-                          <DownArrow style={{ fontSize: '10px', color: '#161616' }} />
+                          <DownArrow style={{ fontSize: '10px', color: '#6E6E7A' }} />
                         </span>
                       </button>
                       {langOpen && (
-                        <div className="nav-dropdown lang absolute left-0 top-full mt-2 min-w-[200px] rounded-lg border border-[#c4c4cc] bg-white p-2 shadow-[0_10px_24px_rgba(16,24,32,0.14)] z-50">
-                          <span className="lang__current flex items-center gap-2 px-3 py-2 text-sm font-semibold text-[#161616] border-b border-[#c4c4cc]/30 mb-2">
-                            <WorldIcon style={{ fontSize: '14px', color: '#161616' }} />
-                            English <DownArrow style={{ fontSize: '10px', color: '#161616' }} />
+                        <div className="nav-dropdown lang absolute left-0 top-full mt-2 min-w-[200px] rounded-[12px] border border-[#EBEBF0] bg-white p-2 shadow-[0_10px_24px_rgba(25,25,40,0.07)] z-50">
+                          <span className="lang__current flex items-center gap-2 px-3 py-2 text-[13px] font-semibold text-[#33333B] border-b border-[#EBEBF0]/30 mb-2">
+                            <WorldIcon style={{ fontSize: '14px', color: '#6E6E7A' }} />
+                            English <DownArrow style={{ fontSize: '10px', color: '#6E6E7A' }} />
                           </span>
                           <ul className="lang__menu flex flex-col gap-1">
                             <li>
                               <a
                                 href="/"
-                                className={`rounded-lg px-3 py-1.5 text-sm ${currentLang === 'en' ? 'bg-[#f5f5fa] font-semibold' : 'text-[#161616]'}`}
+                                className={`rounded-md px-3 py-1.5 text-[13px] ${currentLang === 'en' ? 'bg-[#EBEBF2] font-semibold' : 'text-[#33333B]'}`}
                               >
                                 English
                               </a>
@@ -445,7 +429,7 @@ export default function Header() {
                               <li key={l.code}>
                                 <a
                                   href={`/${l.code}`}
-                                  className={`rounded-lg px-3 py-1.5 text-sm ${currentLang === l.code ? 'bg-[#f5f5fa] font-semibold' : 'text-[#161616]'}`}
+                                  className={`rounded-md px-3 py-1.5 text-[13px] ${currentLang === l.code ? 'bg-[#EBEBF2] font-semibold' : 'text-[#33333B]'}`}
                                 >
                                   {l.label}
                                 </a>
@@ -456,17 +440,16 @@ export default function Header() {
                       )}
                     </div>
                   </div>
-                  <div className="mt-4 border-t border-[#c4c4cc]/30 pt-4 px-2">
+                  <div className="mt-4 border-t border-[#EBEBF0]/30 pt-4 px-2">
                     <a
                       href="/login"
-                      className="btn btn--secondary show--sm inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-[#161616] border border-[#c4c4cc] hover:bg-[#f0f0f5]"
+                      className="btn btn--secondary show--sm inline-flex items-center justify-center rounded-md px-4 py-2 text-[13px] font-medium text-[#222222] border border-[#EBEBF0] hover:bg-[#EBEBF2]"
                     >
                       Login
                     </a>
                     <a
                       href="/register"
-                      className="btn show--sm inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white shadow-[0_2px_6px_rgba(238,108,77,0.25)] transition-all mt-2"
-                      style={{ background: 'linear-gradient(128deg, #FF7651 0%, #EE6C4D 100%)' }}
+                      className="btn-brand show--sm inline-flex items-center justify-center rounded-md px-4 py-2 text-[13px] font-bold text-white mt-2 w-full"
                     >
                       Sign up
                     </a>
@@ -477,11 +460,11 @@ export default function Header() {
           </div>
 
           <button
-            className="flex items-center justify-center rounded-md p-2 text-[#161616] transition-colors hover:bg-[#f0f0f5] sm:hidden"
+            className="flex items-center justify-center rounded-[6px] p-2 text-[#222222] transition-colors hover:bg-[#EBEBF2] sm:hidden"
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
           >
-            <HamburgerIcon style={{ fontSize: '22px', color: '#161616' }} />
+            <HamburgerIcon style={{ fontSize: '22px', color: '#33333B' }} />
           </button>
         </div>
       </nav>
@@ -499,16 +482,18 @@ export default function Header() {
               transition: 'transform 0.25s ease',
             }}
           >
-            <div className="flex items-center justify-between border-b border-[#c4c4cc]/30 px-5 py-4">
-              <Link to="/" onClick={() => setMobileOpen(false)} className="brand flex items-center">
-                <img src="/img/ilovepdf.svg" alt="iLovePDF" />
+            <div className="flex items-center justify-between border-b border-[#EBEBF0]/30 px-5 py-4">
+              <Link to="/" onClick={() => setMobileOpen(false)} className="brand flex items-center gap-2">
+                <span className="text-[24px] font-bold slab text-[#33333B]">I</span>
+                <span className="text-[24px] font-bold slab text-[#E5322D]">&#10084;</span>
+                <span className="text-[24px] font-bold slab text-[#33333B]">PDF</span>
               </Link>
-              <button onClick={() => setMobileOpen(false)} className="rounded-md p-1.5 text-[#161616] transition-colors hover:bg-[#f0f0f5]" aria-label="Close menu">
-                <CloseIcon style={{ fontSize: '22px', color: '#161616' }} />
+              <button onClick={() => setMobileOpen(false)} className="rounded-md p-1.5 text-[#222222] transition-colors hover:bg-[#EBEBF2]" aria-label="Close menu">
+                <CloseIcon style={{ fontSize: '22px', color: '#33333B' }} />
               </button>
             </div>
             <nav className="overflow-y-auto px-4 py-4" style={{ height: 'calc(100vh - 80px)' }}>
-              <h2 className="mb-4 text-xs font-semibold uppercase tracking-widest text-[#47474f]">Tools</h2>
+              <h2 className="mb-4 text-xs font-bold uppercase tracking-widest text-[#6E6E7A]">Tools</h2>
               <ul className="flex flex-col gap-1">
                 {[
                   { label: 'Merge PDF', href: '/merge_pdf' },
@@ -517,7 +502,7 @@ export default function Header() {
                   { label: 'Sign PDF', href: '/sign-pdf' },
                   { label: 'Unlock PDF', href: '/unlock_pdf' },
                   { label: 'Protect PDF', href: '/protect-pdf' },
-                  { label: 'Rotate PDF', href: '/rotate_pdf' },
+                  { label: 'Edit PDF', href: '/edit-pdf' },
                   { label: 'Watermark', href: '/pdf_add_watermark' },
                   { label: 'JPG to PDF', href: '/jpg_to_pdf' },
                   { label: 'PDF to JPG', href: '/pdf_to_jpg' },
@@ -528,22 +513,21 @@ export default function Header() {
                     <Link
                       to={l.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`flex items-center px-4 py-3 text-base rounded-lg transition-colors ${window.location.pathname === l.href ? 'bg-[#fbeae7] text-[#c92a24] font-semibold' : 'text-[#161616] hover:bg-[#f0f0f5]'}`}
+                      className={`flex items-center px-4 py-3 text-base rounded-md transition-colors ${window.location.pathname === l.href ? 'bg-[#FBE9E8] text-[#C92420] font-bold' : 'text-[#222222] hover:bg-[#F0F0F5]'}`}
                     >
                       {l.label}
                     </Link>
                   </li>
                 ))}
               </ul>
-              <div className="mt-6 border-t border-[#c4c4cc]/30 pt-4">
-                <Link to="/login" onClick={() => setMobileOpen(false)} className="flex items-center justify-between px-4 py-3 text-base rounded-lg text-[#161616]">
+              <div className="mt-6 border-t border-[#EBEBF0]/30 pt-4">
+                <Link to="/login" onClick={() => setMobileOpen(false)} className="flex items-center justify-between px-4 py-3 text-base rounded-md text-[#222222]">
                   Login
                 </Link>
                 <Link
                   to="/register"
                   onClick={() => setMobileOpen(false)}
-                  className="inline-flex items-center justify-center gap-2 rounded-md px-4 py-3 text-base font-semibold text-white shadow-[0_2px_6px_rgba(238,108,77,0.25)] transition-all mb-3 w-full"
-                  style={{ background: 'linear-gradient(128deg, #FF7651 0%, #EE6C4D 100%)' }}
+                  className="btn-brand inline-flex items-center justify-center gap-2 rounded-md px-4 py-3 text-base font-bold text-white mb-3 w-full"
                 >
                   Create account
                 </Link>
@@ -585,10 +569,13 @@ function HamburgerIcon({ className, style }: IconProps) {
     </svg>
   );
 }
-function MoreIcon({ className, style }: IconProps) {
+function AppSwitcher({ className, style }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" className={className} style={style} width="24" height="24">
-      <circle cx="12" cy="12" r="1" fill="currentColor" /><circle cx="12" cy="5" r="1" fill="currentColor" /><circle cx="12" cy="19" r="1" fill="currentColor" />
+      <rect x="6" y="6" width="4" height="4" stroke="currentColor" strokeWidth="2" />
+      <rect x="14" y="6" width="4" height="4" stroke="currentColor" strokeWidth="2" />
+      <rect x="6" y="14" width="4" height="4" stroke="currentColor" strokeWidth="2" />
+      <rect x="14" y="14" width="4" height="4" stroke="currentColor" strokeWidth="2" />
     </svg>
   );
 }
@@ -602,7 +589,7 @@ function WorldIcon({ className, style }: IconProps) {
 function ArrowRight({ className, style }: IconProps) {
   return (
     <svg viewBox="0 0 10 10" fill="none" className={className} style={style} width="10" height="10">
-      <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M3 1l4 4M3 1l4 4M7 5l-4-4M7 5l-4 4" />
+      <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M3 1l4 4M7 5l-4-4M7 5l-4 4" />
     </svg>
   );
 }
@@ -613,7 +600,7 @@ function NavLink({ href, children }: { href: string; children: string }) {
     <a
       href={href}
       onClick={(e) => { e.preventDefault(); navigate(href); }}
-      className="text-sm font-medium text-[#161616] transition-colors hover:text-[#161616] hover:bg-[#f5f5fa] -ml-0.5 px-0.5 py-1 rounded"
+      className="text-[13px] font-bold uppercase tracking-wider text-[#222222] transition-colors hover:text-[#E5322D] -ml-0.5 px-0.5 py-1 rounded-md"
     >
       {children}
     </a>
